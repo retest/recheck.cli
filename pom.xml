@@ -76,15 +76,15 @@
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>recheck</artifactId>
-			<version>0.1.0</version>
+			<version>0.4.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>retest</artifactId>

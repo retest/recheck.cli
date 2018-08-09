@@ -52,6 +52,7 @@
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<junit.platform.version>1.2.0</junit.platform.version>
+		<release.directory>${project.build.directory}/release</release.directory>
 	</properties>
 
 	<scm>
@@ -76,15 +77,15 @@
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>recheck</artifactId>
-			<version>0.1.0</version>
+			<version>0.4.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
-			<version>2.2.1</version>
+			<version>3.4.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>retest</artifactId>
@@ -92,9 +93,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.2</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
 		</dependency>
 	</dependencies>
 
@@ -132,6 +133,7 @@
 				</configuration>
 			</plugin>
 
+			<!-- bundle sources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -142,10 +144,15 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
+						<configuration>
+							<finalName>recheck-cli</finalName>
+							<outputDirectory>${release.directory}/lib</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 
+			<!-- bundle javadoc -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -156,9 +163,121 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
+						<configuration>
+							<finalName>recheck-cli</finalName>
+							<jarOutputDirectory>${release.directory}/lib</jarOutputDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- copy scripts to /bin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>copy-scripts-to-release</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/resources/scripts</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+							<outputDirectory>${release.directory}/bin</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- download licences to /licences -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.16</version>
+				<executions>
+					<execution>
+						<id>download-licences</id>
+						<goals>
+							<goal>download-licenses</goal>
+						</goals>
+						<configuration>
+							<licensesOutputDirectory>${release.directory}/licences</licensesOutputDirectory>
+							<sortByGroupIdAndArtifactId>true</sortByGroupIdAndArtifactId>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- copy dependencies to /lib -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${release.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- build jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<finalName>recheck-cli</finalName>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>.</classpathPrefix>
+							<mainClass>de.retest.recheck.cli.MainCli</mainClass>
+						</manifest>
+					</archive>
+					<outputDirectory>${release.directory}/lib</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-recheck-cli-small-jar</id>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- build release zip -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assembly/release.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-release-zip</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

@@ -1,9 +1,13 @@
 # Eclipse.
 .classpath
 .project
+.settings
 
 # Maven.
 /target/
+
+# Git Merge
+*.orig
 
 # IntelliJ
 .idea/

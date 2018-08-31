@@ -13,8 +13,6 @@ import picocli.CommandLine.Option;
 
 /**
  * We are using git as a role model here. So we will have commands similar to https://git-scm.com/docs.
- *
- * @author roessler
  */
 @Command( name = "recheck",
 		subcommands = { Commit.class, Diff.class, Stage.class, Status.class, RetestGui.class, Unstage.class },
@@ -30,7 +28,6 @@ public class RecheckCliMain implements IVersionProvider, Runnable {
 	@Override
 	public String[] getVersion() throws Exception {
 		// TODO read version from jar / pom / whatever
-		//
 		return new String[] { "retest version " + "0.2.0" };
 	}
 

@@ -1,11 +1,12 @@
 package de.retest.recheck.cli.subcommands;
 
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
-@CommandLine.Command( name = "commit", description = "Apply all staged changes to their respective states" )
+@Command( name = "commit", description = "Apply all staged changes to their respective states" )
 public class Commit implements Runnable {
 
-	@CommandLine.Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
+	@Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
 	@Override

@@ -225,7 +225,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>.</classpathPrefix>
-							<mainClass>de.retest.recheck.cli.MainCli</mainClass>
+							<mainClass>de.retest.recheck.cli.RecheckCliMain</mainClass>
 						</manifest>
 					</archive>
 					<outputDirectory>${release.directory}/lib</outputDirectory>

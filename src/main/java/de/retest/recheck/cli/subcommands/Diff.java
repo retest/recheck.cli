@@ -25,7 +25,7 @@ public class Diff implements Runnable {
 	}
 
 	public void showDiffs() {
-		System.out.println("TODO Implement!");
+		System.out.println( "TODO Implement!" );
 		// TODO Implement showing the diff like when the tests fail
 		// Configuration.ensureLoaded();
 		// File latestReport = ReportFileUtils.getLatestReport();

@@ -19,7 +19,7 @@ public class Status implements Runnable {
 	}
 
 	public void showStatus() {
-		System.out.println("TODO Implement!");
+		System.out.println( "TODO Implement!" );
 		// TODO Show which changes and stati have been staged,
 		// and which are unstaged
 		// Configuration.ensureLoaded();

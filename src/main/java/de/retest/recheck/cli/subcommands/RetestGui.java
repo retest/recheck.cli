@@ -2,7 +2,7 @@ package de.retest.recheck.cli.subcommands;
 
 import picocli.CommandLine;
 
-@CommandLine.Command( name="gui", description = "Open the retest GUI")
+@CommandLine.Command( name = "gui", description = "Open the retest GUI" )
 public class RetestGui implements Runnable {
 
 	@CommandLine.Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )

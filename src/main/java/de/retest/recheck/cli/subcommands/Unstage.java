@@ -25,7 +25,7 @@ public class Unstage implements Runnable {
 	}
 
 	public void unstageChanges() {
-		System.out.println("TODO Implement!");
+		System.out.println( "TODO Implement!" );
 		// TODO Implement unstaging the given states and checks
 		// Configuration.ensureLoaded();
 		// File latestReport = ReportFileUtils.getLatestReport();

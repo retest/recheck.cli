@@ -26,7 +26,7 @@ public class Stage implements Runnable {
 	}
 
 	public void stageChecks() {
-		System.out.println("TODO Implement!");
+		System.out.println( "TODO Implement!" );
 		// TODO Implement staging the given states
 		// and persist that in a separate file
 		// Configuration.ensureLoaded();

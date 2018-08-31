@@ -7,4 +7,30 @@
 
 # recheck-cli
 
-This is the executing part of recheck, works like Git on the command line.
+This is the tooling part of recheck. It generally works like Git on the command line.
+
+As of now, `recheck --help` will give you the following output:
+
+```
+Usage: recheck [-hv] [COMMAND]
+recheck - the Git for the GUI.
+  -h, --help      Display this help message.
+  -v, --version   Display version info.
+Commands:
+  commit   Apply all staged changes to their respective states
+  diff     Show all changes or all changes for a certain state
+  stage    Stage all changes of a certain state and all same changes to other states
+  status   Show what states have changed and what is staged
+  gui      Open the retest GUI
+  unstage  Unstage individual changes
+```
+
+
+# Download and Installation
+
+You can download recheck-cli from TODO and install it via TODO.
+
+
+## License
+
+This project is licensed under the [AGPL license](LICENSE).

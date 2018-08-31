@@ -21,7 +21,7 @@ public class Stage implements Runnable {
 		try {
 			stageChecks();
 		} catch ( final Exception e ) {
-			System.out.println( "Exception showing diffs: " + e.getMessage() );
+			System.out.println( "Exception staging changes: " + e.getMessage() );
 		}
 	}
 

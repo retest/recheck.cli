@@ -14,7 +14,7 @@ public class Status implements Runnable {
 		try {
 			showStatus();
 		} catch ( final Exception e ) {
-			System.out.println( "Exception showing diffs: " + e.getMessage() );
+			System.out.println( "Exception showing status: " + e.getMessage() );
 		}
 	}
 

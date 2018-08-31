@@ -12,8 +12,8 @@ public class Unstage implements Runnable {
 	@Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
-	@Parameters( description = "Checks to unstage the changes off. Leave blank to unstage all checks." )
-	private List<String> checks;
+	@Parameters( description = "States to unstage (blank unstages all states)" )
+	private List<String> states;
 
 	@Override
 	public void run() {

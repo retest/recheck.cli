@@ -12,8 +12,8 @@ public class Diff implements Runnable {
 	@Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
-	@Parameters( description = "Checks to show the diff off. Leave blank to show the diff of all checks." )
-	private List<String> checks;
+	@Parameters( description = "States to show the diff off (blank shows diffs of all states)" )
+	private List<String> states;
 
 	@Override
 	public void run() {

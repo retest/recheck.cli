@@ -13,8 +13,8 @@ public class Stage implements Runnable {
 	@Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
-	@Parameters( description = "Checks to stage the changes off. Leave blank to stage all checks." )
-	private List<String> checks;
+	@Parameters( description = "States to stage the changes off (blank stages all states)" )
+	private List<String> states;
 
 	@Override
 	public void run() {

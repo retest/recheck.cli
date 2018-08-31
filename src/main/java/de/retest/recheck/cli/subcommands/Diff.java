@@ -1,7 +1,11 @@
 package de.retest.recheck.cli.subcommands;
 
+import java.io.File;
 import java.util.List;
 
+import de.retest.configuration.Configuration;
+import de.retest.file.ReportFileUtils;
+import de.retest.recheck.DiffPrinter;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -25,11 +29,9 @@ public class Diff implements Runnable {
 	}
 
 	public void showDiffs() {
-		System.out.println( "TODO Implement!" );
-		// TODO Implement showing the diff like when the tests fail
-		// Configuration.ensureLoaded();
-		// File latestReport = ReportFileUtils.getLatestReport();
-		// DiffPrinter diffPrinter = new DiffPrinter( checks, System.out );
-		// diffPrinter.printDiff( latestReport );
+		Configuration.ensureLoaded();
+		final File latestReport = ReportFileUtils.getLatestReport();
+		final DiffPrinter diffPrinter = new DiffPrinter( states, System.out );
+		diffPrinter.printDiff( latestReport );
 	}
 }

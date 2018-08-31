@@ -81,6 +81,18 @@
 
 		<dependency>
 			<groupId>de.retest</groupId>
+			<artifactId>retest-utils</artifactId>
+			<version>2.5.0-alpha.2018-08-31</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>de.retest</groupId>
+			<artifactId>retest-core</artifactId>
+			<version>2.5.0-alpha.2018-08-31</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.retest</groupId>
 			<artifactId>retest</artifactId>
 			<version>2.4.1</version>
 		</dependency>

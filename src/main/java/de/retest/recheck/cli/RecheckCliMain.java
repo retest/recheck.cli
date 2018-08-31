@@ -18,13 +18,13 @@ import picocli.CommandLine.Option;
  * @author roessler
  */
 @Command(name = "recheck", subcommands = { Commit.class, Diff.class, Stage.class, Status.class, RetestGui.class, Unstage.class },
-description = "recheck - the Git for the GUI.", versionProvider = RecheckCliMain.class)
+description = "recheck - the Git for the GUI", versionProvider = RecheckCliMain.class)
 public class RecheckCliMain implements IVersionProvider, Runnable {
 
-	@Option( names = { "-h", "--help" }, usageHelp = true, description = "Display this help message." )
+	@Option( names = { "-h", "--help" }, usageHelp = true, description = "Display this help message" )
 	private boolean displayHelp;
 
-	@Option( names = { "-v", "--version" }, versionHelp = true, description = "Display version info." )
+	@Option( names = { "-v", "--version" }, versionHelp = true, description = "Display version info" )
 	private boolean displayVersion;
 
 	@Override

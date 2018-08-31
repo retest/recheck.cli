@@ -1,11 +1,12 @@
 package de.retest.recheck.cli.subcommands;
 
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
-@CommandLine.Command( name = "gui", description = "Open the retest GUI" )
+@Command( name = "gui", description = "Open the retest GUI" )
 public class RetestGui implements Runnable {
 
-	@CommandLine.Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
+	@Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
 	@Override

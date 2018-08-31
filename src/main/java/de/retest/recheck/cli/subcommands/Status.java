@@ -1,12 +1,12 @@
 package de.retest.recheck.cli.subcommands;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 @Command( name = "status", description = "Show what states have changed and what is staged" )
 public class Status implements Runnable {
 
-	@CommandLine.Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
+	@Option( names = { "-h", "--help" }, usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
 	@Override

@@ -21,12 +21,12 @@ public class Stage implements Runnable {
 		try {
 			stageChecks();
 		} catch ( final Exception e ) {
-			System.out.println( "Exception showing diffs: " + e.getMessage() );
+			System.out.println( "Exception staging changes: " + e.getMessage() );
 		}
 	}
 
 	public void stageChecks() {
-		System.out.println("TODO Implement!");
+		System.out.println( "TODO Implement!" );
 		// TODO Implement staging the given states
 		// and persist that in a separate file
 		// Configuration.ensureLoaded();

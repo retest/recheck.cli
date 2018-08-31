@@ -27,9 +27,4 @@ public class Status implements Runnable {
 		// StatusPrinter statusPrinter = new StatusPrinter(System.out);
 		// statusPrinter.printStatus(latestReport);
 	}
-
-	public static void main( String... args ) {
-		Status status = new Status();
-		status.showStatus();
-	}
 }

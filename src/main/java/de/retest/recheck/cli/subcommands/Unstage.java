@@ -32,9 +32,4 @@ public class Unstage implements Runnable {
 		// StatusPrinter statusPrinter = new StatusPrinter(System.out);
 		// statusPrinter.printStatus(latestReport);
 	}
-
-	public static void main( String... args ) {
-		Unstage unstage = new Unstage();
-		unstage.unstageChanges();
-	}
 }

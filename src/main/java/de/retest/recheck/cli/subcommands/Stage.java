@@ -1,6 +1,5 @@
 package de.retest.recheck.cli.subcommands;
 
-import java.util.Arrays;
 import java.util.List;
 
 //import de.retest.recheck.ChangeApplier;
@@ -34,11 +33,5 @@ public class Stage implements Runnable {
 		// File latestReport = ReportFileUtils.getLatestReport();
 		// ChangeApplier applier = new ChangeApplier(checks);
 		// applier.apply(latestReport);
-	}
-
-	public static void main( String... args ) {
-		Stage stage = new Stage();
-		stage.checks = Arrays.asList( args );
-		stage.stageChecks();
 	}
 }

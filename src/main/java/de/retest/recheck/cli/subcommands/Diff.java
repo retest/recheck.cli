@@ -1,6 +1,5 @@
 package de.retest.recheck.cli.subcommands;
 
-import java.util.Arrays;
 import java.util.List;
 
 import picocli.CommandLine.Command;
@@ -32,11 +31,5 @@ public class Diff implements Runnable {
 		// File latestReport = ReportFileUtils.getLatestReport();
 		// DiffPrinter diffPrinter = new DiffPrinter( checks, System.out );
 		// diffPrinter.printDiff( latestReport );
-	}
-
-	public static void main( String... args ) {
-		Diff diff = new Diff();
-		diff.checks = Arrays.asList( args );
-		diff.showDiffs();
 	}
 }

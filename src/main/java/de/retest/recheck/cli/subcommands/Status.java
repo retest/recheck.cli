@@ -1,5 +1,11 @@
 package de.retest.recheck.cli.subcommands;
 
+import java.io.File;
+
+import ch.qos.logback.core.Context;
+import ch.qos.logback.core.util.StatusPrinter;
+import de.retest.configuration.Configuration;
+import de.retest.file.ReportFileUtils;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -19,12 +25,9 @@ public class Status implements Runnable {
 	}
 
 	public void showStatus() {
-		System.out.println( "TODO Implement!" );
-		// TODO Show which changes and stati have been staged,
-		// and which are unstaged
-		// Configuration.ensureLoaded();
-		// File latestReport = ReportFileUtils.getLatestReport();
-		// StatusPrinter statusPrinter = new StatusPrinter(System.out);
-		// statusPrinter.printStatus(latestReport);
+		// Show which changes and stati have been staged, which are unstaged
+		Configuration.ensureLoaded();
+		File latestReport = ReportFileUtils.getLatestReport();
+		StatusPrinter.print( ( Context ) latestReport );
 	}
 }

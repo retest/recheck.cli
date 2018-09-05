@@ -1,8 +1,11 @@
 package de.retest.recheck.cli.subcommands;
 
+import java.io.File;
 import java.util.List;
 
-//import de.retest.recheck.ChangeApplier;
+import de.retest.configuration.Configuration;
+import de.retest.file.ReportFileUtils;
+import de.retest.recheck.ChangeApplier;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -26,12 +29,9 @@ public class Stage implements Runnable {
 	}
 
 	public void stageChecks() {
-		System.out.println( "TODO Implement!" );
-		// TODO Implement staging the given states
-		// and persist that in a separate file
-		// Configuration.ensureLoaded();
-		// File latestReport = ReportFileUtils.getLatestReport();
-		// ChangeApplier applier = new ChangeApplier(checks);
-		// applier.apply(latestReport);
+		Configuration.ensureLoaded();
+		File latestReport = ReportFileUtils.getLatestReport();
+		ChangeApplier applier = new ChangeApplier( states );
+		applier.apply( latestReport );
 	}
 }

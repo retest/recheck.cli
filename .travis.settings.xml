@@ -1,16 +1,9 @@
 <settings>
-		<mirrors>
-		<mirror>
-			<id>nexus-retest</id>
-			<url>https://nexus.retest.org/repository/all/</url>
-			<mirrorOf>*,!spring-milestones</mirrorOf>
-		</mirror>
-	</mirrors>
- 	<servers>
+	<servers>
 		<server>
-			<id>nexus-retest</id>
-			<username>${TRAVIS_NEXUS_USERNAME}</username>
-			<password>${TRAVIS_NEXUS_PASSWORD}</password>
+			<id>ossrh</id>
+			<username>${env.OSSRH_USERNAME}</username>
+			<password>${env.OSSRH_PASSWORD}</password>
 		</server>
 	</servers>
 </settings>

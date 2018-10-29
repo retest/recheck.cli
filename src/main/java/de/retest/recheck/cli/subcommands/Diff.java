@@ -7,7 +7,7 @@ import java.util.List;
 import de.retest.configuration.Configuration;
 import de.retest.file.ReportFileUtils;
 import de.retest.recheck.DiffPrinter;
-import de.retest.recheck.LoadIgnoredComponentsUtil;
+import de.retest.recheck.LoadRecheckIgnoreUtil;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -32,7 +32,7 @@ public class Diff implements Runnable {
 
 	public void showDiffs() throws FileNotFoundException {
 		Configuration.ensureLoaded();
-		LoadIgnoredComponentsUtil.loadIgnoredComponents();
+		LoadRecheckIgnoreUtil.loadRecheckIgnore();
 		final File latestReport = ReportFileUtils.getLatestReport();
 		final DiffPrinter diffPrinter = new DiffPrinter( states, System.out );
 		diffPrinter.printDiff( latestReport );

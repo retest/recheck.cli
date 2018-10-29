@@ -33,7 +33,7 @@ public class Diff implements Runnable {
 	public void showDiffs() throws FileNotFoundException {
 		Configuration.ensureLoaded();
 		LoadRecheckIgnoreUtil.loadRecheckIgnore();
-		final File latestReport = ReportFileUtils.a(); // obfuscated: getLatestReport();
+		final File latestReport = ReportFileUtils.getLatestReport();
 		final DiffPrinter diffPrinter = new DiffPrinter( states, System.out );
 		diffPrinter.printDiff( latestReport );
 	}

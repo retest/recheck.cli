@@ -76,15 +76,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>de.retest</groupId>
-			<artifactId>retest</artifactId>
-			<version>3.0.1</version>
-		</dependency>
-
-		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
-			<version>3.5.2</version>
+			<version>3.9.0</version>
 		</dependency>
 	</dependencies>
 

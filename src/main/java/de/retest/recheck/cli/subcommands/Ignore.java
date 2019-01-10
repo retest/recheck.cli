@@ -2,12 +2,17 @@ package de.retest.recheck.cli.subcommands;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command( name = "ignore", description = "Ignore given differences." )
 public class Ignore implements Runnable {
+
+	private static final Logger logger = LoggerFactory.getLogger( Ignore.class );
 
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
@@ -24,7 +29,7 @@ public class Ignore implements Runnable {
 	@Override
 	public void run() {
 		// TODO Implement.
-		System.out.println( "Not yet implemented!" );
+		logger.info( "Not yet implemented!" );
 	}
 
 }

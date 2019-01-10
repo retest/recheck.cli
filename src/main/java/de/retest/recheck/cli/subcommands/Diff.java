@@ -2,12 +2,17 @@ package de.retest.recheck.cli.subcommands;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command( name = "diff", description = "Display given differences." )
 public class Diff implements Runnable {
+
+	private static final Logger logger = LoggerFactory.getLogger( Diff.class );
 
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
@@ -18,7 +23,7 @@ public class Diff implements Runnable {
 	@Override
 	public void run() {
 		// TODO Implement.
-		System.out.println( "Not yet implemented!" );
+		logger.info( "Not yet implemented!" );
 	}
 
 }

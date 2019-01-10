@@ -5,30 +5,27 @@
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/retest/recheck-cli/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 [![code with hearth by retest](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-retest-C1D82F.svg)](https://retest.de/en/)
 
-# recheck-cli
+The command-line interface for recheck, based on Git commands and options.
 
-This is the tooling part of recheck. It generally works like Git on the command line.
-
-As of now, `recheck --help` will give you the following output:
+As of now, `recheck` will give you the following help message:
 
 ```
-Usage: recheck [-hv] [COMMAND]
-recheck - the Git for the GUI.
-  -h, --help      Display this help message.
-  -v, --version   Display version info.
+Usage: recheck [--help] [--version] [COMMAND]
+Command-line interface for recheck.
+      --help      Display this help message.
+      --version   Display version info.
 Commands:
-  commit   Apply all staged changes to their respective states
-  diff     Show all changes or all changes for a certain state
-  stage    Stage all changes of a certain state and all same changes to other states
-  status   Show what states have changed and what is staged
-  gui      Open the retest GUI
-  unstage  Unstage individual changes
+  help     Display help information about the specified command.
+  version  Display version info.
+  diff     Display given differences.
+  commit   Accept given differences.
+  ignore   Ignore given differences.
 ```
 
 
-# Download and Installation
+## Download and Installation
 
-You can download recheck-cli from TODO and install it via TODO.
+The recheck CLI is still under development, but we will soon release a minimal working solution.
 
 
 ## License

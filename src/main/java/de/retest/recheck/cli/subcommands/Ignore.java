@@ -9,13 +9,19 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "diff", description = "Display given differences." )
-public class Diff implements Runnable {
+@Command( name = "ignore", description = "Ignore given differences." )
+public class Ignore implements Runnable {
 
-	private static final Logger logger = LoggerFactory.getLogger( Diff.class );
+	private static final Logger logger = LoggerFactory.getLogger( Ignore.class );
 
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
+
+	@Option( names = "--all", description = "Ignore all differences from the given test report." )
+	private boolean all;
+
+	@Option( names = "--list", description = "List all ignored elements." )
+	private boolean list;
 
 	@Parameters( arity = "1", description = "Exactly one test report." )
 	private File testReport;

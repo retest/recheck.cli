@@ -5,8 +5,8 @@ import picocli.CommandLine.IVersionProvider;
 public class VersionProvider implements IVersionProvider {
 
 	@Override
-	public String[] getVersion() throws RuntimeException {
+	public String[] getVersion() {
 		return new String[] { "recheck CLI version " + this.getClass().getPackage().getImplementationVersion(),
-				"recheck Java version " +  Runtime.class.getPackage().getImplementationVersion() };
+				"Java version " +  Runtime.class.getPackage().getImplementationVersion() };
 	}
 }

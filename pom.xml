@@ -151,7 +151,7 @@
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${basedir}/src/main/bin</directory>
+									<directory>${basedir}/src/main/package</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -173,7 +173,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/release</outputDirectory>
+							<outputDirectory>${project.build.directory}/release/lib</outputDirectory>
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
@@ -232,7 +232,7 @@
 									<executable>chmod</executable>
 									<arguments>
 										<argument>+x</argument>
-										<argument>target/release/recheck</argument>
+										<argument>target/release/bin/recheck</argument>
 									</arguments>
 								</configuration>
 							</execution>

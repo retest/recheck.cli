@@ -2,12 +2,11 @@
 set -o nounset -o errexit -o pipefail
 
 # recheck installation directory.
-RETEST_HOME="$( ( cd "$( dirname "$0" )" && pwd -P ) )"
+RECHECK_HOME="$( ( cd "$( dirname "$0" )" && pwd -P ) )/.."
 
 JAVA="java"
 
 JAVA_ARGS=(-XX:+HeapDumpOnOutOfMemoryError)
 JAVA_ARGS+=(-XX:-OmitStackTraceInFastThrow)
 
-
-exec $JAVA "${JAVA_ARGS[@]}" -jar "$RETEST_HOME/recheck-cli.jar" "$@" 2>&1
+exec $JAVA "${JAVA_ARGS[@]}" -jar "$RECHECK_HOME/lib/recheck-cli.jar" "$@" 2>&1

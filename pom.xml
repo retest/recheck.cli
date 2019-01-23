@@ -182,6 +182,7 @@
 							<archive>
 								<manifest>
 									<mainClass>de.retest.recheck.cli.RecheckCli</mainClass>
+									<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 								</manifest>
 								<manifestEntries>
 									<Build-Time>${maven.build.timestamp}</Build-Time>

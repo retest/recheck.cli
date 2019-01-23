@@ -15,11 +15,12 @@ Command-line interface for recheck.
       --help      Display this help message.
       --version   Display version info.
 Commands:
-  help     Display help information about the specified command.
-  version  Display version info.
-  diff     Display given differences.
-  commit   Accept given differences.
-  ignore   Ignore given differences.
+  help         Display help information about the specified command.
+  version      Display version info.
+  diff         Display given differences.
+  commit       Accept given differences.
+  ignore       Ignore given differences.
+  completion   Generate and display auto completion script.
 ```
 
 
@@ -27,6 +28,10 @@ Commands:
 
 The recheck CLI is still under development, but we will soon release a minimal working solution.
 
+## Command Line Completion
+```
+Usage: $ echo "source <(recheck-cli_completion)" >> ~/.bashrc
+```
 
 ## License
 

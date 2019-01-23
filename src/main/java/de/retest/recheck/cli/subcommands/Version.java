@@ -1,12 +1,9 @@
 package de.retest.recheck.cli.subcommands;
 
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.VersionProvider;
-
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -22,9 +19,9 @@ public class Version implements Runnable {
 
 	@Override
 	public void run() {
-		VersionProvider versionProvider = new VersionProvider();
-		for ( String s : versionProvider.getVersion() ) {
-			logger.info( "{}.", s );
+		final VersionProvider versionProvider = new VersionProvider();
+		for ( final String s : versionProvider.getVersion() ) {
+			logger.info( "{}", s );
 		}
 	}
 }

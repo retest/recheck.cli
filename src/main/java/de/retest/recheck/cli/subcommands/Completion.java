@@ -29,7 +29,7 @@ public class Completion implements Runnable {
 		}
 		final String script = AutoComplete.bash( root.getCommandName(), root );
 		if ( script.isEmpty() ) {
-			logger.info( "Failed to generate the auto completion script." );
+			logger.error( "Failed to generate the auto completion script." );
 		} else {
 			logger.info( script );
 		}

@@ -22,3 +22,13 @@ install: true
 
 script:
   - ${MVN} clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar
+
+deploy:
+  - provider: releases
+    api_key: "${GH_TOKEN}"
+    file_glob: true
+    file: "./target/recheck-cli-*-bin.zip"
+    skip_cleanup: true
+    draft: true
+    on:
+      tags: true

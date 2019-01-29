@@ -86,6 +86,12 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>de.retest</groupId>
+			<artifactId>recheck</artifactId>
+			<version>0.7.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

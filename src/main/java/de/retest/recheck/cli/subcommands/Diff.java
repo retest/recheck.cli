@@ -1,10 +1,12 @@
 package de.retest.recheck.cli.subcommands;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.cli.ReplayResultLoader;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -22,8 +24,10 @@ public class Diff implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Implement.
-		logger.info( "Not yet implemented!" );
+		try {
+			logger.info( "{}", ReplayResultLoader.load( testReport ) );
+		} catch ( final IOException e ) {
+			logger.error( "Differences couldn't be printed:", e );
+		}
 	}
-
 }

@@ -29,7 +29,7 @@ public class VersionProvider implements IVersionProvider {
 			return new BufferedReader( new InputStreamReader( in, StandardCharsets.UTF_8 ) ).lines() //
 					.collect( Collectors.joining( System.lineSeparator() ) );
 		} catch ( final IOException e ) {
-			logger.warn( "Couldn't read recheck logo.", e );
+			logger.error( "Couldn't read recheck logo.", e );
 			return "";
 		}
 	}

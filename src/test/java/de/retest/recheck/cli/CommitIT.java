@@ -1,6 +1,6 @@
 package de.retest.recheck.cli;
 
-import static de.retest.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
+import static de.retest.recheck.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;

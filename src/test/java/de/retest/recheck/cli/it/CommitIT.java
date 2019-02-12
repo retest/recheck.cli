@@ -1,4 +1,4 @@
-package de.retest.recheck.cli;
+package de.retest.recheck.cli.it;
 
 import static de.retest.recheck.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,6 +12,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.cli.subcommands.Commit;
+import de.retest.recheck.cli.util.ReportCreator;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
 
@@ -19,8 +20,6 @@ public class CommitIT {
 
 	private final static String FILE_WITH_DIFFS =
 			"src/test/resources/de.retest.recheck.cli/commit/report.with.diffs.result";
-	private final static String FILE_WITHOUT_DIFFS =
-			"src/test/resources/de.retest.recheck.cli/commit/report.without.diffs.result";
 	private final static String GOLDEN_MASTER_CHROME =
 			"src/test/resources/de.retest.recheck.cli/commit/goldenmaster.chrome.xml";
 	private final static String GOLDEN_MASTER_FIREFOX =
@@ -58,8 +57,8 @@ public class CommitIT {
 
 	@Test
 	public void commit_should_not_accept_the_report_because_there_are_no_differences() throws Exception {
-		final File originalFile = new File( FILE_WITHOUT_DIFFS );
-		final File temporaryFile = temp.newFile( "report.without.diffs.result" );
+		final File originalFile = new File( ReportCreator.createReportFileWithoutDiffs() );
+		final File temporaryFile = temp.newFile( ReportCreator.REPORT_WITHOUT_DIFFS_NAME );
 		FileUtils.copyFile( originalFile, temporaryFile );
 
 		final String expected = "The test report has no differences.";

@@ -44,57 +44,49 @@ public class Commit implements Runnable {
 
 	@Override
 	public void run() {
-
-		if ( !all ) {
-			logger.info(
-					"Currently only the 'commit --all' command is implemented.\nA command to commit specific differences will be implemented shortly." );
+		if ( !inputValidation( all, testReport ) ) {
 			return;
 		}
-
-		Configuration.ensureLoaded();
-
 		try {
-			LoadRecheckIgnoreUtil.loadRecheckIgnore();
-		} catch ( final Exception e ) {
-			logger.error( "An error occurred while loading the ignore file!", e );
-			return;
-		}
-
-		final Persistence<ReplayResult> resultPersistence = new KryoPersistence<>();
-		final PersistenceFactory persistenceFactory =
-				new PersistenceFactory( new HashSet<>( Arrays.asList( StdXmlClassesProvider.getXmlDataClasses() ) ) );
-
-		if ( testReport == null ) {
-			logger.error( "Please specify exactly one test report." );
-			return;
-		}
-
-		try {
-
-			logger.info( "Checking test report in path '{}'.", testReport.toString() );
-			final ReplayResult replayResult = resultPersistence.load( testReport.toURI() );
-
+			final ReplayResult replayResult = loadReplayResult( testReport, createReplayResultPersistence() );
 			if ( !replayResult.containsChanges() ) {
-				logger.error( "The test report has no differences." );
+				logger.warn( "The test report has no differences." );
 				return;
 			}
-
-			logger.info( "Test report '{}' has {} differences in {} tests.", testReport.getName(),
-					replayResult.getDifferencesCount(), replayResult.getNumberOfTestsWithChanges() );
-
+			logger.info( replayResultInformationPrinter( replayResult ) );
 			final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( replayResult );
-			if ( reviewResult == null ) {
-				logger.error( "An error occurred while creating the review result!" );
-				return;
-			}
-
 			for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
-				applyChanges( persistenceFactory.getPersistence(), suiteChangeSet );
+				applyChanges( createSutStatePersistence(), suiteChangeSet );
 			}
-
 		} catch ( final IOException e ) {
 			logger.error( "An error occurred while loading the test report!", e );
 		}
+	}
+
+	private boolean inputValidation( final boolean all, final File testReport ) {
+		if ( !all ) {
+			logger.warn( "Currently only the 'commit --all' command is implemented." );
+			logger.warn( "A command to commit specific differences will be implemented shortly." );
+			return false;
+		}
+		if ( testReport == null ) {
+			logger.error( "Please specify exactly one test report." );
+			return false;
+		}
+		return true;
+	}
+
+	private ReplayResult loadReplayResult( final File testReport, final Persistence<ReplayResult> persistence )
+			throws IOException {
+		logger.info( "Checking test report in path '{}'.", testReport.getPath() );
+		Configuration.ensureLoaded();
+		LoadRecheckIgnoreUtil.loadRecheckIgnore();
+		return persistence.load( testReport.toURI() );
+	}
+
+	private String replayResultInformationPrinter( final ReplayResult result ) {
+		return "Test report '" + testReport.getName() + "' has " + result.getDifferencesCount() + " differences in "
+				+ result.getNumberOfTestsWithChanges() + " tests.";
 	}
 
 	private void applyChanges( final Persistence<SutState> persistence, final SuiteChangeSet suiteChangeSet ) {
@@ -103,6 +95,15 @@ public class Commit implements Runnable {
 		} catch ( final NoStateFileFoundException e ) {
 			logger.error( "No state file with name '{}' found!", e.getFilename() );
 		}
+	}
+
+	private static Persistence<SutState> createSutStatePersistence() {
+		return new PersistenceFactory( new HashSet<>( Arrays.asList( StdXmlClassesProvider.getXmlDataClasses() ) ) )
+				.getPersistence();
+	}
+
+	private static Persistence<ReplayResult> createReplayResultPersistence() {
+		return new KryoPersistence<>();
 	}
 
 	boolean isDisplayHelp() {

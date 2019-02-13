@@ -105,15 +105,15 @@ public class Commit implements Runnable {
 		}
 	}
 
-	public boolean isDisplayHelp() {
+	boolean isDisplayHelp() {
 		return displayHelp;
 	}
 
-	public boolean isAll() {
+	boolean isAll() {
 		return all;
 	}
 
-	public File getTestReport() {
+	File getTestReport() {
 		return testReport;
 	}
 }

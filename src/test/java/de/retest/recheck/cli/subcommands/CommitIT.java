@@ -1,4 +1,4 @@
-package de.retest.recheck.cli.it;
+package de.retest.recheck.cli.subcommands;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.cli.subcommands.Commit;
 import de.retest.recheck.cli.util.ReportCreator;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;

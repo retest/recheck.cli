@@ -27,7 +27,7 @@ public class CommitIT {
 		final String expected = "Usage: commit [--all] <testReport>\nAccept given differences.\n"
 				+ "      <testReport>   Exactly one test report. If the test report is not in the\n"
 				+ "                       project directory, please specify the absolute path,\n"
-				+ "                       otherwise a relative path is sufficient\n"
+				+ "                       otherwise a relative path is sufficient.\n"
 				+ "      --all          Accept all differences from the given test report.\n";
 		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualTo( expected );
 	}

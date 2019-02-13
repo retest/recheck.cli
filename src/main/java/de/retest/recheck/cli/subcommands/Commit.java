@@ -39,7 +39,7 @@ public class Commit implements Runnable {
 	@Parameters( arity = "1",
 			description = "Exactly one test report."
 					+ " If the test report is not in the project directory, please specify the"
-					+ " absolute path, otherwise a relative path is sufficient" )
+					+ " absolute path, otherwise a relative path is sufficient." )
 	private File testReport;
 
 	@Override

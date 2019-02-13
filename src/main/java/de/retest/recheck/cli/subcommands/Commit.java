@@ -53,7 +53,7 @@ public class Commit implements Runnable {
 				logger.warn( "The test report has no differences." );
 				return;
 			}
-			logger.info( replayResultInformationPrinter( replayResult ) );
+			printReplayResultInformations( replayResult );
 			final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( replayResult );
 			for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
 				applyChanges( createSutStatePersistence(), suiteChangeSet );
@@ -84,9 +84,9 @@ public class Commit implements Runnable {
 		return persistence.load( testReport.toURI() );
 	}
 
-	private String replayResultInformationPrinter( final ReplayResult result ) {
-		return "Test report '" + testReport.getName() + "' has " + result.getDifferencesCount() + " differences in "
-				+ result.getNumberOfTestsWithChanges() + " tests.";
+	private void printReplayResultInformations( final ReplayResult result ) {
+		logger.info( "Test report '" + testReport.getName() + "' has " + result.getDifferencesCount()
+				+ " differences in " + result.getNumberOfTestsWithChanges() + " tests." );
 	}
 
 	private void applyChanges( final Persistence<SutState> persistence, final SuiteChangeSet suiteChangeSet ) {

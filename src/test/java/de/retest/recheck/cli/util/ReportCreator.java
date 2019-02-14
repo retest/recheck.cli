@@ -1,6 +1,9 @@
 package de.retest.recheck.cli.util;
 
 import java.io.File;
+import java.io.IOException;
+
+import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.LoadRecheckIgnoreUtil;
 import de.retest.recheck.ReplayResultProvider;
@@ -11,8 +14,8 @@ public class ReportCreator {
 
 	public final static String REPORT_WITHOUT_DIFFS_NAME = "withoutDiffs.result";
 
-	public static String createReportFileWithoutDiffs() {
-		final File result = new File( "src/test/resources/de.retest.recheck.cli/commit/report/withoutDiffs.result" );
+	public static String createReportFileWithoutDiffs( final TemporaryFolder folder ) throws IOException {
+		final File result = folder.newFile( REPORT_WITHOUT_DIFFS_NAME );
 		final SuiteReplayResult suite = ReplayResultProvider.getInstance().getSuite( "suiteWithoutDiffs" );
 		LoadRecheckIgnoreUtil.loadRecheckIgnore();
 		RecheckReplayResultUtil.persist( suite, result );

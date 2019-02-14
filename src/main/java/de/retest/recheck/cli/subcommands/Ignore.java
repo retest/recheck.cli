@@ -23,7 +23,7 @@ public class Ignore implements Runnable {
 	@Option( names = "--list", description = "List all ignored elements." )
 	private boolean list;
 
-	@Parameters( arity = "1", description = "Exactly one test report." )
+	@Parameters( arity = "0..1", description = "Exactly one test report." )
 	private File testReport;
 
 	@Override

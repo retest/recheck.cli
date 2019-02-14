@@ -1,10 +1,14 @@
 package de.retest.recheck.cli.subcommands;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.configuration.ProjectConfigurationUtil;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -13,6 +17,8 @@ import picocli.CommandLine.Parameters;
 public class Ignore implements Runnable {
 
 	private static final Logger logger = LoggerFactory.getLogger( Ignore.class );
+
+	private static final String RECHECK_IGNORE = "recheck.ignore";
 
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
@@ -28,8 +34,19 @@ public class Ignore implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Implement.
-		logger.info( "Not yet implemented!" );
+		if ( list ) {
+			final Path projectConfig = ProjectConfigurationUtil.findProjectConfigurationFolder();
+			final Path ignoreFile = projectConfig.resolve( RECHECK_IGNORE );
+
+			if ( ignoreFile.toFile().exists() ) {
+				logger.info( "These elements are ignored:" );
+				try {
+					Files.readAllLines( ignoreFile ).forEach( logger::info );
+				} catch ( final IOException e ) {
+					logger.error( "Error reading from recheck ignore file in {}.", ignoreFile );
+				}
+			}
+		}
 	}
 
 }

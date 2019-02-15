@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -44,12 +43,10 @@ public class CommitIT {
 
 	@Test
 	public void commit_should_not_accept_the_report_because_there_are_no_differences() throws Exception {
-		final File originalFile = new File( ReportCreator.createReportFileWithoutDiffs() );
-		final File temporaryFile = temp.newFile( ReportCreator.REPORT_WITHOUT_DIFFS_NAME );
-		FileUtils.copyFile( originalFile, temporaryFile );
+		final File result = new File( ReportCreator.createReportFileWithoutDiffs( temp ) );
 
 		final String expected = "The test report has no differences.";
-		final String[] args = { "--all", temporaryFile.getAbsolutePath() };
+		final String[] args = { "--all", result.getAbsolutePath() };
 		final Commit cut = new Commit();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 

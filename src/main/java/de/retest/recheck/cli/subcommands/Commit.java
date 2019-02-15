@@ -8,12 +8,10 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.LoadRecheckIgnoreUtil;
-import de.retest.recheck.configuration.Configuration;
+import de.retest.recheck.cli.ReplayResultLoader;
 import de.retest.recheck.persistence.NoStateFileFoundException;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
-import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
 import de.retest.recheck.report.ReplayResult;
 import de.retest.recheck.suite.flow.ApplyChangesToStatesFlow;
@@ -48,7 +46,7 @@ public class Commit implements Runnable {
 			return;
 		}
 		try {
-			final ReplayResult replayResult = loadReplayResult( testReport, createReplayResultPersistence() );
+			final ReplayResult replayResult = ReplayResultLoader.load( testReport );
 			if ( !replayResult.containsChanges() ) {
 				logger.warn( "The test report has no differences." );
 				return;
@@ -76,14 +74,6 @@ public class Commit implements Runnable {
 		return true;
 	}
 
-	private ReplayResult loadReplayResult( final File testReport, final Persistence<ReplayResult> persistence )
-			throws IOException {
-		logger.info( "Checking test report in path '{}'.", testReport.getPath() );
-		Configuration.ensureLoaded();
-		LoadRecheckIgnoreUtil.loadRecheckIgnore();
-		return persistence.load( testReport.toURI() );
-	}
-
 	private void printReplayResultInformations( final ReplayResult result ) {
 		logger.info( "Test report '" + testReport.getName() + "' has " + result.getDifferencesCount()
 				+ " differences in " + result.getNumberOfTestsWithChanges() + " tests." );
@@ -100,10 +90,6 @@ public class Commit implements Runnable {
 	private static Persistence<SutState> createSutStatePersistence() {
 		return new PersistenceFactory( new HashSet<>( Arrays.asList( StdXmlClassesProvider.getXmlDataClasses() ) ) )
 				.getPersistence();
-	}
-
-	private static Persistence<ReplayResult> createReplayResultPersistence() {
-		return new KryoPersistence<>();
 	}
 
 	boolean isDisplayHelp() {

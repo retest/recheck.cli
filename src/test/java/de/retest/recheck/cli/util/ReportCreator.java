@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.LoadRecheckIgnoreUtil;
 import de.retest.recheck.ReplayResultProvider;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -41,13 +40,11 @@ public class ReportCreator {
 	public static String createReportFileWithoutDiffs( final TemporaryFolder folder ) throws IOException {
 		final File result = folder.newFile( REPORT_WITHOUT_DIFFS_FILE_NAME );
 		final SuiteReplayResult suite = ReplayResultProvider.getInstance().getSuite( "suiteWithoutDiffs" );
-		LoadRecheckIgnoreUtil.loadRecheckIgnore();
 		RecheckReplayResultUtil.persist( suite, result );
 		return result.getPath();
 	}
 
 	public static String createReportFileWithDiffs( final TemporaryFolder folder ) throws IOException {
-		LoadRecheckIgnoreUtil.loadRecheckIgnore();
 		final File result = folder.newFile( REPORT_WITH_DIFFS_FILE_NAME );
 		final List<RootElement> rootElements = getRootElementList();
 		final List<RootElementDifference> rootElementDifferenceList = getRootElementDifferenceList( rootElements );

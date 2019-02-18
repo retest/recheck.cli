@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.cli.ReplayResultLoader;
+import de.retest.recheck.cli.ReplayResultUtil;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -25,7 +25,7 @@ public class Diff implements Runnable {
 	@Override
 	public void run() {
 		try {
-			logger.info( "\n{}", ReplayResultLoader.load( testReport ) );
+			logger.info( "\n{}", ReplayResultUtil.load( testReport ) );
 		} catch ( final IOException e ) {
 			logger.error( "Differences couldn't be printed:", e );
 		}

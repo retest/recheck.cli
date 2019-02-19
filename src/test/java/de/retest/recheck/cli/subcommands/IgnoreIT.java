@@ -2,10 +2,8 @@ package de.retest.recheck.cli.subcommands;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
@@ -21,12 +19,6 @@ public class IgnoreIT {
 
 	@Rule
 	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
-
-	@Before
-	public void setUp() throws Exception {
-		final RestoreSystemProperties restoreSystemProperties =
-				new RestoreSystemProperties( ProjectConfiguration.RETEST_PROJECT_ROOT, "" );
-	}
 
 	@Test
 	public void ignore_without_argument_should_return_the_usage_message() {

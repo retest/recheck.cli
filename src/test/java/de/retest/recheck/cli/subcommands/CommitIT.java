@@ -16,7 +16,9 @@ import picocli.CommandLine.ParseResult;
 public class CommitIT {
 
 	@Rule
-	public TemporaryFolder temp = new TemporaryFolder();
+	public TemporaryFolder temp = new TemporaryFolder( System.getProperty( "os.name" ).startsWith( "Mac" )
+			? new File( "/private/" + System.getProperty( "java.io.tmpdir" ) )
+			: new File( System.getProperty( "java.io.tmpdir" ) ) );
 
 	@Rule
 	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
@@ -47,6 +49,19 @@ public class CommitIT {
 
 		final String expected = "The test report has no differences.";
 		final String[] args = { "--all", result.getAbsolutePath() };
+		final Commit cut = new Commit();
+		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+		assertThat( systemOutRule.getLog().contains( expected ) ).isTrue();
+	}
+
+	@Test
+	public void commit_should_accept_and_update_the_sut_state_file() throws Exception {
+		final File resultFile = new File( ReportCreator.createReportFileWithDiffs( temp ) );
+
+		final String expected = "Updated SUT state file";
+		final String[] args = { "--all", resultFile.getAbsolutePath() };
 		final Commit cut = new Commit();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 

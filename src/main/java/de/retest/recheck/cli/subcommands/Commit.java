@@ -8,7 +8,7 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.cli.ReplayResultLoader;
+import de.retest.recheck.cli.ReplayResultUtil;
 import de.retest.recheck.persistence.NoStateFileFoundException;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
@@ -46,12 +46,12 @@ public class Commit implements Runnable {
 			return;
 		}
 		try {
-			final ReplayResult replayResult = ReplayResultLoader.load( testReport );
+			final ReplayResult replayResult = ReplayResultUtil.load( testReport );
 			if ( !replayResult.containsChanges() ) {
 				logger.warn( "The test report has no differences." );
 				return;
 			}
-			printReplayResultInformations( replayResult );
+			ReplayResultUtil.print( replayResult, testReport );
 			final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( replayResult );
 			for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
 				applyChanges( createSutStatePersistence(), suiteChangeSet );
@@ -72,11 +72,6 @@ public class Commit implements Runnable {
 			return false;
 		}
 		return true;
-	}
-
-	private void printReplayResultInformations( final ReplayResult result ) {
-		logger.info( "Test report '" + testReport.getName() + "' has " + result.getDifferencesCount()
-				+ " differences in " + result.getNumberOfTestsWithChanges() + " tests." );
 	}
 
 	private void applyChanges( final Persistence<SutState> persistence, final SuiteChangeSet suiteChangeSet ) {

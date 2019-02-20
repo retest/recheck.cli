@@ -12,6 +12,7 @@ import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.cli.util.ReportCreator;
 import picocli.CommandLine;
+import picocli.CommandLine.ParseResult;
 
 public class DiffIT {
 
@@ -34,7 +35,7 @@ public class DiffIT {
 		final File result = temp.newFile( "report.result" );
 		final String[] args = { result.getPath() };
 		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
+		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 		assertThat( cut.getTestReport() ).isEqualTo( result );
 	}
 
@@ -42,7 +43,7 @@ public class DiffIT {
 	public void diff_should_print_differences() throws Exception {
 		final String[] args = { ReportCreator.createReportFileWithDiffs( temp ) };
 		final Diff cut = new Diff();
-		final CommandLine.ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 		cut.run();
 		final String expected = "suite suite:\n" //
 				+ "Test 'test' has 1 difference(s) (1 unique): \n" //

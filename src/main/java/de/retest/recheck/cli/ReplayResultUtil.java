@@ -11,17 +11,21 @@ import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.report.ReplayResult;
 
-public class ReplayResultLoader {
+public class ReplayResultUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger( ReplayResultLoader.class );
+	private static final Logger logger = LoggerFactory.getLogger( ReplayResultUtil.class );
 
-	private ReplayResultLoader() {
-	}
+	private ReplayResultUtil() {}
 
 	public static ReplayResult load( final File replayResult ) throws IOException {
 		Configuration.ensureLoaded();
 		logger.info( "Checking test report in path '{}'.", replayResult.getPath() );
 		final Persistence<ReplayResult> resultPersistence = new KryoPersistence<>();
 		return resultPersistence.load( replayResult.toURI() );
+	}
+
+	public static void print( final ReplayResult result, final File testReport ) {
+		logger.info( "Test report '{}' has {} differences in {} tests.", testReport.getName(),
+				result.getDifferencesCount(), result.getNumberOfTestsWithChanges() );
 	}
 }

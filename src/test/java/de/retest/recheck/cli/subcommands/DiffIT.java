@@ -51,6 +51,6 @@ public class DiffIT {
 				+ "\telement [someText[]]:\n" //
 				+ "\t at: foo[1]/bar[1]:\n" //
 				+ "\t\texpected text: someText[] - actual text: someText[diff]\n";
-		assertThat( systemOutRule.getLog().contains( expected ) ).isTrue();
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 }

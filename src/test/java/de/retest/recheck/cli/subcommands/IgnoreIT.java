@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
@@ -19,6 +20,9 @@ public class IgnoreIT {
 
 	@Rule
 	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
+	@Rule
+	public RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	@Test
 	public void ignore_without_argument_should_return_the_usage_message() {
@@ -60,12 +64,12 @@ public class IgnoreIT {
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
-		assertThat( systemOutRule.getLog().contains( expected ) ).isTrue();
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 
 	@Test
 	public void ignore_should_find_differences_and_update_the_recheck_ignore_file() throws Exception {
-		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().getAbsolutePath() );
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().toString() );
 		temp.newFolder( "src", "main", "java" );
 		temp.newFolder( "src", "test", "java" );
 		temp.newFolder( ".retest" );
@@ -78,12 +82,12 @@ public class IgnoreIT {
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
-		assertThat( systemOutRule.getLog().contains( expected ) ).isTrue();
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 
 	@Test
 	public void ignore_should_find_differences_but_not_update_the_recheck_ignore_file() throws Exception {
-		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().getAbsolutePath() );
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().toString() );
 		temp.newFolder( "src", "main", "java" );
 		temp.newFolder( "src", "test", "java" );
 		temp.newFolder( ".retest" );
@@ -100,6 +104,6 @@ public class IgnoreIT {
 		cut.run();
 		cut.run();
 
-		assertThat( systemOutRule.getLog().contains( expected ) ).isTrue();
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 }

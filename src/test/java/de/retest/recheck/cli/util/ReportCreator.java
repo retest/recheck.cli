@@ -47,7 +47,7 @@ public class ReportCreator {
 
 	public static String createReportFileWithDiffs( final TemporaryFolder folder ) throws IOException {
 		final File result = folder.newFile( REPORT_WITH_DIFFS_FILE_NAME );
-		final File recheckFolder = folder.newFolder( "check.recheck" );
+		final File recheckFolder = folder.newFolder( "suite_test_check" );
 
 		final List<RootElement> rootElements = getRootElementList();
 		final List<RootElementDifference> rootElementDifferenceList = getRootElementDifferenceList( rootElements );
@@ -60,9 +60,9 @@ public class ReportCreator {
 
 		final DifferenceRetriever differenceRetriever = DifferenceRetriever.of( rootElementDifferenceList );
 
-		final ActionReplayResult check = ActionReplayResult.withDifference(
-				ActionReplayData.withoutTarget( "check", recheckFolder.getCanonicalPath() ), WindowRetriever.empty(),
-				differenceRetriever, 0 );
+		final ActionReplayResult check =
+				ActionReplayResult.withDifference( ActionReplayData.withoutTarget( "check", recheckFolder.getName() ),
+						WindowRetriever.empty(), differenceRetriever, 0 );
 
 		test.addAction( check );
 

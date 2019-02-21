@@ -11,6 +11,7 @@ import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.ReplayResultProvider;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
+import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
@@ -32,8 +33,8 @@ import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
 
 public class ReportCreator {
 
-	public final static String REPORT_WITHOUT_DIFFS_FILE_NAME = "withoutDiffs.result";
-	public final static String REPORT_WITH_DIFFS_FILE_NAME = "withDiffs.result";
+	private final static String REPORT_WITHOUT_DIFFS_FILE_NAME = "withoutDiffs.result";
+	private final static String REPORT_WITH_DIFFS_FILE_NAME = "withDiffs.result";
 
 	private static SutState sutState;
 
@@ -46,6 +47,8 @@ public class ReportCreator {
 
 	public static String createReportFileWithDiffs( final TemporaryFolder folder ) throws IOException {
 		final File result = folder.newFile( REPORT_WITH_DIFFS_FILE_NAME );
+		final File recheckFolder = folder.newFolder( "suite_test_check" );
+
 		final List<RootElement> rootElements = getRootElementList();
 		final List<RootElementDifference> rootElementDifferenceList = getRootElementDifferenceList( rootElements );
 
@@ -53,12 +56,15 @@ public class ReportCreator {
 		final TestReplayResult test = new TestReplayResult( "test", 0 );
 		suite.addTest( test );
 
-		final DifferenceRetriever differenceRetriever = DifferenceRetriever.of( rootElementDifferenceList );
-		final ActionReplayResult check = ActionReplayResult.withDifference( ActionReplayData.withoutTarget( "check" ),
-				WindowRetriever.empty(), differenceRetriever, 0 );
-		test.addAction( check );
+		sutState = RecheckSutState.createNew( recheckFolder, new SutState( rootElements ) );
 
-		sutState = new SutState( rootElements );
+		final DifferenceRetriever differenceRetriever = DifferenceRetriever.of( rootElementDifferenceList );
+
+		final ActionReplayResult check =
+				ActionReplayResult.withDifference( ActionReplayData.withoutTarget( "check", recheckFolder.getName() ),
+						WindowRetriever.empty(), differenceRetriever, 0 );
+
+		test.addAction( check );
 
 		RecheckReplayResultUtil.persist( suite, result );
 		return result.getPath();

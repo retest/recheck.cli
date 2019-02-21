@@ -6,10 +6,12 @@ import java.io.File;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.cli.util.ReportCreator;
+import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
 
@@ -20,6 +22,9 @@ public class CommitIT {
 
 	@Rule
 	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
+	@Rule
+	public final RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	@Test
 	public void commit_without_argument_should_return_the_usage_message() {
@@ -51,6 +56,22 @@ public class CommitIT {
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
-		assertThat( systemOutRule.getLog().contains( expected ) ).isTrue();
+		assertThat( systemOutRule.getLog() ).contains( expected );
+	}
+
+	@Test
+	public void commit_should_accept_and_update_the_sut_state_file() throws Exception {
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().toString() );
+		temp.newFolder( "src", "main", "java" );
+		temp.newFolder( "src", "test", "java" );
+		final File resultFile = new File( ReportCreator.createReportFileWithDiffs( temp ) );
+
+		final String expected = "Updated SUT state file";
+		final String[] args = { "--all", resultFile.getAbsolutePath() };
+		final Commit cut = new Commit();
+		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 }

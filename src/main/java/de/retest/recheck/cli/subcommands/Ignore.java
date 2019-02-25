@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.ReplayResultUtil;
-import de.retest.recheck.configuration.ProjectConfigurationUtil;
+import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.ReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -30,8 +31,6 @@ public class Ignore implements Runnable {
 
 	private static final Logger logger = LoggerFactory.getLogger( Ignore.class );
 
-	private static final String RECHECK_IGNORE = "recheck.ignore";
-
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
@@ -49,16 +48,18 @@ public class Ignore implements Runnable {
 	@Override
 	public void run() {
 		if ( list ) {
-			final Path projectConfig = ProjectConfigurationUtil.findProjectConfigurationFolder();
-			final Path ignoreFile = projectConfig.resolve( RECHECK_IGNORE );
+			final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
+			if ( !ignoreFile.map( Path::toFile ).map( File::exists ).orElse( false ) ) {
+				logger.info( "No elements are ignored." );
+				return;
+			}
 
-			if ( ignoreFile.toFile().exists() ) {
-				logger.info( "These elements are ignored:" );
-				try {
-					Files.readAllLines( ignoreFile ).forEach( logger::info );
-				} catch ( final IOException e ) {
-					logger.error( "Error reading from recheck ignore file in {}.", ignoreFile );
-				}
+			final Path path = ignoreFile.get();
+			logger.info( "These elements are ignored:" );
+			try {
+				Files.readAllLines( path ).forEach( logger::info );
+			} catch ( final IOException e ) {
+				logger.error( "Error reading from recheck ignore file in {}.", ignoreFile );
 			}
 		}
 		if ( inputValidation( all, testReport, list ) ) {
@@ -84,7 +85,7 @@ public class Ignore implements Runnable {
 	private void loadRecheckIgnore() {
 		try {
 			final LoadShouldIgnoreWorker loadShouldIgnoreWorker =
-					new LoadShouldIgnoreWorker( NopCounter.getInstance(), applier -> ignoreApplier = applier );
+					new LoadShouldIgnoreWorker( NopCounter.getInstance() );
 			ignoreApplier = loadShouldIgnoreWorker.load();
 			logger.info( "The recheck ignore file was loaded successfully." );
 		} catch ( final IOException e ) {
@@ -123,7 +124,7 @@ public class Ignore implements Runnable {
 		for ( final SuiteReplayResult suiteReplayResult : result.getSuiteReplayResults() ) {
 			for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
 				for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-					for ( final ElementDifference elementDifference : actionReplayResult.getElementDifferences() ) {
+					for ( final ElementDifference elementDifference : actionReplayResult.getAllElementDifferences() ) {
 						for ( final AttributeDifference attributeDifference : elementDifference
 								.getAttributeDifferences( ignoreApplier ) ) {
 							final Element element = elementDifference.getElement();

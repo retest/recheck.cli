@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.ReplayResultUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -47,6 +48,9 @@ public class Ignore implements Runnable {
 
 	@Override
 	public void run() {
+		if ( !PreCondition.isSatisfied() ) {
+			return;
+		}
 		if ( list ) {
 			final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
 			if ( !ignoreFile.map( Path::toFile ).map( File::exists ).orElse( false ) ) {

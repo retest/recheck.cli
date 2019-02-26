@@ -8,6 +8,7 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.ReplayResultUtil;
 import de.retest.recheck.persistence.NoStateFileFoundException;
 import de.retest.recheck.persistence.Persistence;
@@ -42,6 +43,9 @@ public class Commit implements Runnable {
 
 	@Override
 	public void run() {
+		if ( !PreCondition.isSatisfied() ) {
+			return;
+		}
 		if ( !inputValidation( all, testReport ) ) {
 			return;
 		}

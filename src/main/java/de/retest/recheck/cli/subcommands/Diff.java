@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.ReplayResultUtil;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,6 +25,9 @@ public class Diff implements Runnable {
 
 	@Override
 	public void run() {
+		if ( !PreCondition.isSatisfied() ) {
+			return;
+		}
 		try {
 			logger.info( "\n{}", ReplayResultUtil.load( testReport ) );
 		} catch ( final IOException e ) {

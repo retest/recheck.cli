@@ -1,5 +1,6 @@
 package de.retest.recheck.cli.subcommands;
 
+import static de.retest.recheck.cli.util.ProjectRootFaker.fakeProjectRoot;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Rule;
@@ -87,13 +88,7 @@ public class IgnoreIT {
 
 	@Test
 	public void ignore_should_find_differences_but_not_update_the_recheck_ignore_file() throws Exception {
-		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().toString() );
-		temp.newFolder( "src", "main", "java" );
-		temp.newFolder( "src", "test", "java" );
-		temp.newFolder( ".retest" );
-
-		temp.newFile( "/.retest/recheck.ignore" );
-
+		fakeProjectRoot( temp.getRoot().toPath() );
 		final String expected = "All differences in the given test report are already ignored.";
 		final String[] args = { "--all", ReportCreator.createReportFileWithDiffs( temp ) };
 		final Ignore cut = new Ignore();

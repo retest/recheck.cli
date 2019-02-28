@@ -1,5 +1,8 @@
 package de.retest.recheck.cli.subcommands;
 
+import static de.retest.recheck.ignore.RecheckIgnoreUtil.loadRecheckIgnore;
+import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -8,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.ReplayResultUtil;
+import de.retest.recheck.printer.ReplayResultPrinter;
+import de.retest.recheck.report.ReplayResult;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -29,7 +34,9 @@ public class Diff implements Runnable {
 			return;
 		}
 		try {
-			logger.info( "\n{}", ReplayResultUtil.load( testReport ) );
+			final ReplayResult load = ReplayResultUtil.load( testReport );
+			String message = new ReplayResultPrinter( none(), loadRecheckIgnore() ).toString( load );
+			logger.info( "\n{}", message );
 		} catch ( final IOException e ) {
 			logger.error( "Differences couldn't be printed:", e );
 		}

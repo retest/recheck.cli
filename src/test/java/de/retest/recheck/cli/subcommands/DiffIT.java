@@ -7,9 +7,11 @@ import java.io.IOException;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
+import de.retest.recheck.cli.util.ProjectRootFaker;
 import de.retest.recheck.cli.util.ReportCreator;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
@@ -21,6 +23,9 @@ public class DiffIT {
 
 	@Rule
 	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
+	@Rule
+	public RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	@Test
 	public void diff_without_argument_should_return_the_usage_message() {
@@ -41,16 +46,17 @@ public class DiffIT {
 
 	@Test
 	public void diff_should_print_differences() throws Exception {
+		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
 		final String[] args = { ReportCreator.createReportFileWithDiffs( temp ) };
 		final Diff cut = new Diff();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+
 		cut.run();
-		final String expected = "suite suite:\n" //
-				+ "Test 'test' has 1 difference(s) (1 unique): \n" //
-				+ "Check 'check' resulted in:\n" //
-				+ "\telement [someText[]]:\n" //
-				+ "\t at: foo[1]/bar[1]:\n" //
-				+ "\t\texpected text: someText[] - actual text: someText[diff]\n";
+		final String expected = "Test 'test' has 1 differences in 1 states:\n" //
+				+ "check resulted in:\n" //
+				+ "	element [someText[]] at 'foo[1]/bar[1]':\n" //
+				+ "		text: expected=\"someText[]\", actual=\"someText[diff]\"";
+
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 }

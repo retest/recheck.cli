@@ -31,7 +31,7 @@ The recheck CLI is still under development, but we will soon release a minimal w
 ## Enabling Shell Auto-Completion
 
 You can obtain an auto-completion script for Bash and ZSH via the `completion` command.
-Simply add the resulting output to your `.bash_profile` or `.bashrc, for example:
+Simply add the resulting output to your `.bash_profile` or `.bashrc`, for example:
 
 ```
 Usage: $ echo "source <(recheck-cli_completion)" >> ~/.bashrc

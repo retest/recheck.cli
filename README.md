@@ -24,10 +24,15 @@ Commands:
   help        Displays help information about the specified command.
 ```
 
-
 ## Download and Installation
 
-The recheck CLI is still under development, but we will soon release a minimal working solution.
+You can download the most recent version from the [GitHub releases page](https://github.com/retest/recheck-cli/releases/). Afterwards, you have to include the CLI into your path to use it from your shell. On Unix-like systems, you can do this by adding the following snippet to your `.bash_profile` and/or `.bashrc`:
+
+```
+export PATH="${PATH}:/path/to/recheck-cli/bin/"
+```
+
+On Windows, you can add `/path/to/recheck-cli/bin/` to your path by following [this tutorial](https://java.com/en/download/help/path.xml).
 
 ## Enabling Shell Auto-Completion
 

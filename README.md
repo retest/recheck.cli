@@ -35,7 +35,7 @@ You can obtain an auto-completion script for Bash and ZSH via the `completion` c
 Simply add the resulting output to your `.bash_profile` or `.bashrc`, for example:
 
 ```
-Usage: $ echo "source <(recheck-cli_completion)" >> ~/.bashrc
+$ echo "source <(recheck completion)" >> ~/.bash_profile
 ```
 
 ## License

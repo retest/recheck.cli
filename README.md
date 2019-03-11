@@ -10,17 +10,18 @@ The command-line interface for recheck, based on Git commands and options.
 As of now, `recheck` will give you the following help message:
 
 ```
+$ recheck
 Usage: recheck [--help] [--version] [COMMAND]
 Command-line interface for recheck.
       --help      Display this help message.
       --version   Display version info.
 Commands:
-  help         Display help information about the specified command.
-  version      Display version info.
-  diff         Display given differences.
-  commit       Accept given differences.
-  ignore       Ignore given differences.
-  completion   Generate and display auto completion script.
+  version     Display version info.
+  diff        Display given differences.
+  commit      Accept given differences.
+  ignore      Ignore given differences.
+  completion  Generate and display auto completion script.
+  help        Displays help information about the specified command.
 ```
 
 

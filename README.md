@@ -1,8 +1,8 @@
 # ![recheck logo](https://user-images.githubusercontent.com/1871610/41766965-b69d46a2-7608-11e8-97b4-c6b0f047d455.png) command-line interface (CLI)
 
-[![Build Status](https://travis-ci.com/retest/recheck-cli.svg?branch=master)](https://travis-ci.com/retest/recheck-cli)
-[![license](https://img.shields.io/badge/license-AGPL-brightgreen.svg)](https://github.com/retest/recheck-cli/blob/master/LICENSE)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/retest/recheck-cli/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+[![Build Status](https://travis-ci.com/retest/recheck.cli.svg?branch=master)](https://travis-ci.com/retest/recheck.cli)
+[![license](https://img.shields.io/badge/license-AGPL-brightgreen.svg)](https://github.com/retest/recheck.cli/blob/master/LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/retest/recheck.cli/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 [![code with hearth by retest](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-retest-C1D82F.svg)](https://retest.de/en/)
 
 The command-line interface for recheck, based on Git commands and options.
@@ -26,7 +26,7 @@ Commands:
 
 ## Download and Installation
 
-You can download the most recent version from the [GitHub releases page](https://github.com/retest/recheck-cli/releases/). Afterwards, you have to include the CLI into your path to use it from your shell. On Unix-like systems, you can do this by adding the following snippet to your `.bash_profile` and/or `.bashrc`:
+You can download the most recent version from the [GitHub releases page](https://github.com/retest/recheck.cli/releases/). Afterwards, you have to include the CLI into your path to use it from your shell. On Unix-like systems, you can do this by adding the following snippet to your `.bash_profile` and/or `.bashrc`:
 
 ```
 export PATH="${PATH}:/path/to/recheck-cli/bin/"

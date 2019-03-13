@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.retest</groupId>
-	<artifactId>recheck-cli</artifactId>
+	<artifactId>recheck.cli</artifactId>
 	<version>0.4.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>recheck - cli</name>
+	<name>recheck.cli</name>
 	<description>Command-line interface for recheck</description>
 	<url>https://retest.de/recheck/</url>
 
@@ -54,9 +54,9 @@
 	</properties>
 
 	<scm>
-		<url>https://github.com/retest/recheck-cli</url>
-		<connection>scm:git:git@github.com:retest/recheck-cli.git</connection>
-		<developerConnection>scm:git:git@github.com:retest/recheck-cli.git</developerConnection>
+		<url>https://github.com/retest/recheck.cli</url>
+		<connection>scm:git:git@github.com:retest/recheck.cli.git</connection>
+		<developerConnection>scm:git:git@github.com:retest/recheck.cli.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 

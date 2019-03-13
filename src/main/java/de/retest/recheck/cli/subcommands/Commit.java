@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
-import de.retest.recheck.cli.ReplayResultUtil;
+import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.persistence.NoStateFileFoundException;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
-import de.retest.recheck.report.ReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.suite.flow.ApplyChangesToStatesFlow;
 import de.retest.recheck.suite.flow.CreateChangesetForAllDifferencesFlow;
 import de.retest.recheck.ui.descriptors.SutState;
@@ -50,13 +50,13 @@ public class Commit implements Runnable {
 			return;
 		}
 		try {
-			final ReplayResult replayResult = ReplayResultUtil.load( testReport );
-			if ( !replayResult.containsChanges() ) {
+			final TestReport report = TestReportUtil.load( testReport );
+			if ( !report.containsChanges() ) {
 				logger.warn( "The test report has no differences." );
 				return;
 			}
-			ReplayResultUtil.print( replayResult, testReport );
-			final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( replayResult );
+			TestReportUtil.print( report, testReport );
+			final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( report );
 			for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
 				applyChanges( createSutStatePersistence(), suiteChangeSet );
 			}

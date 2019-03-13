@@ -12,7 +12,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.cli.util.ProjectRootFaker;
-import de.retest.recheck.cli.util.ReportCreator;
+import de.retest.recheck.cli.util.TestReportCreator;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
 
@@ -47,7 +47,7 @@ public class DiffIT {
 	@Test
 	public void diff_should_print_differences() throws Exception {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
-		final String[] args = { ReportCreator.createReportFileWithDiffs( temp ) };
+		final String[] args = { TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Diff cut = new Diff();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 

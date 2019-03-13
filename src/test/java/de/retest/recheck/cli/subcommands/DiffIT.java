@@ -37,7 +37,7 @@ public class DiffIT {
 
 	@Test
 	public void diff_should_contain_passed_file() throws IOException {
-		final File result = temp.newFile( "report.result" );
+		final File result = temp.newFile( "test.report" );
 		final String[] args = { result.getPath() };
 		final Diff cut = new Diff();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );

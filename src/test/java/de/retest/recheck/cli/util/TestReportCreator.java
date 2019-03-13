@@ -33,8 +33,8 @@ import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
 
 public class TestReportCreator {
 
-	private final static String REPORT_WITHOUT_DIFFS_FILE_NAME = "withoutDiffs.result";
-	private final static String REPORT_WITH_DIFFS_FILE_NAME = "withDiffs.result";
+	private final static String REPORT_WITHOUT_DIFFS_FILE_NAME = "withoutDiffs.report";
+	private final static String REPORT_WITH_DIFFS_FILE_NAME = "withDiffs.report";
 
 	private static SutState sutState;
 

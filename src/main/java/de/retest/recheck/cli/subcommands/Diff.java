@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
-import de.retest.recheck.cli.ReplayResultUtil;
-import de.retest.recheck.printer.ReplayResultPrinter;
-import de.retest.recheck.report.ReplayResult;
+import de.retest.recheck.cli.TestReportUtil;
+import de.retest.recheck.printer.TestReportPrinter;
+import de.retest.recheck.report.TestReport;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -34,9 +34,9 @@ public class Diff implements Runnable {
 			return;
 		}
 		try {
-			final ReplayResult load = ReplayResultUtil.load( testReport );
-			String message = new ReplayResultPrinter( none(), loadRecheckIgnore() ).toString( load );
-			logger.info( "\n{}", message );
+			final TestReport report = TestReportUtil.load( testReport );
+			final TestReportPrinter printer = new TestReportPrinter( none(), loadRecheckIgnore() );
+			logger.info( "\n{}", printer.toString( report ) );
 		} catch ( final IOException e ) {
 			logger.error( "Differences couldn't be printed:", e );
 		}

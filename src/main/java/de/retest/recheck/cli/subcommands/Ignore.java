@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
-import de.retest.recheck.cli.ReplayResultUtil;
+import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.ReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.review.workers.LoadShouldIgnoreWorker;
@@ -68,14 +68,14 @@ public class Ignore implements Runnable {
 		}
 		if ( inputValidation( all, testReport, list ) ) {
 			try {
-				final ReplayResult replayResult = ReplayResultUtil.load( testReport );
-				if ( !replayResult.containsChanges() ) {
+				final TestReport report = TestReportUtil.load( testReport );
+				if ( !report.containsChanges() ) {
 					logger.warn( "The test report has no differences." );
 					return;
 				}
-				ReplayResultUtil.print( replayResult, testReport );
+				TestReportUtil.print( report, testReport );
 				loadRecheckIgnore();
-				if ( allDifferencesAreBlacklisted( replayResult ) ) {
+				if ( allDifferencesAreBlacklisted( report ) ) {
 					logger.warn( "All differences in the given test report are already ignored." );
 					return;
 				}
@@ -123,9 +123,9 @@ public class Ignore implements Runnable {
 		return true;
 	}
 
-	private boolean allDifferencesAreBlacklisted( final ReplayResult result ) {
+	private boolean allDifferencesAreBlacklisted( final TestReport report ) {
 		boolean allDifferencesAlreadyListed = true;
-		for ( final SuiteReplayResult suiteReplayResult : result.getSuiteReplayResults() ) {
+		for ( final SuiteReplayResult suiteReplayResult : report.getSuiteReplayResults() ) {
 			for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
 				for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
 					for ( final ElementDifference elementDifference : actionReplayResult.getAllElementDifferences() ) {

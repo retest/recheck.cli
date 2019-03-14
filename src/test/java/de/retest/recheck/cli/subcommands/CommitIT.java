@@ -10,7 +10,7 @@ import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.cli.util.ReportCreator;
+import de.retest.recheck.cli.util.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
@@ -48,7 +48,7 @@ public class CommitIT {
 
 	@Test
 	public void commit_should_not_accept_the_report_because_there_are_no_differences() throws Exception {
-		final File result = new File( ReportCreator.createReportFileWithoutDiffs( temp ) );
+		final File result = new File( TestReportCreator.createTestReportFileWithoutDiffs( temp ) );
 
 		final String expected = "The test report has no differences.";
 		final String[] args = { "--all", result.getAbsolutePath() };
@@ -64,7 +64,7 @@ public class CommitIT {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().toString() );
 		temp.newFolder( "src", "main", "java" );
 		temp.newFolder( "src", "test", "java" );
-		final File resultFile = new File( ReportCreator.createReportFileWithDiffs( temp ) );
+		final File resultFile = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
 
 		final String expected = "Updated SUT state file";
 		final String[] args = { "--all", resultFile.getAbsolutePath() };

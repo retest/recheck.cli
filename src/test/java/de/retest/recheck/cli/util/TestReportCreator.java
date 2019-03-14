@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.ReplayResultProvider;
-import de.retest.recheck.persistence.RecheckReplayResultUtil;
+import de.retest.recheck.SuiteReplayResultProvider;
 import de.retest.recheck.persistence.RecheckSutState;
+import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
@@ -31,28 +31,28 @@ import de.retest.recheck.ui.descriptors.TextAttribute;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
 
-public class ReportCreator {
+public class TestReportCreator {
 
-	private final static String REPORT_WITHOUT_DIFFS_FILE_NAME = "withoutDiffs.result";
-	private final static String REPORT_WITH_DIFFS_FILE_NAME = "withDiffs.result";
+	private final static String REPORT_WITHOUT_DIFFS_FILE_NAME = "withoutDiffs.report";
+	private final static String REPORT_WITH_DIFFS_FILE_NAME = "withDiffs.report";
 
 	private static SutState sutState;
 
-	public static String createReportFileWithoutDiffs( final TemporaryFolder folder ) throws IOException {
+	public static String createTestReportFileWithoutDiffs( final TemporaryFolder folder ) throws IOException {
 		final File result = folder.newFile( REPORT_WITHOUT_DIFFS_FILE_NAME );
-		final SuiteReplayResult suite = ReplayResultProvider.getInstance().getSuite( "suiteWithoutDiffs" );
-		RecheckReplayResultUtil.persist( suite, result );
+		final SuiteReplayResult suite = SuiteReplayResultProvider.getInstance().getSuite( "suiteWithoutDiffs" );
+		RecheckTestReportUtil.persist( suite, result );
 		return result.getPath();
 	}
 
-	public static String createReportFileWithDiffs( final TemporaryFolder folder ) throws IOException {
+	public static String createTestReportFileWithDiffs( final TemporaryFolder folder ) throws IOException {
 		final File result = folder.newFile( REPORT_WITH_DIFFS_FILE_NAME );
 		final File recheckFolder = folder.newFolder( "suite_test_check" );
 
 		final List<RootElement> rootElements = getRootElementList();
 		final List<RootElementDifference> rootElementDifferenceList = getRootElementDifferenceList( rootElements );
 
-		final SuiteReplayResult suite = ReplayResultProvider.getInstance().getSuite( "suite" );
+		final SuiteReplayResult suite = SuiteReplayResultProvider.getInstance().getSuite( "suite" );
 		final TestReplayResult test = new TestReplayResult( "test", 0 );
 		suite.addTest( test );
 
@@ -66,7 +66,7 @@ public class ReportCreator {
 
 		test.addAction( check );
 
-		RecheckReplayResultUtil.persist( suite, result );
+		RecheckTestReportUtil.persist( suite, result );
 		return result.getPath();
 	}
 

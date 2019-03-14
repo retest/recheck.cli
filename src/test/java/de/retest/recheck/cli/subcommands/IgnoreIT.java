@@ -9,7 +9,7 @@ import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.cli.util.ReportCreator;
+import de.retest.recheck.cli.util.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
@@ -60,7 +60,7 @@ public class IgnoreIT {
 	@Test
 	public void ignore_should_not_ignore_the_report_because_there_are_no_differences() throws Exception {
 		final String expected = "The test report has no differences.";
-		final String[] args = { "--all", ReportCreator.createReportFileWithoutDiffs( temp ) };
+		final String[] args = { "--all", TestReportCreator.createTestReportFileWithoutDiffs( temp ) };
 		final Ignore cut = new Ignore();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
@@ -78,7 +78,7 @@ public class IgnoreIT {
 		temp.newFile( "/.retest/recheck.ignore" );
 
 		final String expected = "The recheck ignore file has been updated.";
-		final String[] args = { "--all", ReportCreator.createReportFileWithDiffs( temp ) };
+		final String[] args = { "--all", TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Ignore cut = new Ignore();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
@@ -90,7 +90,7 @@ public class IgnoreIT {
 	public void ignore_should_find_differences_but_not_update_the_recheck_ignore_file() throws Exception {
 		fakeProjectRoot( temp.getRoot().toPath() );
 		final String expected = "All differences in the given test report are already ignored.";
-		final String[] args = { "--all", ReportCreator.createReportFileWithDiffs( temp ) };
+		final String[] args = { "--all", TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Ignore cut = new Ignore();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 

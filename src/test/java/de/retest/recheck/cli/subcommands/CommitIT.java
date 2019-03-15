@@ -13,7 +13,6 @@ import org.junit.rules.TemporaryFolder;
 import de.retest.recheck.cli.util.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
-import picocli.CommandLine.ParseResult;
 
 public class CommitIT {
 
@@ -28,50 +27,51 @@ public class CommitIT {
 
 	@Test
 	public void commit_without_argument_should_return_the_usage_message() {
-		final String expected = "Usage: commit [--all] <testReport>\nAccept given differences.\n"
+		final String expectedMessage = "Usage: commit [--all] <testReport>\nAccept given differences.\n"
 				+ "      <testReport>   Exactly one test report. If the test report is not in the\n"
 				+ "                       project directory, please specify the absolute path,\n"
 				+ "                       otherwise a relative path is sufficient.\n"
 				+ "      --all          Accept all differences from the given test report.\n";
-		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualTo( expected );
+		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualTo( expectedMessage );
 	}
 
 	@Test
 	public void commit_should_accept_all_passed_parameters() {
 		final String[] args = { "--all", "/foo/bar", "--help" };
 		final Commit cut = new Commit();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+
+		new CommandLine( cut ).parseArgs( args );
+
 		assertThat( cut.getTestReport().toString() ).isEqualTo( args[1] );
 		assertThat( cut.isAll() ).isTrue();
 		assertThat( cut.isDisplayHelp() ).isTrue();
 	}
 
 	@Test
-	public void commit_should_not_accept_the_report_because_there_are_no_differences() throws Exception {
-		final File result = new File( TestReportCreator.createTestReportFileWithoutDiffs( temp ) );
-
-		final String expected = "The test report has no differences.";
-		final String[] args = { "--all", result.getAbsolutePath() };
+	public void commit_should_not_accept_test_reports_without_differences() throws Exception {
+		final File testReport = new File( TestReportCreator.createTestReportFileWithoutDiffs( temp ) );
+		final String[] args = { "--all", testReport.getAbsolutePath() };
 		final Commit cut = new Commit();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
+		new CommandLine( cut ).parseArgs( args );
 		cut.run();
-		assertThat( systemOutRule.getLog() ).contains( expected );
+
+		assertThat( systemOutRule.getLog() ).contains( "The test report has no differences." );
 	}
 
 	@Test
-	public void commit_should_accept_and_update_the_sut_state_file() throws Exception {
+	public void commit_should_accept_test_reports_with_differences_and_update_sut_state_files() throws Exception {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().toString() );
 		temp.newFolder( "src", "main", "java" );
 		temp.newFolder( "src", "test", "java" );
-		final File resultFile = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
 
-		final String expected = "Updated SUT state file";
-		final String[] args = { "--all", resultFile.getAbsolutePath() };
+		final File testReport = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
+		final String[] args = { "--all", testReport.getAbsolutePath() };
 		final Commit cut = new Commit();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
+		new CommandLine( cut ).parseArgs( args );
 		cut.run();
-		assertThat( systemOutRule.getLog() ).contains( expected );
+
+		assertThat( systemOutRule.getLog() ).contains( "Updated SUT state file" );
 	}
 }

@@ -74,4 +74,19 @@ public class CommitIT {
 
 		assertThat( systemOutRule.getLog() ).contains( "Updated SUT state file" );
 	}
+
+	@Test
+	public void commit_should_handle_sut_state_files_that_cannot_be_found() throws Exception {
+		final File testReport = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
+		final String[] args = { "--all", testReport.getAbsolutePath() };
+		final Commit cut = new Commit();
+
+		new CommandLine( cut ).parseArgs( args );
+		cut.run();
+
+		final String expectedMessage = "The SUT state file 'suite_test_check' cannot be found." //
+				+ "\nPlease make sure that the given test report '" + testReport.getAbsolutePath() //
+				+ "' is within the corresponding project directory.";
+		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
+	}
 }

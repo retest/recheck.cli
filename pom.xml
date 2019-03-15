@@ -211,7 +211,7 @@
 				<version>3.1.1</version>
 				<executions>
 					<execution>
-						<id>create-recheck-cli</id>
+						<id>create-recheck.cli</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
@@ -221,7 +221,7 @@
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
-							<finalName>recheck-cli</finalName>
+							<finalName>recheck.cli</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<archive>
 								<manifest>

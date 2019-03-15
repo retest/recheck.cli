@@ -82,7 +82,10 @@ public class Commit implements Runnable {
 		try {
 			ApplyChangesToStatesFlow.apply( persistence, suiteChangeSet );
 		} catch ( final NoStateFileFoundException e ) {
-			logger.error( "No state file with name '{}' found!", e.getFilename() );
+			logger.error( "The SUT state file '{}' cannot be found.", e.getFilename() );
+			logger.error(
+					"Please make sure that the given test report '{}' is within the corresponding project directory.",
+					testReport.getAbsolutePath() );
 		}
 	}
 

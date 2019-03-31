@@ -6,11 +6,11 @@ import org.slf4j.LoggerFactory;
 import picocli.AutoComplete;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Spec;
-import picocli.CommandLine.Option;
 import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Spec;
 
-@Command( name = "completion", description = "Generate and display auto completion script." )
+@Command( name = "completion", description = "Generate and display an auto completion script." )
 public class Completion implements Runnable {
 
 	private static final Logger logger = LoggerFactory.getLogger( Completion.class );

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
+import de.retest.recheck.cli.RecheckCli;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.persistence.NoStateFileFoundException;
 import de.retest.recheck.persistence.Persistence;
@@ -24,7 +25,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "commit", description = "Accept given differences." )
+@Command( name = "commit", description = "Accept specified differences of given test report." )
 public class Commit implements Runnable {
 
 	private static final Logger logger = LoggerFactory.getLogger( Commit.class );
@@ -35,10 +36,7 @@ public class Commit implements Runnable {
 	@Option( names = "--all", description = "Accept all differences from the given test report." )
 	private boolean all;
 
-	@Parameters( arity = "1",
-			description = "Exactly one test report."
-					+ " If the test report is not in the project directory, please specify the"
-					+ " absolute path, otherwise a relative path is sufficient." )
+	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESC )
 	private File testReport;
 
 	@Override

@@ -10,7 +10,7 @@ import picocli.CommandLine.Option;
 @Command( name = "version", description = Version.VERSIOND_COMMAND_DESCRIPTION )
 public class Version implements Runnable {
 
-	public static final String VERSIOND_COMMAND_DESCRIPTION = "Display version info of this CLI.";
+	public static final String VERSIOND_COMMAND_DESCRIPTION = "Display version info.";
 
 	private static final Logger logger = LoggerFactory.getLogger( Version.class );
 

@@ -42,7 +42,7 @@ public class Ignore implements Runnable {
 	@Option( names = "--list", description = "List all ignored elements." )
 	private boolean list;
 
-	@Parameters( arity = "0..1", description = RecheckCli.REPORT_FILE_PARAM_DESC )
+	@Parameters( arity = "0..1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;
 
 	private GlobalIgnoreApplier ignoreApplier;

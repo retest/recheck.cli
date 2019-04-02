@@ -7,10 +7,10 @@ import de.retest.recheck.cli.VersionProvider;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command( name = "version", description = Version.VERSIOND_COMMAND_DESCRIPTION )
+@Command( name = "version", description = Version.VERSION_CMD_DESCRIPTION )
 public class Version implements Runnable {
 
-	public static final String VERSIOND_COMMAND_DESCRIPTION = "Display version info.";
+	public static final String VERSION_CMD_DESCRIPTION = "Display version info.";
 
 	private static final Logger logger = LoggerFactory.getLogger( Version.class );
 

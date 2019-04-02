@@ -36,7 +36,7 @@ public class Commit implements Runnable {
 	@Option( names = "--all", description = "Accept all differences from the given test report." )
 	private boolean all;
 
-	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESC )
+	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;
 
 	@Override

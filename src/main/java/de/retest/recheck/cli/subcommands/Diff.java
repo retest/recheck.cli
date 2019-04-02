@@ -26,7 +26,7 @@ public class Diff implements Runnable {
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
-	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESC )
+	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;
 
 	@Override

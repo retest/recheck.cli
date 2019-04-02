@@ -14,14 +14,14 @@ import picocli.CommandLine.Option;
 		subcommands = { Version.class, Diff.class, Commit.class, Ignore.class, Completion.class, CommandLine.HelpCommand.class } )
 public class RecheckCli implements Runnable {
 
-	public static final String REPORT_FILE_PARAM_DESC = "Path to a test report file." //
-			+ " If the test report is not in the project directory, please specify the"
+	public static final String REPORT_FILE_PARAM_DESCRIPTION = "Path to a test report file." //
+			+ " If the test report is not in the project directory, please specify the" //
 			+ " absolute path, otherwise a relative path is sufficient.";
 
 	@Option( names = "--help", usageHelp = true, description = "Display this help message." )
 	private boolean displayHelp;
 
-	@Option( names = "--version", versionHelp = true, description = Version.VERSIOND_COMMAND_DESCRIPTION )
+	@Option( names = "--version", versionHelp = true, description = Version.VERSION_CMD_DESCRIPTION )
 	private boolean displayVersion;
 
 	@Override

@@ -20,7 +20,7 @@ public class PreCondition {
 				.map( File::exists ) //
 				.orElse( false );
 		if ( !condition ) {
-			logger.info( "Not a recheck project." );
+			logger.warn( "Not a recheck project." );
 		}
 		return condition;
 	}

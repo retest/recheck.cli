@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectRootFinderUtil;
 
 public class PreCondition {
+
 	private static final Logger logger = LoggerFactory.getLogger( PreCondition.class );
 
 	private PreCondition() {}
@@ -19,7 +20,7 @@ public class PreCondition {
 				.map( File::exists ) //
 				.orElse( false );
 		if ( !condition ) {
-			logger.info( "Not a recheck project" );
+			logger.warn( "Not a recheck project." );
 		}
 		return condition;
 	}

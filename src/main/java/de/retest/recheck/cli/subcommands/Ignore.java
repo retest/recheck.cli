@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
+import de.retest.recheck.cli.RecheckCli;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -27,7 +28,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "ignore", description = "Ignore given differences." )
+@Command( name = "ignore", description = "Ignore specified differences of given test report." )
 public class Ignore implements Runnable {
 
 	private static final Logger logger = LoggerFactory.getLogger( Ignore.class );
@@ -41,7 +42,7 @@ public class Ignore implements Runnable {
 	@Option( names = "--list", description = "List all ignored elements." )
 	private boolean list;
 
-	@Parameters( arity = "0..1", description = "Exactly one test report." )
+	@Parameters( arity = "0..1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;
 
 	private GlobalIgnoreApplier ignoreApplier;

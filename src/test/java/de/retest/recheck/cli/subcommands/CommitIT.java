@@ -27,11 +27,12 @@ public class CommitIT {
 
 	@Test
 	public void commit_without_argument_should_return_the_usage_message() {
-		final String expectedMessage = "Usage: commit [--all] <testReport>\nAccept given differences.\n"
-				+ "      <testReport>   Exactly one test report. If the test report is not in the\n"
-				+ "                       project directory, please specify the absolute path,\n"
-				+ "                       otherwise a relative path is sufficient.\n"
-				+ "      --all          Accept all differences from the given test report.\n";
+		final String expectedMessage =
+				"Usage: commit [--all] <testReport>\nAccept specified differences of given test report.\n"
+						+ "      <testReport>   Path to a test report file. If the test report is not in the\n"
+						+ "                       project directory, please specify the absolute path,\n"
+						+ "                       otherwise a relative path is sufficient.\n"
+						+ "      --all          Accept all differences from the given test report.\n";
 		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualTo( expectedMessage );
 	}
 

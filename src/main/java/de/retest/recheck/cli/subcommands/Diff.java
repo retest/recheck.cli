@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
+import de.retest.recheck.cli.RecheckCli;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
@@ -17,7 +18,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "diff", description = "Display given differences." )
+@Command( name = "diff", description = "Display differences of given test report." )
 public class Diff implements Runnable {
 
 	private static final Logger logger = LoggerFactory.getLogger( Diff.class );
@@ -25,7 +26,7 @@ public class Diff implements Runnable {
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
-	@Parameters( arity = "1", description = "Exactly one test report." )
+	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;
 
 	@Override

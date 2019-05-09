@@ -18,6 +18,7 @@ Command-line interface for recheck.
 Commands:
   version     Display version info.
   diff        Display given differences.
+  exclude     Ignore matching elements during accept.
   commit      Accept given differences.
   ignore      Ignore given differences.
   completion  Generate and display auto completion script.

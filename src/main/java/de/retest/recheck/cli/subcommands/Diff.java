@@ -52,7 +52,7 @@ public class Diff implements Runnable {
 		}
 	}
 
-	private CompoundFilter checkFilterNames() throws IOException {
+	CompoundFilter checkFilterNames() throws IOException {
 		final List<Filter> filters = new ArrayList<>();
 		final CompoundFilter compoundFilter = new CompoundFilter( filters );
 		for ( int i = 0; i < exclude.size(); i++ ) {

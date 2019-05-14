@@ -6,6 +6,7 @@ import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class Diff implements Runnable {
 	private boolean displayHelp;
 
 	@Option( names = "--exclude", description = "Ignore matching elements during accept." )
-	private final List<String> exclude = new ArrayList<>();
+	private List<String> exclude;
 
 	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;
@@ -45,30 +46,33 @@ public class Diff implements Runnable {
 		}
 		try {
 			final TestReport report = TestReportUtil.load( testReport );
-			final TestReportPrinter printer = new TestReportPrinter( none(), checkFilterNames() );
+			final TestReportPrinter printer = new TestReportPrinter( none(), checkAndCollectFilterNames() );
 			logger.info( "\n{}", printer.toString( report ) );
 		} catch ( final IOException e ) {
 			logger.error( "Differences couldn't be printed:", e );
 		}
 	}
 
-	CompoundFilter checkFilterNames() throws IOException {
+	Filter checkAndCollectFilterNames() throws IOException {
 		final List<Filter> filters = new ArrayList<>();
-		final CompoundFilter compoundFilter = new CompoundFilter( filters );
-		for ( int i = 0; i < exclude.size(); i++ ) {
-			final Optional<Filter> filter = SearchFilterFiles.searchFilterByName( exclude.get( i ) );
+		for ( final String filterName : exclude ) {
+			final Optional<Filter> filter = SearchFilterFiles.searchFilterByName( filterName );
 			if ( filter.isPresent() ) {
 				filters.add( filter.get() );
 			} else {
-				logger.info( "The filter file " + exclude.get( i ) + " does not exist." );
+				logger.info( "The filter file " + filterName + " does not exist." );
 			}
 		}
 		filters.add( loadRecheckIgnore() );
-		return compoundFilter;
+		return new CompoundFilter( filters );
 	}
 
 	File getTestReport() {
 		return testReport;
+	}
+
+	List<String> getExclude() {
+		return Collections.unmodifiableList( exclude );
 	}
 
 }

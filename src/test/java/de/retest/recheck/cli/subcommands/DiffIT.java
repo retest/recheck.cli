@@ -4,9 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,10 +13,6 @@ import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.cli.util.ProjectRootFaker;
 import de.retest.recheck.cli.util.TestReportCreator;
-import de.retest.recheck.ignore.CompoundFilter;
-import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.ignore.RecheckIgnoreUtil;
-import de.retest.recheck.ignore.SearchFilterFiles;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
 
@@ -70,21 +63,12 @@ public class DiffIT {
 	}
 
 	@Test
-	public void checkFilterNames_should_check_the_filter_names() throws Exception {
-		final String filterName = "positioning.filter";
+	public void checkAndCollectFilterNames_should_print_invalid_name() throws Exception {
+		final String[] args = { "--exclude", "color.filter", TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Diff cut = new Diff();
-		final List<Filter> filters = new ArrayList<>();
-		final Optional<Filter> filter = SearchFilterFiles.searchFilterByName( filterName );
-		filters.add( RecheckIgnoreUtil.loadRecheckIgnore() );
-		if ( filter.isPresent() ) {
-			filters.add( filter.get() );
-		}
-		final CompoundFilter actualCompoundFilter = cut.checkFilterNames();
-
-		for ( final Filter actualFilter : actualCompoundFilter.getFilters() ) {
-			for ( final Filter expectedFilter : filters ) {
-				assertThat( actualFilter ).isEqualToComparingFieldByFieldRecursively( expectedFilter );
-			}
-		}
+		new CommandLine( cut ).parseArgs( args );
+		cut.run();
+		final String actual = "The filter file " + cut.getExclude().get( 0 ) + " does not exist.";
+		assertThat( systemOutRule.getLog() ).contains( actual );
 	}
 }

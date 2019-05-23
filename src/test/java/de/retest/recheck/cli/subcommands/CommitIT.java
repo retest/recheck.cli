@@ -73,7 +73,7 @@ public class CommitIT {
 		new CommandLine( cut ).parseArgs( args );
 		cut.run();
 
-		assertThat( systemOutRule.getLog() ).contains( "Updated SUT state file" );
+		assertThat( systemOutRule.getLog() ).contains( "Updated Golden Master" );
 	}
 
 	@Test
@@ -85,7 +85,7 @@ public class CommitIT {
 		new CommandLine( cut ).parseArgs( args );
 		cut.run();
 
-		final String expectedMessage = "The SUT state file 'suite_test_check' cannot be found." //
+		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found." //
 				+ "\nPlease make sure that the given test report '" + testReport.getAbsolutePath() //
 				+ "' is within the corresponding project directory.";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );

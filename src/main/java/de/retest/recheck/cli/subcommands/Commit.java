@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.RecheckCli;
 import de.retest.recheck.cli.TestReportUtil;
-import de.retest.recheck.persistence.NoStateFileFoundException;
+import de.retest.recheck.persistence.NoGoldenMasterFoundException;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
@@ -79,8 +79,8 @@ public class Commit implements Runnable {
 	private void applyChanges( final Persistence<SutState> persistence, final SuiteChangeSet suiteChangeSet ) {
 		try {
 			ApplyChangesToStatesFlow.apply( persistence, suiteChangeSet );
-		} catch ( final NoStateFileFoundException e ) {
-			logger.error( "The SUT state file '{}' cannot be found.", e.getFilename() );
+		} catch ( final NoGoldenMasterFoundException e ) {
+			logger.error( "The Golden Master '{}' cannot be found.", e.getFilename() );
 			logger.error(
 					"Please make sure that the given test report '{}' is within the corresponding project directory.",
 					testReport.getAbsolutePath() );

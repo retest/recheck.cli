@@ -19,8 +19,8 @@ import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
-import de.retest.recheck.review.workers.LoadShouldIgnoreWorker;
-import de.retest.recheck.review.workers.SaveShouldIgnoreWorker;
+import de.retest.recheck.review.workers.LoadFilterWorker;
+import de.retest.recheck.review.workers.SaveFilterWorker;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
@@ -89,9 +89,8 @@ public class Ignore implements Runnable {
 
 	private void loadRecheckIgnore() {
 		try {
-			final LoadShouldIgnoreWorker loadShouldIgnoreWorker =
-					new LoadShouldIgnoreWorker( NopCounter.getInstance() );
-			ignoreApplier = loadShouldIgnoreWorker.load();
+			final LoadFilterWorker loadFilterWorker = new LoadFilterWorker( NopCounter.getInstance() );
+			ignoreApplier = loadFilterWorker.load();
 			logger.info( "The recheck ignore file was loaded successfully." );
 		} catch ( final IOException e ) {
 			logger.error( "Could not load recheck ignore file.", e );
@@ -100,8 +99,8 @@ public class Ignore implements Runnable {
 
 	private void saveRecheckIgnore() {
 		try {
-			final SaveShouldIgnoreWorker saveShouldIgnoreWorker = new SaveShouldIgnoreWorker( ignoreApplier );
-			saveShouldIgnoreWorker.save();
+			final SaveFilterWorker saveFilterWorker = new SaveFilterWorker( ignoreApplier );
+			saveFilterWorker.save();
 			logger.info( "The recheck ignore file has been updated." );
 		} catch ( final IOException e ) {
 			logger.error( "Could not save the recheck ignore file.", e );
@@ -133,7 +132,7 @@ public class Ignore implements Runnable {
 						for ( final AttributeDifference attributeDifference : elementDifference
 								.getAttributeDifferences( ignoreApplier ) ) {
 							final Element element = elementDifference.getElement();
-							if ( !ignoreApplier.shouldIgnoreAttributeDifference( element, attributeDifference ) ) {
+							if ( !ignoreApplier.matches( element, attributeDifference ) ) {
 								allDifferencesAlreadyListed = false;
 								ignoreApplier.ignoreAttribute( element, attributeDifference );
 							}

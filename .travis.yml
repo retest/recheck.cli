@@ -1,6 +1,9 @@
 language: java
 dist: trusty
 
+git:
+  depth: false
+
 addons:
   sonarcloud:
     organization: retest

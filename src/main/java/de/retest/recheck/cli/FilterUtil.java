@@ -12,12 +12,12 @@ import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.ignore.SearchFilterFiles;
 
-public class TestReportFilterUtil {
+public class FilterUtil {
 
-	private TestReportFilterUtil() {
+	private FilterUtil() {
 	}
 
-	public static Filter checkAndCollectFilterNames( final List<String> exclude ) {
+	public static Filter getExcludeFilterFiles( final List<String> exclude ) {
 		if ( exclude == null ) {
 			return Filter.FILTER_NOTHING;
 		}

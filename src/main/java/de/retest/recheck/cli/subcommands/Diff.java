@@ -5,6 +5,7 @@ import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class Diff implements Runnable {
 
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
+
+	@Option( names = "--exclude", description = "Ignore matching elements during accept." )
+	private List<String> exclude;
 
 	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;

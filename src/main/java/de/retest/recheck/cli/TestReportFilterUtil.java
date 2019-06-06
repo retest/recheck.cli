@@ -1,14 +1,15 @@
 package de.retest.recheck.cli;
 
-import static de.retest.recheck.ignore.RecheckIgnoreUtil.loadRecheckIgnore;
-
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.ignore.SearchFilterFiles;
 
 public class TestReportFilterUtil {
@@ -20,18 +21,11 @@ public class TestReportFilterUtil {
 		if ( exclude == null ) {
 			return Filter.FILTER_NOTHING;
 		}
-		final List<Filter> filters = new ArrayList<>();
-		final Map<String, Filter> fileNameFilterMapping = SearchFilterFiles.toFileNameFilterMapping();
-		final Set<String> filterKeys = fileNameFilterMapping.keySet();
-
-		for ( final String filterName : exclude ) {
-			for ( final String key : filterKeys ) {
-				if ( filterName.equals( key ) ) {
-					filters.add( fileNameFilterMapping.get( key ) );
-				}
-			}
-		}
-		filters.add( loadRecheckIgnore() );
-		return new CompoundFilter( filters );
+		final Set<String> excludeDistinct = new HashSet<>( exclude );
+		final Stream<Filter> excluded = SearchFilterFiles.toFileNameFilterMapping().entrySet().stream() //
+				.filter( entry -> excludeDistinct.contains( entry.getKey() ) ) //
+				.map( Entry::getValue );
+		return Stream.concat( excluded, Stream.of( RecheckIgnoreUtil.loadRecheckIgnore() ) ) //
+				.collect( Collectors.collectingAndThen( Collectors.toList(), CompoundFilter::new ) );
 	}
 }

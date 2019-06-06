@@ -15,7 +15,7 @@ import de.retest.recheck.ignore.Filter;
 class TestReportFilterUtilTest {
 
 	@Test
-	void attributeDifference_should_be_filtered_after_using_checkAndCollectFilterNames() throws IOException {
+	void when_exclude_is_not_null_the_size_plus_one_should_be_returned() throws IOException {
 		// +1 for GlobalIgnoreApplier.
 		final List<String> exclude = Arrays.asList( "positioning.filter" );
 		final CompoundFilter filter = (CompoundFilter) TestReportFilterUtil.checkAndCollectFilterNames( exclude );
@@ -24,7 +24,7 @@ class TestReportFilterUtilTest {
 	}
 
 	@Test
-	void attributeDifference_should_not_be_filtered_using_checkAndCollectFilterNames() throws IOException {
+	void when_exclude_is_null_one_should_be_returned() throws IOException {
 		// +1 for GlobalIgnoreApplier.
 		final List<String> exclude = new ArrayList<>();
 		final CompoundFilter filter = (CompoundFilter) TestReportFilterUtil.checkAndCollectFilterNames( exclude );

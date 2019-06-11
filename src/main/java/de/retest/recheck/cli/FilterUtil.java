@@ -14,8 +14,7 @@ import de.retest.recheck.ignore.SearchFilterFiles;
 
 public class FilterUtil {
 
-	private FilterUtil() {
-	}
+	private FilterUtil() {}
 
 	public static Filter getExcludeFilterFiles( final List<String> exclude ) {
 		if ( exclude == null ) {

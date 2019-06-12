@@ -44,7 +44,7 @@ public class Diff implements Runnable {
 			logger.error( "Differences couldn't be printed:", e );
 		} catch ( final KryoException e ) {
 			logger.error( "The report was created with another, incompatible recheck version.\r\n"
-					+ "Please, use the same recheck version to load a report with which it was generated." );
+					+ "Please, use the same recheck version to load a report with which it was generated.", e );
 		}
 	}
 

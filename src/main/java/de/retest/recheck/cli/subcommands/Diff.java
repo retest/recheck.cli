@@ -12,11 +12,14 @@ import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.KryoException;
 
+import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.RecheckCli;
 import de.retest.recheck.cli.TestReportUtil;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
+import de.retest.recheck.report.TestReportFilter;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -42,8 +45,10 @@ public class Diff implements Runnable {
 		}
 		try {
 			final TestReport report = TestReportUtil.load( testReport );
+			final Filter excludeFilterFiles = FilterUtil.getExcludeFilterFiles( exclude );
+			final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilterFiles );
 			final TestReportPrinter printer = new TestReportPrinter( none(), loadRecheckIgnore() );
-			logger.info( "\n{}", printer.toString( report ) );
+			logger.info( "\n{}", printer.toString( filteredTestReport ) );
 		} catch ( final IOException e ) {
 			logger.error( "Differences couldn't be printed:", e );
 		} catch ( final KryoException e ) {

@@ -28,17 +28,17 @@ public class CommitIT {
 	@Test
 	public void commit_without_argument_should_return_the_usage_message() {
 		final String expectedMessage =
-				"Usage: commit [--all] <testReport>\nAccept specified differences of given test report.\n"
-						+ "      <testReport>   Path to a test report file. If the test report is not in the\n"
-						+ "                       project directory, please specify the absolute path,\n"
-						+ "                       otherwise a relative path is sufficient.\n"
-						+ "      --all          Accept all differences from the given test report.\n";
+				"Usage: commit [--all] <testReport>\r\n" + "Accept specified differences of given test report.\r\n"
+						+ "      <testReport>   Path to a test report file. If the test report is not in the\r\n"
+						+ "                       project directory, please specify the absolute path,\r\n"
+						+ "                       otherwise a relative path is sufficient.\r\n"
+						+ "      --all          Accept all differences from the given test report.\r\n";
 		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualTo( expectedMessage );
 	}
 
 	@Test
 	public void commit_should_accept_all_passed_parameters() {
-		final String[] args = { "--all", "/foo/bar", "--help" };
+		final String[] args = { "--all", "\foo\bar", "--help" };
 		final Commit cut = new Commit();
 
 		new CommandLine( cut ).parseArgs( args );
@@ -85,9 +85,9 @@ public class CommitIT {
 		new CommandLine( cut ).parseArgs( args );
 		cut.run();
 
-		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found." //
-				+ "\nPlease make sure that the given test report '" + testReport.getAbsolutePath() //
-				+ "' is within the corresponding project directory.";
+		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found.\r\n" //
+				+ "Please make sure that the given test report '" + testReport.getAbsolutePath() //
+				+ "' is within the corresponding project directory.\r\n";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
 	}
 }

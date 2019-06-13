@@ -29,11 +29,10 @@ public class DiffIT {
 
 	@Test
 	public void diff_without_argument_should_return_the_usage_message() {
-		final String expected = "Usage: diff <testReport>\n" //
-				+ "Display differences of given test report.\n" //
-				+ "      <testReport>   Path to a test report file. If the test report is not in the\n"
-				+ "                       project directory, please specify the absolute path,\n"
-				+ "                       otherwise a relative path is sufficient.\n";
+		final String expected = "Usage: diff <testReport>\r\n" + "Display differences of given test report.\r\n"
+				+ "      <testReport>   Path to a test report file. If the test report is not in the\r\n"
+				+ "                       project directory, please specify the absolute path,\r\n"
+				+ "                       otherwise a relative path is sufficient.\r\n";
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualTo( expected );
 	}
 
@@ -54,7 +53,7 @@ public class DiffIT {
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
-		final String expected = "Test 'test' has 1 differences in 1 states:\n" //
+		final String expected = "Test 'test' has 1 difference(s) in 1 state(s):\n" //
 				+ "check resulted in:\n" //
 				+ "	element [someText[]] at 'foo[1]/bar[1]':\n" //
 				+ "		text: expected=\"someText[]\", actual=\"someText[diff]\"";

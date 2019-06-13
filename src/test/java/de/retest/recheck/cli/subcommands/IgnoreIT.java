@@ -27,20 +27,21 @@ public class IgnoreIT {
 
 	@Test
 	public void ignore_without_argument_should_return_the_usage_message() {
-		final String expected = "Usage: ignore [--all] [--list] [<testReport>]\n"
-				+ "Ignore specified differences of given test report.\n"
-				+ "      [<testReport>]   Path to a test report file. If the test report is not in the\n"
-				+ "                         project directory, please specify the absolute path,\n"
-				+ "                         otherwise a relative path is sufficient.\n"
-				+ "      --all            Ignore all differences from the given test report.\n"
-				+ "      --list           List all ignored elements.\n";
+		final String expected = "Usage: ignore [--all] [--list] [<testReport>]\r\n"
+				+ "Ignore specified differences of given test report.\r\n"
+				+ "      [<testReport>]   Path to a test report file. If the test report is not in the\r\n"
+				+ "                         project directory, please specify the absolute path,\r\n"
+				+ "                         otherwise a relative path is sufficient.\r\n"
+				+ "      --all            Ignore all differences from the given test report.\r\n"
+				+ "      --list           List all ignored elements.\r\n";
 		assertThat( new CommandLine( new Ignore() ).getUsageMessage() ).isEqualTo( expected );
 	}
 
 	@Test
 	public void ignore_with_incomplete_arguments_should_return_info_message() {
-		final String expected = "Currently only the two commands 'ignore --all' and 'ignore --list' are implemented.\n"
-				+ "A command to ignore specific differences will be implemented shortly.\n";
+		final String expected =
+				"Currently only the two commands 'ignore --all' and 'ignore --list' are implemented.\r\n"
+						+ "A command to ignore specific differences will be implemented shortly.\r\n";
 		final String[] args = { "foo/bar" };
 		final Ignore cut = new Ignore();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
@@ -51,7 +52,7 @@ public class IgnoreIT {
 
 	@Test
 	public void ignore_with_incomplete_arguments_should_return_help_message() {
-		final String expected = "Please specify exactly one test report to ignore all differences.\n";
+		final String expected = "Please specify exactly one test report to ignore all differences.\r\n";
 		final String[] args = { "--all" };
 		final Ignore cut = new Ignore();
 		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );

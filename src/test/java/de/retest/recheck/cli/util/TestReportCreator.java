@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.SuiteReplayResultProvider;
+import de.retest.recheck.SuiteAggregator;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -40,7 +40,7 @@ public class TestReportCreator {
 
 	public static String createTestReportFileWithoutDiffs( final TemporaryFolder folder ) throws IOException {
 		final File result = folder.newFile( REPORT_WITHOUT_DIFFS_FILE_NAME );
-		final SuiteReplayResult suite = SuiteReplayResultProvider.getInstance().getSuite( "suiteWithoutDiffs" );
+		final SuiteReplayResult suite = SuiteAggregator.getInstance().getSuite( "suiteWithoutDiffs" );
 		RecheckTestReportUtil.persist( suite, result );
 		return result.getPath();
 	}
@@ -52,7 +52,7 @@ public class TestReportCreator {
 		final List<RootElement> rootElements = getRootElementList();
 		final List<RootElementDifference> rootElementDifferenceList = getRootElementDifferenceList( rootElements );
 
-		final SuiteReplayResult suite = SuiteReplayResultProvider.getInstance().getSuite( "suite" );
+		final SuiteReplayResult suite = SuiteAggregator.getInstance().getSuite( "suite" );
 		final TestReplayResult test = new TestReplayResult( "test", 0 );
 		suite.addTest( test );
 

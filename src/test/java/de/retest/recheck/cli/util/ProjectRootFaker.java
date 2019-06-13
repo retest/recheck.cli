@@ -12,11 +12,13 @@ public class ProjectRootFaker {
 		final Path projectRoot = base.toAbsolutePath().resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
 		final Path projectConfig = projectRoot.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
 		final Path projectIgnore = projectRoot.resolve( ProjectConfiguration.RECHECK_IGNORE );
+		final Path projectIgnoreJs = projectRoot.resolve( ProjectConfiguration.RECHECK_IGNORE_JSRULES );
 
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, projectRoot.toString() );
 		Files.createDirectories( projectRoot );
 		Files.createFile( projectConfig );
 		Files.createFile( projectIgnore );
+		Files.createFile( projectIgnoreJs );
 	}
 
 }

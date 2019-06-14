@@ -88,6 +88,7 @@ public class Ignore implements Runnable {
 			} catch ( final KryoException e ) {
 				logger.error( "The report was created with another, incompatible recheck version.\r\n"
 						+ "Please, use the same recheck version to load a report with which it was generated." );
+				logger.debug( "StackTrace: ", e );
 			}
 		}
 	}

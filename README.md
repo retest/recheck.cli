@@ -24,6 +24,10 @@ Commands:
   help        Displays help information about the specified command.
 ```
 
+## Setup
+
+Please refer to the [setup guide](https://retest.github.io/docs/recheck.cli/setup/setup/) from our docs.
+
 ## License
 
 This project is licensed under the [AGPL license](LICENSE).

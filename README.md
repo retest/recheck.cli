@@ -24,24 +24,9 @@ Commands:
   help        Displays help information about the specified command.
 ```
 
-## Download and Installation
+## Setup
 
-You can download the most recent version from the [GitHub releases page](https://github.com/retest/recheck.cli/releases/). Afterwards, you have to include the CLI into your path to use it from your shell. On Unix-like systems, you can do this by adding the following snippet to your `.bash_profile` and/or `.bashrc`:
-
-```
-export PATH="${PATH}:/path/to/recheck.cli/bin/"
-```
-
-On Windows, you can add `/path/to/recheck.cli/bin/` to your path by following [this tutorial](https://java.com/en/download/help/path.xml).
-
-## Enabling Shell Auto-Completion
-
-You can obtain an auto-completion script for Bash and ZSH via the `completion` command.
-Simply add the resulting output to your `.bash_profile` or `.bashrc`, for example:
-
-```
-$ echo "source <(recheck completion)" >> ~/.bash_profile
-```
+Please refer to the [setup guide](https://retest.github.io/docs/recheck.cli/setup/setup/) from our docs.
 
 ## License
 

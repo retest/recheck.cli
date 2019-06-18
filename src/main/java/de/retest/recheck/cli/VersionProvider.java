@@ -17,13 +17,22 @@ public class VersionProvider implements IVersionProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger( VersionProvider.class );
 
+	private static final String VERSION_FALLBACK = "n/a";
+
 	@Override
 	public String[] getVersion() {
 		final String recheckLogo = getRecheckLogo();
-		final String recheckCliVersion = "recheck CLI version " + getClass().getPackage().getImplementationVersion();
-		final String recheckVersion = "recheck version " + Recheck.class.getPackage().getImplementationVersion();
-		final String javaVersion = "Java version " + Runtime.class.getPackage().getImplementationVersion();
+		final String recheckCliVersion =
+				getVersionString( "recheck CLI", getClass().getPackage().getImplementationVersion() );
+		final String recheckVersion =
+				getVersionString( "recheck", Recheck.class.getPackage().getImplementationVersion() );
+		final String javaVersion = getVersionString( "Java", Runtime.class.getPackage().getImplementationVersion() );
 		return new String[] { recheckLogo, recheckCliVersion, recheckVersion, javaVersion };
+	}
+
+	private String getVersionString( final String versionOf, final String version ) {
+		final String nonNullVersion = version != null ? version : VERSION_FALLBACK;
+		return String.format( "%s version %s", versionOf, nonNullVersion );
 	}
 
 	private String getRecheckLogo() {

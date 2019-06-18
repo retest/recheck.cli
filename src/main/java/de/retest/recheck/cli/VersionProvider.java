@@ -7,21 +7,29 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import de.retest.recheck.Recheck;
+import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.IVersionProvider;
 
+@Slf4j
 public class VersionProvider implements IVersionProvider {
 
-	private static final Logger logger = LoggerFactory.getLogger( VersionProvider.class );
+	private static final String VERSION_FALLBACK = "n/a";
 
 	@Override
 	public String[] getVersion() {
 		final String recheckLogo = getRecheckLogo();
-		final String recheckVersion = "recheck CLI version " + getClass().getPackage().getImplementationVersion();
-		final String javaVersion = "Java version " + Runtime.class.getPackage().getImplementationVersion();
-		return new String[] { recheckLogo, recheckVersion, javaVersion };
+		final String recheckCliVersion =
+				getVersionString( "recheck CLI", getClass().getPackage().getImplementationVersion() );
+		final String recheckVersion =
+				getVersionString( "recheck", Recheck.class.getPackage().getImplementationVersion() );
+		final String javaVersion = getVersionString( "Java", Runtime.class.getPackage().getImplementationVersion() );
+		return new String[] { recheckLogo, recheckCliVersion, recheckVersion, javaVersion };
+	}
+
+	private String getVersionString( final String versionOf, final String version ) {
+		final String nonNullVersion = version != null ? version : VERSION_FALLBACK;
+		return String.format( "%s version %s", versionOf, nonNullVersion );
 	}
 
 	private String getRecheckLogo() {
@@ -29,7 +37,7 @@ public class VersionProvider implements IVersionProvider {
 			return new BufferedReader( new InputStreamReader( in, StandardCharsets.UTF_8 ) ).lines() //
 					.collect( Collectors.joining( System.lineSeparator() ) );
 		} catch ( final IOException e ) {
-			logger.error( "Couldn't read recheck logo.", e );
+			log.error( "Couldn't read recheck logo.", e );
 			return "";
 		}
 	}

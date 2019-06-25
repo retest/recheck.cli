@@ -12,7 +12,6 @@ import org.junit.rules.TemporaryFolder;
 import de.retest.recheck.cli.util.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
-import picocli.CommandLine.ParseResult;
 
 public class IgnoreIT {
 
@@ -43,9 +42,10 @@ public class IgnoreIT {
 				+ "A command to ignore specific differences will be implemented shortly.\n";
 		final String[] args = { "foo/bar" };
 		final Ignore cut = new Ignore();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
+
 		assertThat( systemOutRule.getLog() ).isEqualTo( expected );
 	}
 
@@ -54,9 +54,10 @@ public class IgnoreIT {
 		final String expected = "Please specify exactly one test report to ignore all differences.\n";
 		final String[] args = { "--all" };
 		final Ignore cut = new Ignore();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
+
 		assertThat( systemOutRule.getLog() ).isEqualTo( expected );
 	}
 
@@ -65,9 +66,10 @@ public class IgnoreIT {
 		final String expected = "The test report has no differences.";
 		final String[] args = { "--all", TestReportCreator.createTestReportFileWithoutDiffs( temp ) };
 		final Ignore cut = new Ignore();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
+
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 
@@ -77,15 +79,15 @@ public class IgnoreIT {
 		temp.newFolder( "src", "main", "java" );
 		temp.newFolder( "src", "test", "java" );
 		temp.newFolder( ".retest" );
-
 		temp.newFile( "/.retest/recheck.ignore" );
 
 		final String expected = "The recheck ignore file has been updated.";
 		final String[] args = { "--all", TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Ignore cut = new Ignore();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
+
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 
@@ -95,7 +97,7 @@ public class IgnoreIT {
 		final String expected = "All differences in the given test report are already ignored.";
 		final String[] args = { "--all", TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Ignore cut = new Ignore();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		new CommandLine( cut ).parseArgs( args );
 
 		// double execution to fill the empty recheck.ignore file
 		// to check if differences are written multiple times to the recheck.ignore file.

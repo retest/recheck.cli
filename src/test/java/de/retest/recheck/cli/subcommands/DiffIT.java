@@ -14,7 +14,6 @@ import org.junit.rules.TemporaryFolder;
 import de.retest.recheck.cli.util.ProjectRootFaker;
 import de.retest.recheck.cli.util.TestReportCreator;
 import picocli.CommandLine;
-import picocli.CommandLine.ParseResult;
 
 public class DiffIT {
 
@@ -41,7 +40,9 @@ public class DiffIT {
 		final File result = temp.newFile( "test.report" );
 		final String[] args = { result.getPath() };
 		final Diff cut = new Diff();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+
+		new CommandLine( cut ).parseArgs( args );
+
 		assertThat( cut.getTestReport() ).isEqualTo( result );
 	}
 
@@ -50,7 +51,7 @@ public class DiffIT {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
 		final String[] args = { TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Diff cut = new Diff();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
 		final String expected = "Test 'test' has 1 difference(s) in 1 state(s):\n" //

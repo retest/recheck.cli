@@ -28,11 +28,11 @@ public class CommitIT {
 	@Test
 	public void commit_without_argument_should_return_the_usage_message() {
 		final String expectedMessage =
-				"Usage: commit [--all] <testReport>\r\n" + "Accept specified differences of given test report.\r\n"
-						+ "      <testReport>   Path to a test report file. If the test report is not in the\r\n"
-						+ "                       project directory, please specify the absolute path,\r\n"
-						+ "                       otherwise a relative path is sufficient.\r\n"
-						+ "      --all          Accept all differences from the given test report.\r\n";
+				"Usage: commit [--all] <testReport>\n" + "Accept specified differences of given test report.\n"
+						+ "      <testReport>   Path to a test report file. If the test report is not in the\n"
+						+ "                       project directory, please specify the absolute path,\n"
+						+ "                       otherwise a relative path is sufficient.\n"
+						+ "      --all          Accept all differences from the given test report.\n";
 		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualTo( expectedMessage );
 	}
 
@@ -85,9 +85,9 @@ public class CommitIT {
 		new CommandLine( cut ).parseArgs( args );
 		cut.run();
 
-		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found.\r\n" //
+		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found.\n" //
 				+ "Please make sure that the given test report '" + testReport.getAbsolutePath() //
-				+ "' is within the corresponding project directory.\r\n";
+				+ "' is within the corresponding project directory.\n";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
 	}
 }

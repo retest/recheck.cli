@@ -28,7 +28,7 @@ public class CommitIT {
 	@Test
 	public void commit_without_argument_should_return_the_usage_message() {
 		final String expectedMessage =
-				"Usage: commit [--all] <testReport>\nAccept specified differences of given test report.\n"
+				"Usage: commit [--all] <testReport>\n" + "Accept specified differences of given test report.\n"
 						+ "      <testReport>   Path to a test report file. If the test report is not in the\n"
 						+ "                       project directory, please specify the absolute path,\n"
 						+ "                       otherwise a relative path is sufficient.\n"
@@ -38,9 +38,8 @@ public class CommitIT {
 
 	@Test
 	public void commit_should_accept_all_passed_parameters() {
-		final String[] args = { "--all", "/foo/bar", "--help" };
+		final String[] args = { "--all", "\foo\bar", "--help" };
 		final Commit cut = new Commit();
-
 		new CommandLine( cut ).parseArgs( args );
 
 		assertThat( cut.getTestReport().toString() ).isEqualTo( args[1] );
@@ -53,8 +52,8 @@ public class CommitIT {
 		final File testReport = new File( TestReportCreator.createTestReportFileWithoutDiffs( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
 		final Commit cut = new Commit();
-
 		new CommandLine( cut ).parseArgs( args );
+
 		cut.run();
 
 		assertThat( systemOutRule.getLog() ).contains( "The test report has no differences." );
@@ -69,8 +68,8 @@ public class CommitIT {
 		final File testReport = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
 		final Commit cut = new Commit();
-
 		new CommandLine( cut ).parseArgs( args );
+
 		cut.run();
 
 		assertThat( systemOutRule.getLog() ).contains( "Updated Golden Master" );
@@ -81,13 +80,13 @@ public class CommitIT {
 		final File testReport = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
 		final Commit cut = new Commit();
-
 		new CommandLine( cut ).parseArgs( args );
+
 		cut.run();
 
-		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found." //
-				+ "\nPlease make sure that the given test report '" + testReport.getAbsolutePath() //
-				+ "' is within the corresponding project directory.";
+		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found.\n" //
+				+ "Please make sure that the given test report '" + testReport.getAbsolutePath() //
+				+ "' is within the corresponding project directory.\n";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
 	}
 }

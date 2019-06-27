@@ -14,7 +14,6 @@ import org.junit.rules.TemporaryFolder;
 import de.retest.recheck.cli.util.ProjectRootFaker;
 import de.retest.recheck.cli.util.TestReportCreator;
 import picocli.CommandLine;
-import picocli.CommandLine.ParseResult;
 
 public class DiffIT {
 
@@ -29,8 +28,7 @@ public class DiffIT {
 
 	@Test
 	public void diff_without_argument_should_return_the_usage_message() {
-		final String expected = "Usage: diff <testReport>\n" //
-				+ "Display differences of given test report.\n" //
+		final String expected = "Usage: diff <testReport>\n" + "Display differences of given test report.\n"
 				+ "      <testReport>   Path to a test report file. If the test report is not in the\n"
 				+ "                       project directory, please specify the absolute path,\n"
 				+ "                       otherwise a relative path is sufficient.\n";
@@ -42,7 +40,9 @@ public class DiffIT {
 		final File result = temp.newFile( "test.report" );
 		final String[] args = { result.getPath() };
 		final Diff cut = new Diff();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+
+		new CommandLine( cut ).parseArgs( args );
+
 		assertThat( cut.getTestReport() ).isEqualTo( result );
 	}
 
@@ -51,10 +51,10 @@ public class DiffIT {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
 		final String[] args = { TestReportCreator.createTestReportFileWithDiffs( temp ) };
 		final Diff cut = new Diff();
-		final ParseResult cmd = new CommandLine( cut ).parseArgs( args );
+		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
-		final String expected = "Test 'test' has 1 differences in 1 states:\n" //
+		final String expected = "Test 'test' has 1 difference(s) in 1 state(s):\n" //
 				+ "check resulted in:\n" //
 				+ "	element [someText[]] at 'foo[1]/bar[1]':\n" //
 				+ "		text: expected=\"someText[]\", actual=\"someText[diff]\"";

@@ -32,7 +32,7 @@ public class Diff implements Runnable {
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
-	@Option( names = "--exclude", description = "Ignore matching elements during accept." )
+	@Option( names = "--exclude", description = "Filter(s) to exclude changes from the diff." )
 	private List<String> exclude;
 
 	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )

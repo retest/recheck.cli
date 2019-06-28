@@ -28,11 +28,13 @@ public class DiffIT {
 
 	@Test
 	public void diff_without_argument_should_return_the_usage_message() {
-		final String expected = "Usage: diff <testReport>\n" + "Display differences of given test report.\n"
-				+ "      <testReport>   Path to a test report file. If the test report is not in the\n"
-				+ "                       project directory, please specify the absolute path,\n"
-				+ "                       otherwise a relative path is sufficient.\n";
-		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualTo( expected );
+		final String expected =
+				"Usage: diff [--exclude=<exclude>]... <testReport>\n" + "Display differences of given test report.\n"
+						+ "      <testReport>          Path to a test report file. If the test report is not in\n"
+						+ "                              the project directory, please specify the absolute\n"
+						+ "                              path, otherwise a relative path is sufficient.\n"
+						+ "      --exclude=<exclude>   Ignore matching elements during accept.\n";
+		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}
 
 	@Test

@@ -33,7 +33,7 @@ public class DiffIT {
 						+ "      <testReport>          Path to a test report file. If the test report is not in\n"
 						+ "                              the project directory, please specify the absolute\n"
 						+ "                              path, otherwise a relative path is sufficient.\n"
-						+ "      --exclude=<exclude>   Ignore matching elements during accept.\n";
+						+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.\n";
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}
 

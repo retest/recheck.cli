@@ -5,17 +5,21 @@ import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.KryoException;
 
+import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.RecheckCli;
 import de.retest.recheck.cli.TestReportUtil;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
+import de.retest.recheck.report.TestReportFilter;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -28,6 +32,9 @@ public class Diff implements Runnable {
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
+	@Option( names = "--exclude", description = "Filter(s) to exclude changes from the diff." )
+	private List<String> exclude;
+
 	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
 	private File testReport;
 
@@ -38,8 +45,10 @@ public class Diff implements Runnable {
 		}
 		try {
 			final TestReport report = TestReportUtil.load( testReport );
+			final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
+			final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
 			final TestReportPrinter printer = new TestReportPrinter( none(), loadRecheckIgnore() );
-			logger.info( "\n{}", printer.toString( report ) );
+			logger.info( "\n{}", printer.toString( filteredTestReport ) );
 		} catch ( final IOException e ) {
 			logger.error( "Differences couldn't be printed:", e );
 		} catch ( final KryoException e ) {

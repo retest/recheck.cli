@@ -5,7 +5,7 @@
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/retest/recheck.cli/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 [![code with hearth by retest](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-retest-C1D82F.svg)](https://retest.de/en/)
 
-***recheck.cli*** maintains your Golden Master files, Git-like on the command line.
+***recheck.cli*** maintains your [recheck](https://github.com/retest/recheck) Golden Master files, Git-like on the command line.
 
 As of now, `recheck` will give you the following help message:
 

@@ -20,7 +20,6 @@ Commands:
   diff        Display given differences.
   commit      Accept given differences.
   ignore      Ignore given differences.
-  exclude     Filter(s) to exclude changes from the diff.
   completion  Generate and display auto completion script.
   help        Displays help information about the specified command.
 ```

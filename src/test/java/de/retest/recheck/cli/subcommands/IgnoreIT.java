@@ -3,6 +3,8 @@ package de.retest.recheck.cli.subcommands;
 import static de.retest.recheck.cli.util.ProjectRootFaker.fakeProjectRoot;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.File;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.RestoreSystemProperties;
@@ -105,5 +107,18 @@ public class IgnoreIT {
 		cut.run();
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
+	}
+
+	@Test
+	public void ignore_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
+		final File notATestReport = temp.newFile();
+		final String[] args = { "--all", notATestReport.getAbsolutePath() };
+		final Ignore cut = new Ignore();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		assertThat( systemOutRule.getLog() ).contains(
+				"The given file is not a test report. Please only pass files using the '.report' extension." );
 	}
 }

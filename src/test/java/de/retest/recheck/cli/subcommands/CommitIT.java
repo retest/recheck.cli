@@ -91,4 +91,17 @@ public class CommitIT {
 				+ "' is within the corresponding project directory.\n";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
 	}
+
+	@Test
+	public void commit_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
+		final File notATestReport = temp.newFile();
+		final String[] args = { "--all", notATestReport.getAbsolutePath() };
+		final Commit cut = new Commit();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		assertThat( systemOutRule.getLog() ).contains(
+				"The given file is not a test report. Please only pass files using the '.report' extension." );
+	}
 }

@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.KryoException;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.RecheckCli;
+import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -83,6 +85,9 @@ public class Ignore implements Runnable {
 					return;
 				}
 				saveRecheckIgnore();
+			} catch ( final TestReportFormatException e ) {
+				logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
+						Properties.TEST_REPORT_FILE_EXTENSION );
 			} catch ( final IOException e ) {
 				logger.error( "An error occurred while loading the test report!", e );
 			} catch ( final KryoException e ) {

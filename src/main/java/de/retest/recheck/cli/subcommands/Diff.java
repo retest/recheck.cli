@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.KryoException;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.RecheckCli;
+import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.printer.TestReportPrinter;
@@ -49,6 +51,9 @@ public class Diff implements Runnable {
 			final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
 			final TestReportPrinter printer = new TestReportPrinter( none(), loadRecheckIgnore() );
 			logger.info( "\n{}", printer.toString( filteredTestReport ) );
+		} catch ( final TestReportFormatException e ) {
+			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
+					Properties.TEST_REPORT_FILE_EXTENSION );
 		} catch ( final IOException e ) {
 			logger.error( "Differences couldn't be printed:", e );
 		} catch ( final KryoException e ) {

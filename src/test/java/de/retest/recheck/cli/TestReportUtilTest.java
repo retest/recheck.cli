@@ -1,5 +1,6 @@
 package de.retest.recheck.cli;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.File;
@@ -19,7 +20,7 @@ public class TestReportUtilTest {
 	@Test
 	public void should_load_test_report() throws Exception {
 		final File testReportFile = new File( TestReportCreator.createTestReportFileWithoutDiffs( temp ) );
-		TestReportUtil.load( testReportFile );
+		assertThatCode( () -> TestReportUtil.load( testReportFile ) ).doesNotThrowAnyException();
 	}
 
 	@Test

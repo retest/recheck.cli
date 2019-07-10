@@ -28,9 +28,9 @@ public class IgnoreIT {
 	public void ignore_without_argument_should_return_the_usage_message() {
 		final String expected = "Usage: ignore [--all] [--list] [<testReport>]\n"
 				+ "Ignore specified differences of given test report.\n"
-				+ "      [<testReport>]   Path to a test report file. If the test report is not in the\n"
-				+ "                         project directory, please specify the absolute path,\n"
-				+ "                         otherwise a relative path is sufficient.\n"
+				+ "      [<testReport>]   Path to a test report file (.report extension). If the test\n"
+				+ "                         report is not in the project directory, please specify the\n"
+				+ "                         absolute path, otherwise a relative path is sufficient.\n"
 				+ "      --all            Ignore all differences from the given test report.\n"
 				+ "      --list           List all ignored elements.\n";
 		assertThat( new CommandLine( new Ignore() ).getUsageMessage() ).isEqualTo( expected );

@@ -1,5 +1,6 @@
 package de.retest.recheck.cli;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.cli.subcommands.Commit;
 import de.retest.recheck.cli.subcommands.Completion;
 import de.retest.recheck.cli.subcommands.Diff;
@@ -14,9 +15,10 @@ import picocli.CommandLine.Option;
 		subcommands = { Version.class, Diff.class, Commit.class, Ignore.class, Completion.class, CommandLine.HelpCommand.class } )
 public class RecheckCli implements Runnable {
 
-	public static final String REPORT_FILE_PARAM_DESCRIPTION = "Path to a test report file." //
-			+ " If the test report is not in the project directory, please specify the" //
-			+ " absolute path, otherwise a relative path is sufficient.";
+	public static final String REPORT_FILE_PARAM_DESCRIPTION =
+			"Path to a test report file (" + Properties.TEST_REPORT_FILE_EXTENSION + " extension). " //
+					+ "If the test report is not in the project directory, please specify the absolute path, " //
+					+ "otherwise a relative path is sufficient.";
 
 	@Option( names = "--help", usageHelp = true, description = "Display this help message." )
 	private boolean displayHelp;

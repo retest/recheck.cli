@@ -27,7 +27,7 @@ Commands:
 
 ## Setup
 
-Please refer to the [setup guide](https://retest.github.io/docs/recheck.cli/setup/setup/) from our docs.
+Please refer to the [setup guide](https://retest.github.io/docs/recheck.cli/setup/) from our docs.
 
 ## License
 

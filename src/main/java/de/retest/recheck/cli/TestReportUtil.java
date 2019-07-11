@@ -15,6 +15,11 @@ public class TestReportUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger( TestReportUtil.class );
 
+	public static final String TEST_REPORT_PARAMETER_DESCRIPTION =
+			"Path to a test report file (" + Properties.TEST_REPORT_FILE_EXTENSION + " extension). " //
+					+ "If the test report is not in the project directory, please specify the absolute path, " //
+					+ "otherwise a relative path is sufficient.";
+
 	private TestReportUtil() {}
 
 	public static TestReport load( final File testReportFile ) throws TestReportFormatException, IOException {

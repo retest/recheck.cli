@@ -15,7 +15,6 @@ import com.esotericsoftware.kryo.KryoException;
 import de.retest.recheck.Properties;
 import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
-import de.retest.recheck.cli.RecheckCli;
 import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.Filter;
@@ -37,7 +36,7 @@ public class Diff implements Runnable {
 	@Option( names = "--exclude", description = "Filter(s) to exclude changes from the diff." )
 	private List<String> exclude;
 
-	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
+	@Parameters( arity = "1", description = TestReportUtil.TEST_REPORT_PARAMETER_DESCRIPTION )
 	private File testReport;
 
 	@Override

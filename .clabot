@@ -1,7 +1,21 @@
 {
   "message": "Thank you for your pull request and welcome to our community. We require contributors to sign our [Contributor License Agreement](../blob/master/Contributor-License-Agreement.md), and we don\"t seem to have the users {{usersWithoutCLA}} on file. In order for us to review and merge your code, for each noted user ***please add yourself to the `.clabot` file***.",
   "contributors": [
-		"dependabot-bot",
-		"martin-v"
+ 		"$$$ retest $$$"
+		"roesslerj",
+		"beatngu13",
+		"martin-v",
+		"modulo11",
+		"diba1013",
+		"IgorAlbert ",
+		"ivonx",
+		"kema91 ",
+		"oezelenes",
+		"varunnayak26",
+
+		"$$$ external $$$"
+
+		"$$$ tools $$$"
+		"dependabot-bot"
 	]
 }

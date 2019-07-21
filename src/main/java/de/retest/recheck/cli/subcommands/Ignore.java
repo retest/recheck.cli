@@ -11,8 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.KryoException;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.cli.PreCondition;
-import de.retest.recheck.cli.RecheckCli;
+import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -44,7 +45,7 @@ public class Ignore implements Runnable {
 	@Option( names = "--list", description = "List all ignored elements." )
 	private boolean list;
 
-	@Parameters( arity = "0..1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
+	@Parameters( arity = "0..1", description = TestReportUtil.TEST_REPORT_PARAMETER_DESCRIPTION )
 	private File testReport;
 
 	private GlobalIgnoreApplier ignoreApplier;
@@ -83,12 +84,15 @@ public class Ignore implements Runnable {
 					return;
 				}
 				saveRecheckIgnore();
+			} catch ( final TestReportFormatException e ) {
+				logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
+						Properties.TEST_REPORT_FILE_EXTENSION );
 			} catch ( final IOException e ) {
-				logger.error( "An error occurred while loading the test report!", e );
+				logger.error( "An error occurred while loading the test report.", e );
 			} catch ( final KryoException e ) {
-				logger.error( "The report was created with another, incompatible recheck version.\r\n"
-						+ "Please, use the same recheck version to load a report with which it was generated." );
-				logger.debug( "StackTrace: ", e );
+				logger.error( "The report was created with another, incompatible recheck version.\n"
+						+ "Please use the same recheck version to load a report with which it was generated." );
+				logger.debug( "Stack trace:", e );
 			}
 		}
 	}

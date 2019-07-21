@@ -3,6 +3,8 @@ package de.retest.recheck.cli.subcommands;
 import static de.retest.recheck.cli.util.ProjectRootFaker.fakeProjectRoot;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.File;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.RestoreSystemProperties;
@@ -28,9 +30,9 @@ public class IgnoreIT {
 	public void ignore_without_argument_should_return_the_usage_message() {
 		final String expected = "Usage: ignore [--all] [--list] [<testReport>]\n"
 				+ "Ignore specified differences of given test report.\n"
-				+ "      [<testReport>]   Path to a test report file. If the test report is not in the\n"
-				+ "                         project directory, please specify the absolute path,\n"
-				+ "                         otherwise a relative path is sufficient.\n"
+				+ "      [<testReport>]   Path to a test report file (.report extension). If the test\n"
+				+ "                         report is not in the project directory, please specify the\n"
+				+ "                         absolute path, otherwise a relative path is sufficient.\n"
 				+ "      --all            Ignore all differences from the given test report.\n"
 				+ "      --list           List all ignored elements.\n";
 		assertThat( new CommandLine( new Ignore() ).getUsageMessage() ).isEqualTo( expected );
@@ -105,5 +107,18 @@ public class IgnoreIT {
 		cut.run();
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
+	}
+
+	@Test
+	public void ignore_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
+		final File notATestReport = temp.newFile();
+		final String[] args = { "--all", notATestReport.getAbsolutePath() };
+		final Ignore cut = new Ignore();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		assertThat( systemOutRule.getLog() ).contains(
+				"The given file is not a test report. Please only pass files using the '.report' extension." );
 	}
 }

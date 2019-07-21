@@ -29,9 +29,10 @@ public class CommitIT {
 	public void commit_without_argument_should_return_the_usage_message() {
 		final String expectedMessage = "Usage: commit [--all] [--exclude=<exclude>]... <testReport>\n"
 				+ "Accept specified differences of given test report.\n"
-				+ "      <testReport>          Path to a test report file. If the test report is not in\n"
-				+ "                              the project directory, please specify the absolute\n"
-				+ "                              path, otherwise a relative path is sufficient.\n"
+				+ "      <testReport>          Path to a test report file (.report extension). If the\n"
+				+ "                              test report is not in the project directory, please\n"
+				+ "                              specify the absolute path, otherwise a relative path\n"
+				+ "                              is sufficient."
 				+ "      --all                 Accept all differences from the given test report.\n"
 				+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.\n";
 		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualToIgnoringNewLines( expectedMessage );
@@ -89,5 +90,18 @@ public class CommitIT {
 				+ "Please make sure that the given test report '" + testReport.getAbsolutePath() //
 				+ "' is within the corresponding project directory.\n";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
+	}
+
+	@Test
+	public void commit_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
+		final File notATestReport = temp.newFile();
+		final String[] args = { "--all", notATestReport.getAbsolutePath() };
+		final Commit cut = new Commit();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		assertThat( systemOutRule.getLog() ).contains(
+				"The given file is not a test report. Please only pass files using the '.report' extension." );
 	}
 }

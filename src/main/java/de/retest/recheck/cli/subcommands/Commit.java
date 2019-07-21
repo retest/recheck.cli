@@ -11,9 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.KryoException;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
-import de.retest.recheck.cli.RecheckCli;
+import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.NoGoldenMasterFoundException;
@@ -45,7 +46,7 @@ public class Commit implements Runnable {
 	@Option( names = "--exclude", description = "Filter(s) to exclude changes from the diff." )
 	private List<String> exclude;
 
-	@Parameters( arity = "1", description = RecheckCli.REPORT_FILE_PARAM_DESCRIPTION )
+	@Parameters( arity = "1", description = TestReportUtil.TEST_REPORT_PARAMETER_DESCRIPTION )
 	private File testReport;
 
 	@Override
@@ -69,12 +70,15 @@ public class Commit implements Runnable {
 			for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
 				applyChanges( createSutStatePersistence(), suiteChangeSet );
 			}
+		} catch ( final TestReportFormatException e ) {
+			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
+					Properties.TEST_REPORT_FILE_EXTENSION );
 		} catch ( final IOException e ) {
-			logger.error( "An error occurred while loading the test report!", e );
+			logger.error( "An error occurred while loading the test report.", e );
 		} catch ( final KryoException e ) {
-			logger.error( "The report was created with another, incompatible recheck version.\r\n"
-					+ "Please, use the same recheck version to load a report with which it was generated." );
-			logger.debug( "StackTrace: ", e );
+			logger.error( "The report was created with another, incompatible recheck version.\n"
+					+ "Please use the same recheck version to load a report with which it was generated." );
+			logger.debug( "Stack trace:", e );
 		}
 	}
 

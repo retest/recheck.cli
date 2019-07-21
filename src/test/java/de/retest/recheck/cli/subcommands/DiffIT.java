@@ -30,9 +30,10 @@ public class DiffIT {
 	public void diff_without_argument_should_return_the_usage_message() {
 		final String expected =
 				"Usage: diff [--exclude=<exclude>]... <testReport>\n" + "Display differences of given test report.\n"
-						+ "      <testReport>          Path to a test report file. If the test report is not in\n"
-						+ "                              the project directory, please specify the absolute\n"
-						+ "                              path, otherwise a relative path is sufficient.\n"
+						+ "      <testReport>          Path to a test report file (.report extension). If the\n"
+						+ "                              test report is not in the project directory, please\n"
+						+ "                              specify the absolute path, otherwise a relative path\n"
+						+ "                              is sufficient."
 						+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.\n";
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}
@@ -62,5 +63,18 @@ public class DiffIT {
 				+ "		text: expected=\"someText[]\", actual=\"someText[diff]\"";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
+	}
+
+	@Test
+	public void diff_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
+		final File notATestReport = temp.newFile();
+		final String[] args = { notATestReport.getAbsolutePath() };
+		final Diff cut = new Diff();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		assertThat( systemOutRule.getLog() ).contains(
+				"The given file is not a test report. Please only pass files using the '.report' extension." );
 	}
 }

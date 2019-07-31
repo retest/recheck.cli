@@ -62,6 +62,19 @@ public class Diff implements Runnable {
 		}
 	}
 
+	private List<String> getInvalidFilters() {
+		final List<String> invalidFilterFiles = new ArrayList<>();
+		if ( exclude == null ) {
+			return invalidFilterFiles;
+		}
+		for ( final String excludeFilterName : exclude ) {
+			if ( !SearchFilterFiles.toFileNameFilterMapping().containsKey( excludeFilterName ) ) {
+				invalidFilterFiles.add( excludeFilterName );
+			}
+		}
+		return invalidFilterFiles;
+	}
+
 	File getTestReport() {
 		return testReport;
 	}

@@ -5,7 +5,9 @@ import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.SearchFilterFiles;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
@@ -45,11 +48,17 @@ public class Diff implements Runnable {
 			return;
 		}
 		try {
-			final TestReport report = TestReportUtil.load( testReport );
-			final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-			final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
-			final TestReportPrinter printer = new TestReportPrinter( none(), loadRecheckIgnore() );
-			logger.info( "\n{}", printer.toString( filteredTestReport ) );
+			final List<String> invalidFilters = getInvalidFilters();
+			if ( !invalidFilters.isEmpty() ) {
+				final String filter = invalidFilters.stream().collect( Collectors.joining( ", " ) );
+				logger.warn( "The invalid filter files are: {}", filter );
+			} else {
+				final TestReport report = TestReportUtil.load( testReport );
+				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
+				final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
+				final TestReportPrinter printer = new TestReportPrinter( none(), loadRecheckIgnore() );
+				logger.info( "\n{}", printer.toString( filteredTestReport ) );
+			}
 		} catch ( final TestReportFormatException e ) {
 			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
 					Properties.TEST_REPORT_FILE_EXTENSION );

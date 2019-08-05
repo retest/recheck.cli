@@ -32,9 +32,9 @@ public class CommitIT {
 				+ "      <testReport>          Path to a test report file (.report extension). If the\n"
 				+ "                              test report is not in the project directory, please\n"
 				+ "                              specify the absolute path, otherwise a relative path\n"
-				+ "                              is sufficient."
+				+ "                              is sufficient.\n"
 				+ "      --all                 Accept all differences from the given test report.\n"
-				+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.\n";
+				+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.";
 		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualToIgnoringNewLines( expectedMessage );
 	}
 

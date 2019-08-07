@@ -45,10 +45,9 @@ public class Diff implements Runnable {
 			return;
 		}
 		try {
-			final List<String> invalidFilters = getInvalidFilters();
+			final List<String> invalidFilters = FilterUtil.getInvalidFilters( exclude );
 			if ( !invalidFilters.isEmpty() ) {
-				final String filter = invalidFilters.stream().collect( Collectors.joining( ", " ) );
-				logger.warn( "The invalid filter files are: {}", filter );
+				FilterUtil.logWarningForInvalidFilters( invalidFilters );
 			} else {
 				final TestReport report = TestReportUtil.load( testReport );
 				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );

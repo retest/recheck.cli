@@ -30,10 +30,10 @@ public class DiffIT {
 	public void diff_without_argument_should_return_the_usage_message() {
 		final String expected =
 				"Usage: diff [--exclude=<exclude>]... <testReport>\n" + "Display differences of given test report.\n"
-						+ "      <testReport>          Path to a test report file (.report extension). If the\n"
-						+ "                              test report is not in the project directory, please\n"
-						+ "                              specify the absolute path, otherwise a relative path\n"
-						+ "                              is sufficient.\n"
+						+ "      <testReport>          Path to a test report file (.report extension). If\n"
+						+ "                              the test report is not in the project directory,\n"
+						+ "                              please specify the absolute path, otherwise a\n"
+						+ "                              relative path is sufficient.\n"
 						+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.";
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}

@@ -5,9 +5,7 @@ import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +18,6 @@ import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.ignore.SearchFilterFiles;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
@@ -48,10 +45,9 @@ public class Diff implements Runnable {
 			return;
 		}
 		try {
-			final List<String> invalidFilters = getInvalidFilters();
+			final List<String> invalidFilters = FilterUtil.getInvalidFilters( exclude );
 			if ( !invalidFilters.isEmpty() ) {
-				final String filter = invalidFilters.stream().collect( Collectors.joining( ", " ) );
-				logger.warn( "The invalid filter files are: {}", filter );
+				FilterUtil.logWarningForInvalidFilters( invalidFilters );
 			} else {
 				final TestReport report = TestReportUtil.load( testReport );
 				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
@@ -69,19 +65,6 @@ public class Diff implements Runnable {
 					+ "Please use the same recheck version to load a report with which it was generated." );
 			logger.debug( "Stack trace:", e );
 		}
-	}
-
-	private List<String> getInvalidFilters() {
-		final List<String> invalidFilterFiles = new ArrayList<>();
-		if ( exclude == null ) {
-			return invalidFilterFiles;
-		}
-		for ( final String excludeFilterName : exclude ) {
-			if ( !SearchFilterFiles.toFileNameFilterMapping().containsKey( excludeFilterName ) ) {
-				invalidFilterFiles.add( excludeFilterName );
-			}
-		}
-		return invalidFilterFiles;
 	}
 
 	File getTestReport() {

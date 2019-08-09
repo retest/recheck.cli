@@ -58,17 +58,22 @@ public class Commit implements Runnable {
 			return;
 		}
 		try {
-			final TestReport report = TestReportUtil.load( testReport );
-			final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-			final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
-			if ( !filteredTestReport.containsChanges() ) {
-				logger.warn( "The test report has no differences." );
-				return;
-			}
-			TestReportUtil.print( filteredTestReport, testReport );
-			final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( filteredTestReport );
-			for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
-				applyChanges( createSutStatePersistence(), suiteChangeSet );
+			final List<String> invalidFilters = FilterUtil.getInvalidFilters( exclude );
+			if ( !invalidFilters.isEmpty() ) {
+				FilterUtil.logWarningForInvalidFilters( invalidFilters );
+			} else {
+				final TestReport report = TestReportUtil.load( testReport );
+				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
+				final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
+				if ( !filteredTestReport.containsChanges() ) {
+					logger.warn( "The test report has no differences." );
+					return;
+				}
+				TestReportUtil.print( filteredTestReport, testReport );
+				final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( filteredTestReport );
+				for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
+					applyChanges( createSutStatePersistence(), suiteChangeSet );
+				}
 			}
 		} catch ( final TestReportFormatException e ) {
 			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",

@@ -36,4 +36,22 @@ class FilterUtilTest {
 		assertThat( filter ).isSameAs( Filter.FILTER_NOTHING );
 	}
 
+	@Test
+	void when_exclude_has_not_invalid_filters_getInvalidFilters_should_return_an_empty_list() throws Exception {
+		final List<String> exclude = Arrays.asList( "positioning.filter", "style-attributes.filter" );
+		final List<String> invalidFilters = FilterUtil.getInvalidFilters( exclude );
+		assertThat( invalidFilters ).isEmpty();
+	}
+
+	@Test
+	void when_exclude_has_invalid_filters_getInvalidFilters_should_return_the_invalid_filters() throws Exception {
+		final List<String> exclude = Arrays.asList( "positioning.filter", "sty-attributes.filter", "invisib.filter",
+				"invisible-attributes.filter" );
+		final List<String> invalidFilters = FilterUtil.getInvalidFilters( exclude );
+		assertThat( invalidFilters ).hasSize( 2 );
+		assertThat( invalidFilters ).isNotEmpty();
+		assertThat( invalidFilters ).contains( "sty-attributes.filter" );
+		assertThat( invalidFilters ).contains( "invisib.filter" );
+	}
+
 }

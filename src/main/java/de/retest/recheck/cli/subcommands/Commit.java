@@ -87,6 +87,33 @@ public class Commit implements Runnable {
 		}
 	}
 
+	private void checkForWarningAndApplyChanges( final ReviewResult reviewResult ) throws IOException {
+		final boolean containsWarnings = reviewResult.getAllAttributeDifferences().stream() //
+				.anyMatch( attributeDifference -> attributeDifference.getElementIdentificationWarning() != null );
+		if ( containsWarnings ) {
+			WarningUtil.logWarnings( reviewResult );
+			logger.info( "Are you sure you want to continue? [Yes/No] or [Y/N]" );
+			inputDataInformation( reviewResult );
+		} else {
+			applyChanges( createSutStatePersistence(), reviewResult );
+		}
+	}
+
+	private void inputDataInformation( final ReviewResult reviewResult ) throws IOException {
+		final LineReader reader = LineReaderBuilder.builder().build();
+		final String input = reader.readLine();
+		final String lowerCaseInput = input.toLowerCase();
+		if ( lowerCaseInput.equals( "yes" ) || lowerCaseInput.equals( "y" ) ) {
+			applyChanges( createSutStatePersistence(), reviewResult );
+		} else if ( lowerCaseInput.equals( "no" ) || lowerCaseInput.equals( "n" ) ) {
+			logger.info( "No changes are applied!" );
+		} else {
+			logger.info( "Invalid input! Please try one more time:" );
+			inputDataInformation( reviewResult );
+		}
+
+	}
+
 	private boolean inputValidation( final boolean all, final File testReport ) {
 		if ( !all ) {
 			logger.warn( "Currently only the 'commit --all' command is implemented." );

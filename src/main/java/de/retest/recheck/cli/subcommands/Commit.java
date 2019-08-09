@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,7 @@ import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.TestReportUtil;
+import de.retest.recheck.cli.WarningUtil;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.NoGoldenMasterFoundException;
 import de.retest.recheck.persistence.Persistence;
@@ -71,9 +74,7 @@ public class Commit implements Runnable {
 				}
 				TestReportUtil.print( filteredTestReport, testReport );
 				final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( filteredTestReport );
-				for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
-					applyChanges( createSutStatePersistence(), suiteChangeSet );
-				}
+				checkForWarningAndApplyChanges( reviewResult );
 			}
 		} catch ( final TestReportFormatException e ) {
 			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
@@ -127,14 +128,16 @@ public class Commit implements Runnable {
 		return true;
 	}
 
-	private void applyChanges( final Persistence<SutState> persistence, final SuiteChangeSet suiteChangeSet ) {
-		try {
-			ApplyChangesToStatesFlow.apply( persistence, suiteChangeSet );
-		} catch ( final NoGoldenMasterFoundException e ) {
-			logger.error( "The Golden Master '{}' cannot be found.", e.getFilename() );
-			logger.error(
-					"Please make sure that the given test report '{}' is within the corresponding project directory.",
-					testReport.getAbsolutePath() );
+	private void applyChanges( final Persistence<SutState> persistence, final ReviewResult reviewResult ) {
+		for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
+			try {
+				ApplyChangesToStatesFlow.apply( persistence, suiteChangeSet );
+			} catch ( final NoGoldenMasterFoundException e ) {
+				logger.error( "The Golden Master '{}' cannot be found.", e.getFilename() );
+				logger.error(
+						"Please make sure that the given test report '{}' is within the corresponding project directory.",
+						testReport.getAbsolutePath() );
+			}
 		}
 	}
 

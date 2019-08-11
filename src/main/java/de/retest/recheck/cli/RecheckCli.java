@@ -26,7 +26,8 @@ public class RecheckCli implements Runnable {
 	}
 
 	public static void main( final String[] args ) {
-		CommandLine.run( new RecheckCli(), System.out, args );
+		final int exitCode = new CommandLine( new RecheckCli() ).execute( args );
+		System.exit( exitCode );
 	}
 
 }

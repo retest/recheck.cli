@@ -1,8 +1,5 @@
 package de.retest.recheck.cli;
 
-import java.util.Objects;
-import java.util.function.Function;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,37 +15,30 @@ public class WarningUtil {
 
 	public static void logWarnings( final ReviewResult reviewResult ) {
 		reviewResult.getAllAttributeDifferences().stream() //
-				.map( toWarningMessage() ) //
-				.filter( Objects::nonNull ) //
-				.forEach( logger::warn );
+				.filter( WarningUtil::hasElementIdentificationWarning ) //
+				.forEach( WarningUtil::logElementIdentificationWarning );
 	}
 
-	private static Function<AttributeDifference, String> toWarningMessage() {
-		return attributeDifference -> {
-			final ElementIdentificationWarning warning = attributeDifference.getElementIdentificationWarning();
+	private static boolean hasElementIdentificationWarning( final AttributeDifference attributeDifference ) {
+		return attributeDifference.getElementIdentificationWarning() != null;
+	}
 
-			if ( warning == null ) {
-				return null;
-			}
+	private static void logElementIdentificationWarning( final AttributeDifference attributeDifference ) {
+		final ElementIdentificationWarning warning = attributeDifference.getElementIdentificationWarning();
 
-			final String title = "*************** recheck warning ***************\n";
+		if ( warning == null ) {
+			return;
+		}
 
-			final String elementIdentifier = attributeDifference.getKey();
-			final String expectedValue = attributeDifference.getExpectedToString();
-			final String actualValue = attributeDifference.getActualToString();
-			final String elementIdentifierInfo =
-					String.format( "The HTML %s attribute used for element identification changed from %s to %s.\n",
-							elementIdentifier, expectedValue, actualValue );
-
-			final String info = "recheck identified the element based on the persisted Golden Master.\n";
-
-			final String testClassName = warning.getTestClassName();
-			final String onApplyChangesInfo = //
-					String.format( "If you apply these changes to the Golden Master, your test %s will break.",
-							testClassName );
-
-			return title + elementIdentifierInfo + info + onApplyChangesInfo;
-		};
+		logger.warn( "*************** recheck warning ***************" );
+		final String elementIdentifier = attributeDifference.getKey();
+		final String expectedValue = attributeDifference.getExpectedToString();
+		final String actualValue = attributeDifference.getActualToString();
+		logger.warn( "The HTML attribute '{}' used for element identification changed from '{}' to '{}'.",
+				elementIdentifier, expectedValue, actualValue );
+		logger.warn( "recheck identified the element based on the persisted Golden Master." );
+		final String testClassName = warning.getTestClassName();
+		logger.warn( "If you apply these changes to the Golden Master, your test '{}' will break.", testClassName );
 	}
 
 }

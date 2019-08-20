@@ -37,7 +37,7 @@ public class TestReportUtil {
 	}
 
 	public static void print( final TestReport testReport, final File testReportFile ) {
-		logger.info( "Test report '{}' has {} differences in {} tests.", testReportFile.getName(),
+		logger.info( "Test report '{}' has {} difference(s) in {} test(s).", testReportFile.getName(),
 				testReport.getDifferencesCount(), testReport.getNumberOfTestsWithChanges() );
 	}
 }

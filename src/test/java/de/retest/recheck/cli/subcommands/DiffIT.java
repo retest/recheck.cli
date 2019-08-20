@@ -59,8 +59,8 @@ public class DiffIT {
 		cut.run();
 		final String expected = "Test 'test' has 1 difference(s) in 1 state(s):\n" //
 				+ "check resulted in:\n" //
-				+ "	element [someText[]] at 'foo[1]/bar[1]':\n" //
-				+ "		text: expected=\"someText[]\", actual=\"someText[diff]\"";
+				+ "	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "		text: expected=\"original text\", actual=\"changed text\"";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}

@@ -86,7 +86,7 @@ public class CommitIT {
 
 		cut.run();
 
-		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found.\n" //
+		final String expectedMessage = "The Golden Master 'goldenMaster' cannot be found.\n" //
 				+ "Please make sure that the given test report '" + testReport.getAbsolutePath() //
 				+ "' is within the corresponding project directory.\n";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );

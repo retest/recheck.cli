@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.SuiteAggregator;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -28,6 +29,7 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.StringAttribute;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.descriptors.TextAttribute;
+import de.retest.recheck.ui.diff.ElementIdentificationWarning;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
 
@@ -46,7 +48,29 @@ public class TestReportCreator {
 	}
 
 	public static String createTestReportFileWithDiffs( final TemporaryFolder folder ) throws IOException {
+		final SuiteReplayResult suite = getSuiteReplayResult( folder );
 		final File result = folder.newFile( REPORT_WITH_DIFFS_FILE_NAME );
+		RecheckTestReportUtil.persist( suite, result );
+		return result.getPath();
+	}
+
+	public static String createTestReportFileWithWarnings( final TemporaryFolder folder ) throws IOException {
+		final SuiteReplayResult suite = getSuiteReplayResult( folder );
+
+		final ElementIdentificationWarning elementIdentificationWarning =
+				new ElementIdentificationWarning( "someElementIdentifier", "someTestClass", "someRetestId" );
+		suite.getTestReplayResults().get( 0 ) //
+				.getActionReplayResults().get( 0 ) //
+				.getAllElementDifferences().get( 0 ) //
+				.getAttributeDifferences( Filter.FILTER_NOTHING ).get( 0 ) //
+				.setElementIdentificationWarning( elementIdentificationWarning );
+
+		final File result = folder.newFile( REPORT_WITH_DIFFS_FILE_NAME );
+		RecheckTestReportUtil.persist( suite, result );
+		return result.getPath();
+	}
+
+	private static SuiteReplayResult getSuiteReplayResult( final TemporaryFolder folder ) throws IOException {
 		final File recheckFolder = folder.newFolder( "suite_test_check" );
 
 		final List<RootElement> rootElements = getRootElementList();
@@ -66,8 +90,7 @@ public class TestReportCreator {
 
 		test.addAction( check );
 
-		RecheckTestReportUtil.persist( suite, result );
-		return result.getPath();
+		return suite;
 	}
 
 	private static List<RootElement> getRootElementList( final String... additinonal ) {

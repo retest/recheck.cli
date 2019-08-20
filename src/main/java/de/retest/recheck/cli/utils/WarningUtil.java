@@ -1,4 +1,4 @@
-package de.retest.recheck.cli;
+package de.retest.recheck.cli.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

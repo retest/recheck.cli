@@ -1,4 +1,4 @@
-package de.retest.recheck.cli;
+package de.retest.recheck.cli.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.Properties;
+import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.report.TestReport;

@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
 import com.esotericsoftware.kryo.KryoException;
 
 import de.retest.recheck.Properties;
-import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.TestReportFormatException;
-import de.retest.recheck.cli.TestReportUtil;
-import de.retest.recheck.cli.WarningUtil;
+import de.retest.recheck.cli.utils.FilterUtil;
+import de.retest.recheck.cli.utils.TestReportUtil;
+import de.retest.recheck.cli.utils.WarningUtil;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.NoGoldenMasterFoundException;
 import de.retest.recheck.persistence.Persistence;

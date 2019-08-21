@@ -1,4 +1,4 @@
-package de.retest.recheck.cli;
+package de.retest.recheck.cli.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

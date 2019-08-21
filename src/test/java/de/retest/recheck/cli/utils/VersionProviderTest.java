@@ -1,8 +1,10 @@
-package de.retest.recheck.cli;
+package de.retest.recheck.cli.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+
+import de.retest.recheck.cli.VersionProvider;
 
 class VersionProviderTest {
 

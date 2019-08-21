@@ -1,4 +1,4 @@
-package de.retest.recheck.cli;
+package de.retest.recheck.cli.utils;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.Properties;
+import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.testutils.TestReportCreator;
 import de.retest.recheck.cli.utils.TestReportUtil;
 

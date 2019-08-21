@@ -124,7 +124,7 @@ public class CommitIT {
 				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'.\n" //
 						+ "recheck identified the element based on the persisted Golden Master.\n" //
 						+ "If you apply these changes to the Golden Master, your test 'someTestClass' will break.";
-		final String question = "Are you sure you want to continue? [Yes/No] or [Y/N]";
+		final String question = "Are you sure you want to continue? (y)es or (n)o";
 		final String response = "The Golden Master 'goldenMaster' cannot be found.";
 		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
 	}
@@ -144,7 +144,7 @@ public class CommitIT {
 				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'.\n" //
 						+ "recheck identified the element based on the persisted Golden Master.\n" //
 						+ "If you apply these changes to the Golden Master, your test 'someTestClass' will break.";
-		final String question = "Are you sure you want to continue? [Yes/No] or [Y/N]";
+		final String question = "Are you sure you want to continue? (y)es or (n)o";
 		final String response = "No changes are applied!";
 		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
 	}
@@ -160,7 +160,7 @@ public class CommitIT {
 
 		cut.run();
 
-		final String response0 = "Invalid input! Please try one more time:";
+		final String response0 = "Invalid input, please only use (y)es or (n)o:";
 		final String response1 = "No changes are applied!";
 		assertThat( systemOutRule.getLog() ).contains( response0, response1 );
 	}

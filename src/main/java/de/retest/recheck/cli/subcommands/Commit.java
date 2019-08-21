@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ import de.retest.recheck.Properties;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.utils.FilterUtil;
+import de.retest.recheck.cli.utils.SystemInUtil;
 import de.retest.recheck.cli.utils.TestReportUtil;
 import de.retest.recheck.cli.utils.WarningUtil;
 import de.retest.recheck.ignore.Filter;
@@ -87,33 +87,24 @@ public class Commit implements Runnable {
 		}
 	}
 
-	private void checkForWarningAndApplyChanges( final ReviewResult reviewResult ) throws IOException {
+	private void checkForWarningAndApplyChanges( final ReviewResult reviewResult ) {
 		final boolean containsWarnings = reviewResult.getAllAttributeDifferences().stream() //
 				.anyMatch( attributeDifference -> attributeDifference.getElementIdentificationWarning() != null );
 		if ( containsWarnings ) {
 			WarningUtil.logWarnings( reviewResult );
-			logger.info( "Are you sure you want to continue? [Yes/No] or [Y/N]" );
-			inputDataInformation( reviewResult );
+			askForApplyChanges( reviewResult );
 		} else {
 			applyChanges( createSutStatePersistence(), reviewResult );
 		}
 	}
 
-	private void inputDataInformation( final ReviewResult reviewResult ) throws IOException {
-		// Do not close System.in.
-		@SuppressWarnings( "resource" )
-		final Scanner scanner = new Scanner( System.in );
-		final String input = scanner.nextLine();
-		final String lowerCaseInput = input.toLowerCase();
-		if ( lowerCaseInput.equals( "yes" ) || lowerCaseInput.equals( "y" ) ) {
+	private void askForApplyChanges( final ReviewResult reviewResult ) {
+		logger.info( "Are you sure you want to continue? (y)es or (n)o:" );
+		if ( SystemInUtil.yesOrNo() ) {
 			applyChanges( createSutStatePersistence(), reviewResult );
-		} else if ( lowerCaseInput.equals( "no" ) || lowerCaseInput.equals( "n" ) ) {
-			logger.info( "No changes are applied!" );
 		} else {
-			logger.info( "Invalid input! Please try one more time:" );
-			inputDataInformation( reviewResult );
+			logger.info( "No changes are applied!" );
 		}
-
 	}
 
 	private boolean inputValidation( final boolean all, final File testReport ) {

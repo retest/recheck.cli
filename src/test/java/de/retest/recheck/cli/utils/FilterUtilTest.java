@@ -1,4 +1,4 @@
-package de.retest.recheck.cli;
+package de.retest.recheck.cli.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 

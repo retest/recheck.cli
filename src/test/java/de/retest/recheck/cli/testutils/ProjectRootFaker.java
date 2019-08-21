@@ -1,4 +1,4 @@
-package de.retest.recheck.cli.util;
+package de.retest.recheck.cli.testutils;
 
 import java.io.IOException;
 import java.nio.file.Files;

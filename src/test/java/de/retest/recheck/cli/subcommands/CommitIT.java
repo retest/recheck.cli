@@ -8,9 +8,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.cli.util.TestReportCreator;
+import de.retest.recheck.cli.testutils.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
 
@@ -21,6 +22,9 @@ public class CommitIT {
 
 	@Rule
 	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
+	@Rule
+	public final TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
 
 	@Rule
 	public final RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
@@ -86,7 +90,7 @@ public class CommitIT {
 
 		cut.run();
 
-		final String expectedMessage = "The Golden Master 'suite_test_check' cannot be found.\n" //
+		final String expectedMessage = "The Golden Master 'goldenMaster' cannot be found.\n" //
 				+ "Please make sure that the given test report '" + testReport.getAbsolutePath() //
 				+ "' is within the corresponding project directory.\n";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
@@ -103,5 +107,61 @@ public class CommitIT {
 
 		assertThat( systemOutRule.getLog() ).contains(
 				"The given file is not a test report. Please only pass files using the '.report' extension." );
+	}
+
+	@Test
+	public void commit_can_be_continued_after_element_identification_warning() throws Exception {
+		systemInMock.provideLines( "y" );
+
+		final File testReport = new File( TestReportCreator.createTestReportFileWithWarnings( temp ) );
+		final String[] args = { "--all", testReport.getAbsolutePath() };
+		final Commit cut = new Commit();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		final String warning =
+				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'.\n" //
+						+ "recheck identified the element based on the persisted Golden Master.\n" //
+						+ "If you apply these changes to the Golden Master, your test 'someTestClass' will break.";
+		final String question = "Are you sure you want to continue? (y)es or (n)o";
+		final String response = "The Golden Master 'goldenMaster' cannot be found.";
+		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
+	}
+
+	@Test
+	public void commit_can_be_aborted_after_element_identification_warning() throws Exception {
+		systemInMock.provideLines( "n" );
+
+		final File testReport = new File( TestReportCreator.createTestReportFileWithWarnings( temp ) );
+		final String[] args = { "--all", testReport.getAbsolutePath() };
+		final Commit cut = new Commit();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		final String warning =
+				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'.\n" //
+						+ "recheck identified the element based on the persisted Golden Master.\n" //
+						+ "If you apply these changes to the Golden Master, your test 'someTestClass' will break.";
+		final String question = "Are you sure you want to continue? (y)es or (n)o";
+		final String response = "No changes are applied!";
+		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
+	}
+
+	@Test
+	public void commit_should_handle_invalid_input_after_element_identification_warning() throws Exception {
+		systemInMock.provideLines( "invalid", "n" );
+
+		final File testReport = new File( TestReportCreator.createTestReportFileWithWarnings( temp ) );
+		final String[] args = { "--all", testReport.getAbsolutePath() };
+		final Commit cut = new Commit();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		final String response0 = "Invalid input, please only use (y)es or (n)o:";
+		final String response1 = "No changes are applied!";
+		assertThat( systemOutRule.getLog() ).contains( response0, response1 );
 	}
 }

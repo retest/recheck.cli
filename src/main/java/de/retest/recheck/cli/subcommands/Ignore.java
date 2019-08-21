@@ -14,7 +14,7 @@ import com.esotericsoftware.kryo.KryoException;
 import de.retest.recheck.Properties;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.TestReportFormatException;
-import de.retest.recheck.cli.TestReportUtil;
+import de.retest.recheck.cli.utils.TestReportUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;

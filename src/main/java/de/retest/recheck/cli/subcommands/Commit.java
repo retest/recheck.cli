@@ -12,10 +12,12 @@ import org.slf4j.LoggerFactory;
 import com.esotericsoftware.kryo.KryoException;
 
 import de.retest.recheck.Properties;
-import de.retest.recheck.cli.FilterUtil;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.TestReportFormatException;
-import de.retest.recheck.cli.TestReportUtil;
+import de.retest.recheck.cli.utils.FilterUtil;
+import de.retest.recheck.cli.utils.SystemInUtil;
+import de.retest.recheck.cli.utils.TestReportUtil;
+import de.retest.recheck.cli.utils.WarningUtil;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.NoGoldenMasterFoundException;
 import de.retest.recheck.persistence.Persistence;
@@ -71,9 +73,7 @@ public class Commit implements Runnable {
 				}
 				TestReportUtil.print( filteredTestReport, testReport );
 				final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( filteredTestReport );
-				for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
-					applyChanges( createSutStatePersistence(), suiteChangeSet );
-				}
+				checkForWarningAndApplyChanges( reviewResult );
 			}
 		} catch ( final TestReportFormatException e ) {
 			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
@@ -84,6 +84,26 @@ public class Commit implements Runnable {
 			logger.error( "The report was created with another, incompatible recheck version.\n"
 					+ "Please use the same recheck version to load a report with which it was generated." );
 			logger.debug( "Stack trace:", e );
+		}
+	}
+
+	private void checkForWarningAndApplyChanges( final ReviewResult reviewResult ) {
+		final boolean containsWarnings = reviewResult.getAllAttributeDifferences().stream() //
+				.anyMatch( attributeDifference -> attributeDifference.getElementIdentificationWarning() != null );
+		if ( containsWarnings ) {
+			WarningUtil.logWarnings( reviewResult );
+			askForApplyChanges( reviewResult );
+		} else {
+			applyChanges( createSutStatePersistence(), reviewResult );
+		}
+	}
+
+	private void askForApplyChanges( final ReviewResult reviewResult ) {
+		logger.info( "Are you sure you want to continue? (y)es or (n)o:" );
+		if ( SystemInUtil.yesOrNo() ) {
+			applyChanges( createSutStatePersistence(), reviewResult );
+		} else {
+			logger.info( "No changes are applied!" );
 		}
 	}
 
@@ -100,14 +120,16 @@ public class Commit implements Runnable {
 		return true;
 	}
 
-	private void applyChanges( final Persistence<SutState> persistence, final SuiteChangeSet suiteChangeSet ) {
-		try {
-			ApplyChangesToStatesFlow.apply( persistence, suiteChangeSet );
-		} catch ( final NoGoldenMasterFoundException e ) {
-			logger.error( "The Golden Master '{}' cannot be found.", e.getFilename() );
-			logger.error(
-					"Please make sure that the given test report '{}' is within the corresponding project directory.",
-					testReport.getAbsolutePath() );
+	private void applyChanges( final Persistence<SutState> persistence, final ReviewResult reviewResult ) {
+		for ( final SuiteChangeSet suiteChangeSet : reviewResult.getSuiteChangeSets() ) {
+			try {
+				ApplyChangesToStatesFlow.apply( persistence, suiteChangeSet );
+			} catch ( final NoGoldenMasterFoundException e ) {
+				logger.error( "The Golden Master '{}' cannot be found.", e.getFilename() );
+				logger.error(
+						"Please make sure that the given test report '{}' is within the corresponding project directory.",
+						testReport.getAbsolutePath() );
+			}
 		}
 	}
 

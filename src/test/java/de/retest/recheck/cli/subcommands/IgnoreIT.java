@@ -1,6 +1,6 @@
 package de.retest.recheck.cli.subcommands;
 
-import static de.retest.recheck.cli.util.ProjectRootFaker.fakeProjectRoot;
+import static de.retest.recheck.cli.testutils.ProjectRootFaker.fakeProjectRoot;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.cli.util.TestReportCreator;
+import de.retest.recheck.cli.testutils.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
 

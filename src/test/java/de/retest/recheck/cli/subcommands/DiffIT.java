@@ -11,8 +11,8 @@ import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.cli.util.ProjectRootFaker;
-import de.retest.recheck.cli.util.TestReportCreator;
+import de.retest.recheck.cli.testutils.ProjectRootFaker;
+import de.retest.recheck.cli.testutils.TestReportCreator;
 import picocli.CommandLine;
 
 public class DiffIT {

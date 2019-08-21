@@ -11,7 +11,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.cli.util.TestReportCreator;
+import de.retest.recheck.cli.testutils.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
 

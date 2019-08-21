@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.Properties;
-import de.retest.recheck.cli.util.TestReportCreator;
+import de.retest.recheck.cli.testutils.TestReportCreator;
 import de.retest.recheck.cli.utils.TestReportUtil;
 
 public class TestReportUtilTest {

@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,8 +100,10 @@ public class Commit implements Runnable {
 	}
 
 	private void inputDataInformation( final ReviewResult reviewResult ) throws IOException {
-		final LineReader reader = LineReaderBuilder.builder().build();
-		final String input = reader.readLine();
+		// Do not close System.in.
+		@SuppressWarnings( "resource" )
+		final Scanner scanner = new Scanner( System.in );
+		final String input = scanner.nextLine();
 		final String lowerCaseInput = input.toLowerCase();
 		if ( lowerCaseInput.equals( "yes" ) || lowerCaseInput.equals( "y" ) ) {
 			applyChanges( createSutStatePersistence(), reviewResult );

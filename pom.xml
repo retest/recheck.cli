@@ -91,12 +91,6 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.jline</groupId>
-			<artifactId>jline</artifactId>
-			<version>3.12.1</version>
-		</dependency>
 
 		<!-- test dependencies -->
 		<dependency>

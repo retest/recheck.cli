@@ -8,19 +8,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.ignore.SearchFilterFiles;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FilterUtil {
 
 	private FilterUtil() {}
-
-	private static final Logger logger = LoggerFactory.getLogger( FilterUtil.class );
 
 	public static Filter getExcludeFilterFiles( final List<String> exclude ) {
 		if ( exclude == null ) {
@@ -49,6 +46,6 @@ public class FilterUtil {
 
 	public static void logWarningForInvalidFilters( final List<String> invalidFilters ) {
 		final String filter = invalidFilters.stream().collect( Collectors.joining( ", " ) );
-		logger.warn( "The invalid filter files are: {}", filter );
+		log.warn( "The invalid filter files are: {}", filter );
 	}
 }

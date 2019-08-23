@@ -34,7 +34,11 @@ public class DiffIT {
 						+ "                              the test report is not in the project directory,\n"
 						+ "                              please specify the absolute path, otherwise a\n"
 						+ "                              relative path is sufficient.\n"
-						+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.";
+						+ "      --exclude=<exclude>   Filter to exclude changes from the report. For a\n"
+						+ "                              custom filter, please specify the absolute path.\n"
+						+ "                              For predefined filters, a relative path is\n"
+						+ "                              sufficient. Specify this option multiple times to\n"
+						+ "                              use more than one filter.\n";
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}
 

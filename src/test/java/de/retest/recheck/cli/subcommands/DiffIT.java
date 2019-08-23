@@ -34,7 +34,7 @@ public class DiffIT {
 						+ "                              the test report is not in the project directory,\n"
 						+ "                              please specify the absolute path, otherwise a\n"
 						+ "                              relative path is sufficient.\n"
-						+ "      --exclude=<exclude>   Filter to exclude changes from the diff. For a\n"
+						+ "      --exclude=<exclude>   Filter to exclude changes from the report. For a\n"
 						+ "                              custom filter, please specify the absolute path.\n"
 						+ "                              For predefined filters, a relative path is\n"
 						+ "                              sufficient. Specify this option multiple times to\n"

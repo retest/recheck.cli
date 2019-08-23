@@ -2,6 +2,7 @@ package de.retest.recheck.cli.subcommands;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -78,6 +79,10 @@ public class Commit implements Runnable {
 		} catch ( final TestReportFormatException e ) {
 			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
 					Properties.TEST_REPORT_FILE_EXTENSION );
+		} catch ( final NoSuchFileException e ) {
+			logger.error( "The given file report '{}' does not exist. Please check the given file path.",
+					testReport.getAbsolutePath() );
+			logger.debug( "Stack trace:", e );
 		} catch ( final IOException e ) {
 			logger.error( "An error occurred while loading the test report.", e );
 		} catch ( final KryoException e ) {

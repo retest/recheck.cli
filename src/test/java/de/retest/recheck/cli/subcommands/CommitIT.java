@@ -38,7 +38,11 @@ public class CommitIT {
 				+ "                              please specify the absolute path, otherwise a\n"
 				+ "                              relative path is sufficient.\n"
 				+ "      --all                 Accept all differences from the given test report.\n"
-				+ "      --exclude=<exclude>   Filter(s) to exclude changes from the diff.";
+				+ "      --exclude=<exclude>   Filter to exclude changes from the diff. For a\n"
+				+ "                              custom filter, please specify the absolute path.\n"
+				+ "                              For predefined filters, a relative path is\n"
+				+ "                              sufficient. Specify this option multiple times to\n"
+				+ "                              use more than one filter.\n";
 		assertThat( new CommandLine( new Commit() ).getUsageMessage() ).isEqualToIgnoringNewLines( expectedMessage );
 	}
 

@@ -17,7 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FilterUtil {
 
-	public static final String EXCLUDE_OPTION_DESCRIPTION = "Filter(s) to exclude changes from the diff.";
+	public static final String EXCLUDE_OPTION_DESCRIPTION = "Filter to exclude changes from the diff. " //
+			+ "For a custom filter, please specify the absolute path. " //
+			+ "For predefined filters, a relative path is sufficient. " //
+			+ "Specify this option multiple times to use more than one filter.";
 
 	private FilterUtil() {}
 

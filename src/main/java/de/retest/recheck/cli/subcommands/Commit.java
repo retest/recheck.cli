@@ -45,7 +45,7 @@ public class Commit implements Runnable {
 	@Option( names = "--all", description = "Accept all differences from the given test report." )
 	private boolean all;
 
-	@Option( names = "--exclude", description = "Filter(s) to exclude changes from the diff." )
+	@Option( names = "--exclude", description = FilterUtil.EXCLUDE_OPTION_DESCRIPTION )
 	private List<String> exclude;
 
 	@Parameters( arity = "1", description = TestReportUtil.TEST_REPORT_PARAMETER_DESCRIPTION )

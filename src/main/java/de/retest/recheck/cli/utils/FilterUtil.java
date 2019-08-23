@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FilterUtil {
 
+	public static final String EXCLUDE_OPTION_DESCRIPTION = "Filter(s) to exclude changes from the diff.";
+
 	private FilterUtil() {}
 
 	public static Filter getExcludeFilterFiles( final List<String> exclude ) {

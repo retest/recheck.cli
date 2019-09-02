@@ -33,7 +33,7 @@ public class Diff implements Runnable {
 	@Option( names = "--help", usageHelp = true, hidden = true )
 	private boolean displayHelp;
 
-	@Option( names = "--exclude", description = "Filter(s) to exclude changes from the diff." )
+	@Option( names = "--exclude", description = FilterUtil.EXCLUDE_OPTION_DESCRIPTION )
 	private List<String> exclude;
 
 	@Parameters( arity = "1", description = TestReportUtil.TEST_REPORT_PARAMETER_DESCRIPTION )

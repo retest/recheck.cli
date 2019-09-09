@@ -1,8 +1,6 @@
 package de.retest.recheck.cli.subcommands;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -10,11 +8,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esotericsoftware.kryo.KryoException;
-
-import de.retest.recheck.Properties;
 import de.retest.recheck.cli.PreCondition;
-import de.retest.recheck.cli.TestReportFormatException;
+import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.cli.utils.SystemInUtil;
 import de.retest.recheck.cli.utils.TestReportUtil;
@@ -76,19 +71,8 @@ public class Commit implements Runnable {
 				final ReviewResult reviewResult = CreateChangesetForAllDifferencesFlow.create( filteredTestReport );
 				checkForWarningAndApplyChanges( reviewResult );
 			}
-		} catch ( final TestReportFormatException e ) {
-			logger.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
-					Properties.TEST_REPORT_FILE_EXTENSION );
-		} catch ( final NoSuchFileException e ) {
-			logger.error( "The given file report '{}' does not exist. Please check the given file path.",
-					testReport.getAbsolutePath() );
-			logger.debug( "Stack trace:", e );
-		} catch ( final IOException e ) {
-			logger.error( "An error occurred while loading the test report.", e );
-		} catch ( final KryoException e ) {
-			logger.error( "The report was created with another, incompatible recheck version.\n"
-					+ "Please use the same recheck version to load a report with which it was generated." );
-			logger.debug( "Stack trace:", e );
+		} catch ( final Exception e ) {
+			ErrorHandler.handle( e, testReport );
 		}
 	}
 

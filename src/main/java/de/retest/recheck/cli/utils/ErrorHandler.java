@@ -1,6 +1,5 @@
 package de.retest.recheck.cli.utils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 
@@ -16,7 +15,7 @@ public class ErrorHandler {
 	private ErrorHandler() {
 	}
 
-	public static void handle( final Exception e, final File testReport ) {
+	public static void handle( final Exception e ) {
 		if ( e instanceof TestReportFormatException ) {
 			log.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
 					Properties.TEST_REPORT_FILE_EXTENSION );
@@ -24,7 +23,7 @@ public class ErrorHandler {
 		}
 		if ( e instanceof NoSuchFileException ) {
 			log.error( "The given file report '{}' does not exist. Please check the given file path.",
-					testReport.getAbsolutePath() );
+					((NoSuchFileException) e).getFile() );
 			log.debug( "Stack trace:", e );
 			return;
 		}

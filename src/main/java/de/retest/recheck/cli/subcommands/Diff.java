@@ -52,7 +52,7 @@ public class Diff implements Runnable {
 				logger.info( "\n{}", printer.toString( filteredTestReport ) );
 			}
 		} catch ( final Exception e ) {
-			ErrorHandler.handle( e, testReport );
+			ErrorHandler.handle( e );
 		}
 	}
 

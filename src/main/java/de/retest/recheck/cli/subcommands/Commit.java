@@ -72,7 +72,7 @@ public class Commit implements Runnable {
 				checkForWarningAndApplyChanges( reviewResult );
 			}
 		} catch ( final Exception e ) {
-			ErrorHandler.handle( e, testReport );
+			ErrorHandler.handle( e );
 		}
 	}
 

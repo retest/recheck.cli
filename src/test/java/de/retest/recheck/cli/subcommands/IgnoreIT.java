@@ -11,6 +11,7 @@ import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.cli.testutils.TestReportCreator;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import picocli.CommandLine;
@@ -121,5 +122,18 @@ public class IgnoreIT {
 
 		assertThat( systemOutRule.getLog() ).contains(
 				"The given file is not a test report. Please only pass files using the '.report' extension." );
+	}
+
+	@Test
+	public void ignore_should_give_proper_error_message_when_given_test_report_does_not_exist() throws Exception {
+		final File doesNotExist = new File( "/does/not/exist" + Properties.TEST_REPORT_FILE_EXTENSION );
+		final String[] args = { "--all", doesNotExist.getAbsolutePath() };
+		final Ignore cut = new Ignore();
+		new CommandLine( cut ).parseArgs( args );
+
+		cut.run();
+
+		assertThat( systemOutRule.getLog() ).endsWith( "The given file report '" + doesNotExist.getAbsolutePath()
+				+ "' does not exist. Please check the given file path.\n" );
 	}
 }

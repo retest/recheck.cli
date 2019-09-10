@@ -1,6 +1,5 @@
 package de.retest.recheck.cli.subcommands;
 
-import static de.retest.recheck.ignore.RecheckIgnoreUtil.loadRecheckIgnore;
 import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 
 import java.io.File;
@@ -48,7 +47,7 @@ public class Diff implements Runnable {
 				final TestReport report = TestReportUtil.load( testReport );
 				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
 				final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
-				final TestReportPrinter printer = new TestReportPrinter( none(), loadRecheckIgnore() );
+				final TestReportPrinter printer = new TestReportPrinter( none() );
 				logger.info( "\n{}", printer.toString( filteredTestReport ) );
 			}
 		} catch ( final Exception e ) {

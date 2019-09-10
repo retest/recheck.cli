@@ -29,11 +29,13 @@ public class ErrorHandler {
 		}
 		if ( e instanceof IOException ) {
 			log.error( "An error occurred while loading the test report.", e );
+			return;
 		}
 		if ( e instanceof KryoException ) {
 			log.error( "The report was created with another, incompatible recheck version.\n"
 					+ "Please use the same recheck version to load a report with which it was generated." );
 			log.debug( "Stack trace:", e );
+			return;
 		}
 		throw new RuntimeException( e );
 	}

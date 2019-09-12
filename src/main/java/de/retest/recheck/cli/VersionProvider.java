@@ -32,8 +32,13 @@ public class VersionProvider implements IVersionProvider {
 		return String.format( "%s version %s", versionOf, nonNullVersion );
 	}
 
+	private String getRecheckLogoPath() {
+		final String os = System.getProperty( "os.name" ).toLowerCase();
+		return os.contains( "win" ) ? "/recheck-winlogo.txt" : "/recheck-logo.txt";
+	}
+
 	private String getRecheckLogo() {
-		try ( InputStream in = getClass().getResourceAsStream( "/recheck-logo.txt" ) ) {
+		try ( InputStream in = getClass().getResourceAsStream( getRecheckLogoPath() ) ) {
 			return new BufferedReader( new InputStreamReader( in, StandardCharsets.UTF_8 ) ).lines() //
 					.collect( Collectors.joining( System.lineSeparator() ) );
 		} catch ( final IOException e ) {

@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.review.GlobalIgnoreApplier;
 
 class FilterUtilTest {
 
@@ -32,9 +32,9 @@ class FilterUtilTest {
 	}
 
 	@Test
-	void when_exclude_is_null_filter_nothing_should_be_returned() throws Exception {
+	void when_exclude_is_null_recheck_ignore_should_be_returned() throws Exception {
 		final Filter filter = FilterUtil.getExcludeFilterFiles( null );
-		assertThat( filter ).isSameAs( Filter.FILTER_NOTHING );
+		assertThat( filter ).isInstanceOf( GlobalIgnoreApplier.class );
 	}
 
 	@Test

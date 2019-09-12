@@ -26,7 +26,7 @@ public class FilterUtil {
 
 	public static Filter getExcludeFilterFiles( final List<String> exclude ) {
 		if ( exclude == null ) {
-			return Filter.FILTER_NOTHING;
+			return RecheckIgnoreUtil.loadRecheckIgnore();
 		}
 		final Set<String> excludeDistinct = new HashSet<>( exclude );
 		final Stream<Filter> excluded = SearchFilterFiles.toFileNameFilterMapping().entrySet().stream() //

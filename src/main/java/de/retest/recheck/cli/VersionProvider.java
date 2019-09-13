@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.SystemUtils;
+
 import de.retest.recheck.Recheck;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.IVersionProvider;
@@ -32,8 +34,12 @@ public class VersionProvider implements IVersionProvider {
 		return String.format( "%s version %s", versionOf, nonNullVersion );
 	}
 
+	private String getRecheckLogoPath() {
+		return SystemUtils.IS_OS_WINDOWS ? "/recheck-winlogo.txt" : "/recheck-logo.txt";
+	}
+
 	private String getRecheckLogo() {
-		try ( InputStream in = getClass().getResourceAsStream( "/recheck-logo.txt" ) ) {
+		try ( InputStream in = getClass().getResourceAsStream( getRecheckLogoPath() ) ) {
 			return new BufferedReader( new InputStreamReader( in, StandardCharsets.UTF_8 ) ).lines() //
 					.collect( Collectors.joining( System.lineSeparator() ) );
 		} catch ( final IOException e ) {

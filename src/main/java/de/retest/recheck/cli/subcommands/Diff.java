@@ -12,7 +12,9 @@ import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.cli.utils.TestReportUtil;
+import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
@@ -46,7 +48,9 @@ public class Diff implements Runnable {
 			} else {
 				final TestReport report = TestReportUtil.load( testReport );
 				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-				final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
+				final Filter recheckIgnore = RecheckIgnoreUtil.loadRecheckIgnore();
+				final TestReport filteredTestReport =
+						TestReportFilter.filter( report, new CompoundFilter( excludeFilter, recheckIgnore ) );
 				final TestReportPrinter printer = new TestReportPrinter( none() );
 				logger.info( "\n{}", printer.toString( filteredTestReport ) );
 			}

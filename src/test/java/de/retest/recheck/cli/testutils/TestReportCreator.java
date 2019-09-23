@@ -10,7 +10,6 @@ import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.Properties;
 import de.retest.recheck.SuiteAggregator;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.report.ActionReplayResult;
@@ -52,12 +51,13 @@ public class TestReportCreator {
 		final SuiteReplayResult suite = createSuiteReplayResultWithDiffs( folder );
 
 		final ElementIdentificationWarning elementIdentificationWarning =
-				new ElementIdentificationWarning( "someElementIdentifier", "someTestClass", "someRetestId" );
+				new ElementIdentificationWarning( "someTestClass", null );
+
 		suite.getTestReplayResults().get( 0 ) //
 				.getActionReplayResults().get( 0 ) //
 				.getAllElementDifferences().get( 0 ) //
-				.getAttributeDifferences( Filter.FILTER_NOTHING ).get( 0 ) //
-				.setElementIdentificationWarning( elementIdentificationWarning );
+				.getAttributeDifferences().get( 0 ) //
+				.addElementIdentificationWarning( elementIdentificationWarning );
 
 		return persistTestReport( folder, suite );
 	}

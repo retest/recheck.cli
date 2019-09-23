@@ -24,6 +24,7 @@ import de.retest.recheck.report.TestReportFilter;
 import de.retest.recheck.suite.flow.ApplyChangesToStatesFlow;
 import de.retest.recheck.suite.flow.CreateChangesetForAllDifferencesFlow;
 import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.review.ReviewResult;
 import de.retest.recheck.ui.review.SuiteChangeSet;
 import picocli.CommandLine.Command;
@@ -78,7 +79,7 @@ public class Commit implements Runnable {
 
 	private void checkForWarningAndApplyChanges( final ReviewResult reviewResult ) {
 		final boolean containsWarnings = reviewResult.getAllAttributeDifferences().stream() //
-				.anyMatch( attributeDifference -> attributeDifference.getElementIdentificationWarning() != null );
+				.anyMatch( AttributeDifference::hasElementIdentificationWarning );
 		if ( containsWarnings ) {
 			WarningUtil.logWarnings( reviewResult );
 			askForApplyChanges( reviewResult );

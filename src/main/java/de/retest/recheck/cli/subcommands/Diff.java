@@ -53,6 +53,8 @@ public class Diff implements Runnable {
 						TestReportFilter.filter( report, new CompoundFilter( excludeFilter, recheckIgnore ) );
 				final TestReportPrinter printer = new TestReportPrinter( none() );
 				logger.info( "\n{}", printer.toString( filteredTestReport ) );
+				logger.info( "\nOverall, recheck found {} differences when checking {} elements.",
+						filteredTestReport.getDifferencesCount(), filteredTestReport.getCheckedUiElementsCount() );
 			}
 		} catch ( final Exception e ) {
 			ErrorHandler.handle( e );

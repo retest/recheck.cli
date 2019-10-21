@@ -66,7 +66,7 @@ public class Diff implements Runnable {
 		logger.info( "\n{}", printer.toString( filteredTestReport ) );
 
 		if ( filteredTestReport.getDifferencesCount() > 0 ) {
-			logger.info( "\nOverall, recheck found {} differences when checking {} elements.",
+			logger.info( "\nOverall, recheck found {} difference(s) when checking {} element(s).",
 					filteredTestReport.getDifferencesCount(), filteredTestReport.getCheckedUiElementsCount() );
 		}
 	}

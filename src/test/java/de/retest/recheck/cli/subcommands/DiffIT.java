@@ -3,7 +3,6 @@ package de.retest.recheck.cli.subcommands;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,17 +40,6 @@ public class DiffIT {
 						+ "                              sufficient. Specify this option multiple times to\n"
 						+ "                              use more than one filter.\n";
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
-	}
-
-	@Test
-	public void diff_should_contain_passed_file() throws IOException {
-		final File result = temp.newFile( "test.report" );
-		final String[] args = { result.getPath() };
-		final Diff cut = new Diff();
-
-		new CommandLine( cut ).parseArgs( args );
-
-		assertThat( cut.getTestReport() ).isEqualTo( result );
 	}
 
 	@Test

@@ -3,12 +3,14 @@ package de.retest.recheck.cli.subcommands;
 import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.cli.PreCondition;
+import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.cli.utils.TestReportUtil;
@@ -46,19 +48,23 @@ public class Diff implements Runnable {
 			if ( !invalidFilters.isEmpty() ) {
 				FilterUtil.logWarningForInvalidFilters( invalidFilters );
 			} else {
-				final TestReport report = TestReportUtil.load( testReport );
-				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-				final Filter recheckIgnore = RecheckIgnoreUtil.loadRecheckIgnore();
-				final TestReport filteredTestReport =
-						TestReportFilter.filter( report, new CompoundFilter( excludeFilter, recheckIgnore ) );
-				final TestReportPrinter printer = new TestReportPrinter( none() );
-				logger.info( "\n{}", printer.toString( filteredTestReport ) );
-				logger.info( "\nOverall, recheck found {} differences when checking {} elements.",
-						filteredTestReport.getDifferencesCount(), filteredTestReport.getCheckedUiElementsCount() );
+				printDiff();
 			}
 		} catch ( final Exception e ) {
 			ErrorHandler.handle( e );
 		}
+	}
+
+	private void printDiff() throws TestReportFormatException, IOException {
+		final TestReport report = TestReportUtil.load( testReport );
+		final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
+		final Filter recheckIgnore = RecheckIgnoreUtil.loadRecheckIgnore();
+		final TestReport filteredTestReport =
+				TestReportFilter.filter( report, new CompoundFilter( excludeFilter, recheckIgnore ) );
+		final TestReportPrinter printer = new TestReportPrinter( none() );
+		logger.info( "\n{}", printer.toString( filteredTestReport ) );
+		logger.info( "\nOverall, recheck found {} differences when checking {} elements.",
+				filteredTestReport.getDifferencesCount(), filteredTestReport.getCheckedUiElementsCount() );
 	}
 
 	File getTestReport() {

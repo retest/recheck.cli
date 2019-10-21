@@ -71,8 +71,4 @@ public class Diff implements Runnable {
 		}
 	}
 
-	File getTestReport() {
-		return testReport;
-	}
-
 }

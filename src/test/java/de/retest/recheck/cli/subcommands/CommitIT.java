@@ -144,7 +144,7 @@ public class CommitIT {
 				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'."
 						+ lineSeparator() //
 						+ "recheck identified the element based on the persisted Golden Master." + lineSeparator() //
-						+ "If you apply these changes to the Golden Master, your test 'someTestClass' will break.";
+						+ "If you apply these changes to the Golden Master, your test 'de.retest.MySeleniumTest' will break.";
 		final String question = "Are you sure you want to continue? (y)es or (n)o";
 		final String response = "The following Golden Master(s) cannot be found:";
 		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
@@ -165,7 +165,7 @@ public class CommitIT {
 				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'."
 						+ lineSeparator() //
 						+ "recheck identified the element based on the persisted Golden Master." + lineSeparator() //
-						+ "If you apply these changes to the Golden Master, your test 'someTestClass' will break.";
+						+ "If you apply these changes to the Golden Master, your test 'de.retest.MySeleniumTest' will break.";
 		final String question = "Are you sure you want to continue? (y)es or (n)o";
 		final String response = "No changes are applied!";
 		assertThat( systemOutRule.getLog() ).contains( warning, question, response );

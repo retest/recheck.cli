@@ -14,7 +14,6 @@ import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.cli.utils.SystemInUtil;
 import de.retest.recheck.cli.utils.TestReportUtil;
 import de.retest.recheck.cli.utils.WarningUtil;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.NoGoldenMasterFoundException;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
@@ -62,8 +61,8 @@ public class Commit implements Runnable {
 				FilterUtil.logWarningForInvalidFilters( invalidFilters );
 			} else {
 				final TestReport report = TestReportUtil.load( testReport );
-				final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-				final TestReport filteredTestReport = TestReportFilter.filter( report, excludeFilter );
+				final TestReportFilter filter = new TestReportFilter( FilterUtil.getExcludeFilterFiles( exclude ) );
+				final TestReport filteredTestReport = filter.filter( report );
 				if ( !filteredTestReport.containsChanges() ) {
 					logger.warn( "The test report has no differences." );
 					return;

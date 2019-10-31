@@ -115,7 +115,8 @@ public class Commit implements Runnable {
 			try {
 				ApplyChangesToStatesFlow.apply( persistence, suiteChangeSet );
 			} catch ( final NoGoldenMasterFoundException e ) {
-				logger.error( "The Golden Master '{}' cannot be found.", e.getFilename() );
+				logger.error( "The following Golden Master(s) cannot be found:\n\t- {}",
+						String.join( "\n\t- ", e.getFilenames() ) );
 				logger.error(
 						"Please make sure that the given test report '{}' is within the corresponding project directory.",
 						testReport.getAbsolutePath() );

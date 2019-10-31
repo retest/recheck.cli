@@ -48,7 +48,8 @@ public class Migrate implements Runnable {
 		} catch ( final IOException e ) {
 			logger.error( "The directory '{}' does not exist.", e.getMessage() );
 		} catch ( final NoGoldenMasterFoundException e ) {
-			logger.error( "There is no Golden Master(s) in the  directory '{}'.", e.getFilename() );
+			logger.error( "The following Golden Master(s) could not be found:\n\t- {}",
+					String.join( "\n\t- ", e.getFilenames() ) );
 		}
 	}
 

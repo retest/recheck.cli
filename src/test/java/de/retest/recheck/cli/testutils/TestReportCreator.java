@@ -51,7 +51,7 @@ public class TestReportCreator {
 		final SuiteReplayResult suite = createSuiteReplayResultWithDiffs( folder );
 
 		final ElementIdentificationWarning elementIdentificationWarning =
-				new ElementIdentificationWarning( "someTestClass", null );
+				new ElementIdentificationWarning( "MySeleniumTest.java", 0, "findById", "de.retest.MySeleniumTest" );
 
 		suite.getTestReplayResults().get( 0 ) //
 				.getActionReplayResults().get( 0 ) //

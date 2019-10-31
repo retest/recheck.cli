@@ -135,7 +135,7 @@ public class IgnoreIT {
 
 		cut.run();
 
-		assertThat( systemOutRule.getLog() ).endsWith( "The given file report '" + doesNotExist.getAbsolutePath()
-				+ "' does not exist. Please check the given file path.\n" );
+		assertThat( systemOutRule.getLog() ).contains( "The given file report '" + doesNotExist.getAbsolutePath()
+				+ "' does not exist. Please check the given file path." );
 	}
 }

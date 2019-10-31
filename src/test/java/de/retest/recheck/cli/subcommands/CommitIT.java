@@ -96,9 +96,10 @@ public class CommitIT {
 
 		cut.run();
 
-		final String expectedMessage = "The Golden Master 'goldenMaster' cannot be found." + lineSeparator()//
-				+ "Please make sure that the given test report '" + testReport.getAbsolutePath() //
-				+ "' is within the corresponding project directory." + lineSeparator();
+		final String expectedMessage = "The following Golden Master(s) cannot be found:\n" // Do not use lineSeparator() here
+				+ "\t- goldenMaster" + lineSeparator() //
+				+ "Please make sure that the given test report '" + testReport.getAbsolutePath()
+				+ "' is within the corresponding project directory.";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
 	}
 
@@ -124,8 +125,8 @@ public class CommitIT {
 
 		cut.run();
 
-		assertThat( systemOutRule.getLog() ).endsWith( "The given file report '" + doesNotExist.getAbsolutePath()
-				+ "' does not exist. Please check the given file path.\n" );
+		assertThat( systemOutRule.getLog() ).contains( "The given file report '" + doesNotExist.getAbsolutePath()
+				+ "' does not exist. Please check the given file path." );
 	}
 
 	@Test
@@ -145,7 +146,7 @@ public class CommitIT {
 						+ "recheck identified the element based on the persisted Golden Master." + lineSeparator() //
 						+ "If you apply these changes to the Golden Master, your test 'someTestClass' will break.";
 		final String question = "Are you sure you want to continue? (y)es or (n)o";
-		final String response = "The Golden Master 'goldenMaster' cannot be found.";
+		final String response = "The following Golden Master(s) cannot be found:";
 		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
 	}
 

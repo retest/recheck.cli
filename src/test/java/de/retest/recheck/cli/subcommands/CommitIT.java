@@ -96,8 +96,8 @@ public class CommitIT {
 
 		cut.run();
 
-		final String expectedMessage = "No Golden Master file(s) with the following name(s) found:\n" //
-				+ "\tgoldenMaster\n" //
+		final String expectedMessage = "The following Golden Master(s) cannot be found:\n" //
+				+ "\t- goldenMaster\n" //
 				+ "Please make sure that the given test report '" + testReport.getAbsolutePath()
 				+ "' is within the corresponding project directory.";
 		assertThat( systemOutRule.getLog() ).contains( expectedMessage );
@@ -146,7 +146,7 @@ public class CommitIT {
 						+ "recheck identified the element based on the persisted Golden Master." + lineSeparator() //
 						+ "If you apply these changes to the Golden Master, your test 'de.retest.MySeleniumTest' will break.";
 		final String question = "Are you sure you want to continue? (y)es or (n)o";
-		final String response = "No Golden Master file(s) with the following name(s) found:";
+		final String response = "The following Golden Master(s) cannot be found";
 		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
 	}
 

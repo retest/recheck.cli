@@ -59,8 +59,8 @@ public class Diff implements Runnable {
 		final TestReport report = TestReportUtil.load( testReport );
 		final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
 		final Filter recheckIgnore = RecheckIgnoreUtil.loadRecheckIgnore();
-		final TestReport filteredTestReport =
-				TestReportFilter.filter( report, new CompoundFilter( excludeFilter, recheckIgnore ) );
+		final TestReportFilter filter = new TestReportFilter( new CompoundFilter( excludeFilter, recheckIgnore ) );
+		final TestReport filteredTestReport = filter.filter( report );
 		final TestReportPrinter printer = new TestReportPrinter( none() );
 
 		logger.info( "\n{}", printer.toString( filteredTestReport ) );

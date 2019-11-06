@@ -14,8 +14,7 @@ public class WarningUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger( WarningUtil.class );
 
-	private WarningUtil() {
-	}
+	private WarningUtil() {}
 
 	public static void logWarnings( final ReviewResult reviewResult ) {
 		reviewResult.getAllAttributeDifferences().stream() //
@@ -38,7 +37,7 @@ public class WarningUtil {
 			logger.warn( "The HTML attribute '{}' used for element identification changed from '{}' to '{}'.",
 					elementIdentifier, expectedValue, actualValue );
 			logger.warn( "recheck identified the element based on the persisted Golden Master." );
-			final String testClassName = warning.getTestClassName();
+			final String testClassName = warning.getQualifiedTestName();
 			logger.warn( "If you apply these changes to the Golden Master, your test '{}' will break.", testClassName );
 			logger.warn( LogUtil.LOG_SEPARATOR );
 		}

@@ -1,7 +1,7 @@
 pull_request_rules:
   - name: 'rebase, merge and delete when the head branch is not a release, one or more reviewers approved and all status checks passed'
     conditions:
-      - head~=(!?^release.*)
+      - head~=^(?!(release)).*$
       - "#approved-reviews-by>=1"
       - status-success=Travis CI - Branch
       - status-success=Travis CI - Pull Request

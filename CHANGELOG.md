@@ -31,6 +31,15 @@ Table of Contents
 
 ### Improvements
 
+
+--------------------------------------------------------------------------------
+
+
+[1.6.0] (2019-11-06)
+--------------------
+
+### Improvements
+
 * Improve `diff` command with better messages and a summary at the end.
 
 

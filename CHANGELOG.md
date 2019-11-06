@@ -43,9 +43,6 @@ Table of Contents
 * Improve `diff` command with better messages and a summary at the end.
 
 
---------------------------------------------------------------------------------
-
-
 [1.5.0] (2019-09-23)
 --------------------
 

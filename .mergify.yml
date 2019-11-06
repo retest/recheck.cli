@@ -1,5 +1,5 @@
 pull_request_rules:
-  - name: 'rebase and merge when the head branch is not a release, one or more reviewers approved and all status checks passed'
+  - name: 'rebase, merge and delete when the head branch is not a release, one or more reviewers approved and all status checks passed'
     conditions:
       - head~=(!?^release.*)
       - "#approved-reviews-by>=1"
@@ -12,3 +12,4 @@ pull_request_rules:
         strict: true
         strict_method: rebase
         method: merge
+      delete_head_branch: {}

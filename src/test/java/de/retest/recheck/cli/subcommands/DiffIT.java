@@ -45,15 +45,17 @@ public class DiffIT {
 	@Test
 	public void diff_should_print_differences() throws Exception {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
-		final String[] args = { TestReportCreator.createTestReportFileWithDiffs( temp ) };
+		final String[] args =
+				{ TestReportCreator.createTestReportFileWithDiffs( temp, "diff_should_print_differences" ) };
 		final Diff cut = new Diff();
 		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
-		final String expected = "Test 'test' has 1 difference(s) in 1 state(s):\n" //
-				+ "check resulted in:\n" //
-				+ "	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "		text: expected=\"original text\", actual=\"changed text\"";
+		final String expected = "Suite 'diff_should_print_differences' has 1 difference(s) in 1 test(s):\n" // 
+				+ "\tTest 'test' has 1 difference(s) in 1 state(s):\n" //
+				+ "\tcheck resulted in:\n" //
+				+ "\t	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t		text: expected=\"original text\", actual=\"changed text\"";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}

@@ -43,12 +43,18 @@ public class TestReportCreator {
 	}
 
 	public static String createTestReportFileWithDiffs( final TemporaryFolder folder ) throws IOException {
-		final SuiteReplayResult suite = createSuiteReplayResultWithDiffs( folder );
+		return createTestReportFileWithDiffs( folder, "suiteWithDiffs-" + System.currentTimeMillis() );
+	}
+
+	public static String createTestReportFileWithDiffs( final TemporaryFolder folder, final String suiteName )
+			throws IOException {
+		final SuiteReplayResult suite = createSuiteReplayResultWithDiffs( folder, suiteName );
 		return persistTestReport( folder, suite );
 	}
 
 	public static String createTestReportFileWithWarnings( final TemporaryFolder folder ) throws IOException {
-		final SuiteReplayResult suite = createSuiteReplayResultWithDiffs( folder );
+		final SuiteReplayResult suite =
+				createSuiteReplayResultWithDiffs( folder, "suiteWithDiffs-" + System.currentTimeMillis() );
 
 		final ElementIdentificationWarning elementIdentificationWarning =
 				new ElementIdentificationWarning( "MySeleniumTest.java", 0, "findById", "de.retest.MySeleniumTest" );
@@ -69,9 +75,8 @@ public class TestReportCreator {
 		return result.getPath();
 	}
 
-	private static SuiteReplayResult createSuiteReplayResultWithDiffs( final TemporaryFolder folder )
-			throws IOException {
-		final String uniqueSuiteName = "suiteWithDiffs-" + System.currentTimeMillis();
+	private static SuiteReplayResult createSuiteReplayResultWithDiffs( final TemporaryFolder folder,
+			final String uniqueSuiteName ) throws IOException {
 		final SuiteReplayResult suite = SuiteAggregator.getInstance().getSuite( uniqueSuiteName );
 
 		final TestReplayResult test = new TestReplayResult( "test", 0 );

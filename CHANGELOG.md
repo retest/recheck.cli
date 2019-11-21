@@ -35,6 +35,17 @@ Table of Contents
 --------------------------------------------------------------------------------
 
 
+[1.7.0] (2019-11-21)
+--------------------
+
+### Improvements
+
+* Display suite description for test report printing so that tests now can properly be identified with their parent suite.
+
+
+--------------------------------------------------------------------------------
+
+
 [1.6.0] (2019-11-06)
 --------------------
 

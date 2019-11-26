@@ -85,13 +85,27 @@ public class TestReportCreator {
 		final File goldenMaster = folder.newFolder( "goldenMaster" );
 		final List<RootElement> rootElements = createRootElements( false );
 		final List<RootElementDifference> rootElementDifferenceList = createRootElementDifferences( rootElements );
+		final List<RootElementDifference> deletedElementDifferenceList =
+				createDeletedElementDifferences( rootElements );
+		final List<RootElementDifference> insertedElementDifferenceList =
+				createInsertedElementDifferences( rootElements );
 		RecheckSutState.createNew( goldenMaster, new SutState( rootElements ) );
 		final DifferenceRetriever differenceRetriever = DifferenceRetriever.of( rootElementDifferenceList );
+		final DifferenceRetriever deletedDifferenceRetriever = DifferenceRetriever.of( deletedElementDifferenceList );
+		final DifferenceRetriever insertedDifferenceRetriever = DifferenceRetriever.of( insertedElementDifferenceList );
 
-		final ActionReplayResult check =
+		final ActionReplayResult check1 =
 				ActionReplayResult.withDifference( ActionReplayData.withoutTarget( "check", goldenMaster.getName() ),
 						WindowRetriever.empty(), differenceRetriever, 0 );
-		test.addAction( check );
+		final ActionReplayResult check2 =
+				ActionReplayResult.withDifference( ActionReplayData.withoutTarget( "check", goldenMaster.getName() ),
+						WindowRetriever.empty(), deletedDifferenceRetriever, 0 );
+		final ActionReplayResult check3 =
+				ActionReplayResult.withDifference( ActionReplayData.withoutTarget( "check", goldenMaster.getName() ),
+						WindowRetriever.empty(), insertedDifferenceRetriever, 0 );
+		test.addAction( check1 );
+		test.addAction( check2 );
+		test.addAction( check3 );
 
 		return suite;
 	}
@@ -103,11 +117,27 @@ public class TestReportCreator {
 	}
 
 	private static List<RootElementDifference> createRootElementDifferences( final List<RootElement> rootElements ) {
-		final DefaultValueFinder defaultFinder = ( identifyingAttributes, attributeKey, attributeValue ) -> false;
-		final RootElementDifferenceFinder differenceFinder = new RootElementDifferenceFinder( defaultFinder );
-		final RootElementDifference difference =
-				differenceFinder.findDifference( rootElements.get( 0 ), createRootElements( true ).get( 0 ) );
+		final RootElementDifference difference = getRootElementDifferenceFinder().findDifference( rootElements.get( 0 ),
+				createRootElements( true ).get( 0 ) );
 		return Collections.singletonList( difference );
+	}
+
+	private static List<RootElementDifference> createDeletedElementDifferences( final List<RootElement> rootElements ) {
+		final RootElementDifference deletedDifference =
+				getRootElementDifferenceFinder().findDifference( rootElements.get( 0 ), null );
+		return Collections.singletonList( deletedDifference );
+	}
+
+	private static List<RootElementDifference>
+			createInsertedElementDifferences( final List<RootElement> rootElements ) {
+		final RootElementDifference insertedDifference =
+				getRootElementDifferenceFinder().findDifference( null, createRootElements( true ).get( 0 ) );
+		return Collections.singletonList( insertedDifference );
+	}
+
+	private static RootElementDifferenceFinder getRootElementDifferenceFinder() {
+		final DefaultValueFinder defaultFinder = ( identifyingAttributes, attributeKey, attributeValue ) -> false;
+		return new RootElementDifferenceFinder( defaultFinder );
 	}
 
 	private static List<Attribute> getAttributes( final boolean diff ) {

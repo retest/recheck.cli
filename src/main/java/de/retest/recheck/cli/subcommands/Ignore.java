@@ -76,7 +76,7 @@ public class Ignore implements Runnable {
 				}
 				TestReportUtil.print( report, testReport );
 				loadRecheckIgnore();
-				if ( allDifferencesAreBlacklisted( report ) ) {
+				if ( ignoreDifferencesIfNotAlreadyDenylisted( report ) ) {
 					logger.warn( "All differences in the given test report are already ignored." );
 					return;
 				}
@@ -123,18 +123,25 @@ public class Ignore implements Runnable {
 		return true;
 	}
 
-	private boolean allDifferencesAreBlacklisted( final TestReport report ) {
+	private boolean ignoreDifferencesIfNotAlreadyDenylisted( final TestReport report ) {
 		boolean allDifferencesAlreadyListed = true;
 		for ( final SuiteReplayResult suiteReplayResult : report.getSuiteReplayResults() ) {
 			for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
 				for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
 					for ( final ElementDifference elementDifference : actionReplayResult.getAllElementDifferences() ) {
-						for ( final AttributeDifference attributeDifference : elementDifference
-								.getAttributeDifferences( ignoreApplier ) ) {
-							final Element element = elementDifference.getElement();
-							if ( !ignoreApplier.matches( element, attributeDifference ) ) {
+						if ( elementDifference.isInsertionOrDeletion() ) {
+							if ( !ignoreApplier.matches( elementDifference.getElement() ) ) {
 								allDifferencesAlreadyListed = false;
-								ignoreApplier.ignoreAttribute( element, attributeDifference );
+								ignoreApplier.ignoreElement( elementDifference.getElement() );
+							}
+						} else {
+							for ( final AttributeDifference attributeDifference : elementDifference
+									.getAttributeDifferences( ignoreApplier ) ) {
+								final Element element = elementDifference.getElement();
+								if ( !ignoreApplier.matches( element, attributeDifference ) ) {
+									allDifferencesAlreadyListed = false;
+									ignoreApplier.ignoreAttribute( element, attributeDifference );
+								}
 							}
 						}
 					}

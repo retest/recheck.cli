@@ -51,11 +51,17 @@ public class DiffIT {
 		new CommandLine( cut ).parseArgs( args );
 
 		cut.run();
-		final String expected = "Suite 'diff_should_print_differences' has 1 difference(s) in 1 test(s):\n" // 
-				+ "\tTest 'test' has 1 difference(s) in 1 state(s):\n" //
+		final String expected = "Suite 'diff_should_print_differences' has 3 difference(s) in 1 test(s):\n" //
+				+ "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
 				+ "\tcheck resulted in:\n" //
 				+ "\t	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t		text: expected=\"original text\", actual=\"changed text\"";
+				+ "\t		text: expected=\"original text\", actual=\"changed text\"\n" //
+				+ "\tcheck resulted in:\n" //
+				+ "\t	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t		was deleted\n" //
+				+ "\tcheck resulted in:\n" //
+				+ "\t	baz [changed text] at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t		was inserted";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}

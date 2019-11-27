@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Ignoring inserted and deleted elements now actually ignores them properly.
+
 ### New Features
 
 ### Improvements

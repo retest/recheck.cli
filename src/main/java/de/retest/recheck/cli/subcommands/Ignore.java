@@ -13,9 +13,6 @@ import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.TestReportUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
-import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.SuiteReplayResult;
-import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
@@ -76,7 +73,7 @@ public class Ignore implements Runnable {
 				}
 				TestReportUtil.print( report, testReport );
 				loadRecheckIgnore();
-				if ( allDifferencesAreBlacklisted( report ) ) {
+				if ( !ignoreDifferences( report ) ) {
 					logger.warn( "All differences in the given test report are already ignored." );
 					return;
 				}
@@ -123,24 +120,46 @@ public class Ignore implements Runnable {
 		return true;
 	}
 
-	private boolean allDifferencesAreBlacklisted( final TestReport report ) {
-		boolean allDifferencesAlreadyListed = true;
-		for ( final SuiteReplayResult suiteReplayResult : report.getSuiteReplayResults() ) {
-			for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
-				for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-					for ( final ElementDifference elementDifference : actionReplayResult.getAllElementDifferences() ) {
-						for ( final AttributeDifference attributeDifference : elementDifference
-								.getAttributeDifferences( ignoreApplier ) ) {
-							final Element element = elementDifference.getElement();
-							if ( !ignoreApplier.matches( element, attributeDifference ) ) {
-								allDifferencesAlreadyListed = false;
-								ignoreApplier.ignoreAttribute( element, attributeDifference );
-							}
-						}
-					}
-				}
-			}
+	/**
+	 * Ignores all differences from the given test report via {@link Ignore#ignoreApplier}.
+	 *
+	 * @param report
+	 *            The test report to look for differences.
+	 * @return <code>true</code> if new differences have been ignored, otherwise <code>false</code>.
+	 */
+	private boolean ignoreDifferences( final TestReport report ) {
+		return report.getSuiteReplayResults().stream() //
+				.flatMap( suiteReplayResult -> suiteReplayResult.getTestReplayResults().stream() ) //
+				.flatMap( testReplayResult -> testReplayResult.getActionReplayResults().stream() ) //
+				.flatMap( actionReplayResult -> actionReplayResult.getAllElementDifferences().stream() ) //
+				.map( this::ignoreElementDifference ) //
+				.reduce( false, Boolean::logicalOr );
+	}
+
+	private boolean ignoreElementDifference( final ElementDifference diff ) {
+		return diff.isInsertionOrDeletion() ? ignoreElement( diff ) : ignoreAttributeDifferences( diff );
+	}
+
+	private boolean ignoreElement( final ElementDifference diff ) {
+		if ( !ignoreApplier.matches( diff.getElement() ) ) {
+			ignoreApplier.ignoreElement( diff.getElement() );
+			return true;
 		}
-		return allDifferencesAlreadyListed;
+		return false;
+	}
+
+	private boolean ignoreAttributeDifferences( final ElementDifference diff ) {
+		final Element element = diff.getElement();
+		return diff.getAttributeDifferences( ignoreApplier ).stream() //
+				.map( attributeDiff -> ignoreAttributeDifference( element, attributeDiff ) ) //
+				.reduce( false, Boolean::logicalOr );
+	}
+
+	private boolean ignoreAttributeDifference( final Element element, final AttributeDifference attributeDiff ) {
+		if ( !ignoreApplier.matches( element, attributeDiff ) ) {
+			ignoreApplier.ignoreAttribute( element, attributeDiff );
+			return true;
+		}
+		return false;
 	}
 }

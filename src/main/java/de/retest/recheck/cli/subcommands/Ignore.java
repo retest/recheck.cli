@@ -150,13 +150,16 @@ public class Ignore implements Runnable {
 
 	private boolean ignoreAttributeDifferences( final ElementDifference diff ) {
 		final Element element = diff.getElement();
-		boolean newDifferencesIgnored = false;
-		for ( final AttributeDifference attributeDifference : diff.getAttributeDifferences( ignoreApplier ) ) {
-			if ( !ignoreApplier.matches( element, attributeDifference ) ) {
-				newDifferencesIgnored = true;
-				ignoreApplier.ignoreAttribute( element, attributeDifference );
-			}
+		return diff.getAttributeDifferences( ignoreApplier ).stream() //
+				.map( attributeDiff -> ignoreAttributeDifference( element, attributeDiff ) ) //
+				.reduce( false, Boolean::logicalOr );
+	}
+
+	private boolean ignoreAttributeDifference( final Element element, final AttributeDifference attributeDiff ) {
+		if ( !ignoreApplier.matches( element, attributeDiff ) ) {
+			ignoreApplier.ignoreAttribute( element, attributeDiff );
+			return true;
 		}
-		return newDifferencesIgnored;
+		return false;
 	}
 }

@@ -1,7 +1,7 @@
 pull_request_rules:
   - name: 'rebase when the head branch is not a release and all status checks passed'
     conditions:
-      - head~=^(?!(release)).*$
+      - head~=^(?!(release|hotfix)).*$
       - status-success=Travis CI - Branch
       - status-success=Travis CI - Pull Request
       - status-success=SonarCloud Code Analysis

@@ -14,6 +14,7 @@ import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.TestReportUtil;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.TestReport;
+import de.retest.recheck.report.TestReportFilter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.review.workers.LoadFilterWorker;
@@ -73,7 +74,7 @@ public class Ignore implements Runnable {
 				}
 				TestReportUtil.print( report, testReport );
 				loadRecheckIgnore();
-				if ( !ignoreDifferences( report ) ) {
+				if ( !ignoreDifferences( new TestReportFilter( ignoreApplier ).filter( report ) ) ) {
 					logger.warn( "All differences in the given test report are already ignored." );
 					return;
 				}
@@ -141,25 +142,19 @@ public class Ignore implements Runnable {
 	}
 
 	private boolean ignoreElement( final ElementDifference diff ) {
-		if ( !ignoreApplier.matches( diff.getElement() ) ) {
 			ignoreApplier.ignoreElement( diff.getElement() );
 			return true;
-		}
-		return false;
 	}
 
 	private boolean ignoreAttributeDifferences( final ElementDifference diff ) {
 		final Element element = diff.getElement();
-		return diff.getAttributeDifferences( ignoreApplier ).stream() //
+		return diff.getAttributeDifferences().stream() //
 				.map( attributeDiff -> ignoreAttributeDifference( element, attributeDiff ) ) //
 				.reduce( false, Boolean::logicalOr );
 	}
 
 	private boolean ignoreAttributeDifference( final Element element, final AttributeDifference attributeDiff ) {
-		if ( !ignoreApplier.matches( element, attributeDiff ) ) {
 			ignoreApplier.ignoreAttribute( element, attributeDiff );
 			return true;
-		}
-		return false;
 	}
 }

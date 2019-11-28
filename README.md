@@ -32,3 +32,4 @@ Please refer to the [setup guide](https://retest.github.io/docs/recheck.cli/setu
 ## License
 
 This project is licensed under the [AGPL license](LICENSE).
+

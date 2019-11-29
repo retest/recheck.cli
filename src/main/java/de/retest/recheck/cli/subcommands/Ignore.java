@@ -74,7 +74,8 @@ public class Ignore implements Runnable {
 				}
 				TestReportUtil.print( report, testReport );
 				loadRecheckIgnore();
-				if ( !ignoreDifferences( new TestReportFilter( ignoreApplier ).filter( report ) ) ) {
+				final TestReport filteredTestReport = new TestReportFilter( ignoreApplier ).filter( report );
+				if ( !ignoreDifferences( filteredTestReport ) ) {
 					logger.warn( "All differences in the given test report are already ignored." );
 					return;
 				}
@@ -142,8 +143,8 @@ public class Ignore implements Runnable {
 	}
 
 	private boolean ignoreElement( final ElementDifference diff ) {
-			ignoreApplier.ignoreElement( diff.getElement() );
-			return true;
+		ignoreApplier.ignoreElement( diff.getElement() );
+		return true;
 	}
 
 	private boolean ignoreAttributeDifferences( final ElementDifference diff ) {
@@ -154,7 +155,7 @@ public class Ignore implements Runnable {
 	}
 
 	private boolean ignoreAttributeDifference( final Element element, final AttributeDifference attributeDiff ) {
-			ignoreApplier.ignoreAttribute( element, attributeDiff );
-			return true;
+		ignoreApplier.ignoreAttribute( element, attributeDiff );
+		return true;
 	}
 }

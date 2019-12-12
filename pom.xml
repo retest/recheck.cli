@@ -77,9 +77,9 @@
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>recheck</artifactId>
-			<version>1.7.0</version>
+			<version>1.8.0-beta.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
@@ -99,7 +99,7 @@
 			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>

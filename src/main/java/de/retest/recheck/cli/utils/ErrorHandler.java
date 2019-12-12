@@ -5,20 +5,19 @@ import java.nio.file.NoSuchFileException;
 
 import com.esotericsoftware.kryo.KryoException;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.cli.TestReportFormatException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ErrorHandler {
 
-	private ErrorHandler() {
-	}
+	private ErrorHandler() {}
 
 	public static void handle( final Exception e ) {
 		if ( e instanceof TestReportFormatException ) {
 			log.error( "The given file is not a test report. Please only pass files using the '{}' extension.",
-					Properties.TEST_REPORT_FILE_EXTENSION );
+					RecheckProperties.TEST_REPORT_FILE_EXTENSION );
 			return;
 		}
 		if ( e instanceof NoSuchFileException ) {

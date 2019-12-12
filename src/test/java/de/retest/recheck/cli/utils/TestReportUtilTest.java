@@ -9,10 +9,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.testutils.TestReportCreator;
-import de.retest.recheck.cli.utils.TestReportUtil;
 
 public class TestReportUtilTest {
 
@@ -27,7 +26,7 @@ public class TestReportUtilTest {
 
 	@Test
 	public void should_throw_exception_in_case_of_wrong_test_report_format() throws Exception {
-		final File stateXml = temp.newFile( Properties.DEFAULT_XML_FILE_NAME );
+		final File stateXml = temp.newFile( RecheckProperties.DEFAULT_XML_FILE_NAME );
 		assertThatThrownBy( () -> TestReportUtil.load( stateXml ) )
 				.isExactlyInstanceOf( TestReportFormatException.class );
 

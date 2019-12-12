@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.persistence.GoldenMasterProviderImpl;
 import de.retest.recheck.persistence.NoGoldenMasterFoundException;
@@ -69,7 +69,7 @@ public class Migrate implements Runnable {
 				.map( gmPath -> Paths.get( gmPath.toAbsolutePath().toString(), path ) ).map( Path::toFile )
 				.orElseThrow( () -> new IOException() );
 		try ( final Stream<Path> goldenMasterPaths = Files.walk( goldenMaster.toPath() ) ) {
-			return goldenMasterPaths.filter( gmPath -> gmPath.endsWith( Properties.DEFAULT_XML_FILE_NAME ) )
+			return goldenMasterPaths.filter( gmPath -> gmPath.endsWith( RecheckProperties.DEFAULT_XML_FILE_NAME ) )
 					.map( gmPath -> gmPath.getParent().toString() ).collect( Collectors.toList() );
 		}
 	}

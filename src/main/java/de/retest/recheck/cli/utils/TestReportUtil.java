@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.bin.KryoPersistence;
@@ -17,7 +17,7 @@ public class TestReportUtil {
 	private static final Logger logger = LoggerFactory.getLogger( TestReportUtil.class );
 
 	public static final String TEST_REPORT_PARAMETER_DESCRIPTION =
-			"Path to a test report file (" + Properties.TEST_REPORT_FILE_EXTENSION + " extension). " //
+			"Path to a test report file (" + RecheckProperties.TEST_REPORT_FILE_EXTENSION + " extension). " //
 					+ "If the test report is not in the project directory, please specify the absolute path, " //
 					+ "otherwise a relative path is sufficient.";
 
@@ -31,7 +31,7 @@ public class TestReportUtil {
 	}
 
 	private static void checkExtension( final File testReportFile ) throws TestReportFormatException {
-		if ( !testReportFile.getName().endsWith( Properties.TEST_REPORT_FILE_EXTENSION ) ) {
+		if ( !testReportFile.getName().endsWith( RecheckProperties.TEST_REPORT_FILE_EXTENSION ) ) {
 			throw new TestReportFormatException();
 		}
 	}

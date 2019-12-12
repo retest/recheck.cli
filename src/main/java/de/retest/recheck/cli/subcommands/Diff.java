@@ -16,7 +16,6 @@ import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.cli.utils.TestReportUtil;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
@@ -58,7 +57,7 @@ public class Diff implements Runnable {
 	private void printDiff() throws TestReportFormatException, IOException {
 		final TestReport report = TestReportUtil.load( testReport );
 		final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-		final Filter recheckIgnore = RecheckIgnoreUtil.loadRecheckIgnore();
+		final Filter recheckIgnore = FilterUtil.loadRecheckIgnore();
 		final TestReportFilter filter = new TestReportFilter( new CompoundFilter( excludeFilter, recheckIgnore ) );
 		final TestReport filteredTestReport = filter.filter( report );
 		final TestReportPrinter printer = new TestReportPrinter( none() );

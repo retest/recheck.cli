@@ -10,7 +10,7 @@ import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.cli.testutils.ProjectRootFaker;
 import de.retest.recheck.cli.testutils.TestReportCreator;
 import picocli.CommandLine;
@@ -81,7 +81,7 @@ public class DiffIT {
 
 	@Test
 	public void diff_should_give_proper_error_message_when_given_test_report_does_not_exist() throws Exception {
-		final File doesNotExist = new File( "/does/not/exist" + Properties.TEST_REPORT_FILE_EXTENSION );
+		final File doesNotExist = new File( "/does/not/exist" + RecheckProperties.TEST_REPORT_FILE_EXTENSION );
 		final String[] args = { doesNotExist.getAbsolutePath() };
 		final Diff cut = new Diff();
 		new CommandLine( cut ).parseArgs( args );

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.SuiteAggregator;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
@@ -31,10 +31,11 @@ import de.retest.recheck.ui.descriptors.TextAttribute;
 import de.retest.recheck.ui.diff.ElementIdentificationWarning;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
+import de.retest.recheck.ui.diff.StateDifference;
 
 public class TestReportCreator {
 
-	private final static String TEST_REPORT_FILENAME = "some" + Properties.TEST_REPORT_FILE_EXTENSION;
+	private final static String TEST_REPORT_FILENAME = "some" + RecheckProperties.TEST_REPORT_FILE_EXTENSION;
 
 	public static String createTestReportFileWithoutDiffs( final TemporaryFolder folder ) throws IOException {
 		final String uniqueSuiteName = "suiteWithoutDiffs-" + System.currentTimeMillis();
@@ -90,9 +91,12 @@ public class TestReportCreator {
 		final List<RootElementDifference> insertedElementDifferenceList =
 				createInsertedElementDifferences( rootElements );
 		RecheckSutState.createNew( goldenMaster, new SutState( rootElements ) );
-		final DifferenceRetriever differenceRetriever = DifferenceRetriever.of( rootElementDifferenceList );
-		final DifferenceRetriever deletedDifferenceRetriever = DifferenceRetriever.of( deletedElementDifferenceList );
-		final DifferenceRetriever insertedDifferenceRetriever = DifferenceRetriever.of( insertedElementDifferenceList );
+		final DifferenceRetriever differenceRetriever =
+				DifferenceRetriever.of( new StateDifference( rootElementDifferenceList ) );
+		final DifferenceRetriever deletedDifferenceRetriever =
+				DifferenceRetriever.of( new StateDifference( deletedElementDifferenceList ) );
+		final DifferenceRetriever insertedDifferenceRetriever =
+				DifferenceRetriever.of( new StateDifference( insertedElementDifferenceList ) );
 
 		final ActionReplayResult check1 =
 				ActionReplayResult.withDifference( ActionReplayData.withoutTarget( "check", goldenMaster.getName() ),

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.cli.PreCondition;
 import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.TestReportUtil;
+import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
@@ -51,7 +52,8 @@ public class Ignore implements Runnable {
 			return;
 		}
 		if ( list ) {
-			final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
+			final Optional<Path> ignoreFile =
+					RecheckIgnoreUtil.getProjectIgnoreFile( ProjectConfiguration.RECHECK_IGNORE );
 			if ( !ignoreFile.map( Path::toFile ).map( File::exists ).orElse( false ) ) {
 				logger.info( "No elements are ignored." );
 				return;

@@ -27,8 +27,6 @@ Table of Contents
 
 ### Bug Fixes
 
-* Ignoring inserted and deleted elements now actually ignores them properly.
-
 ### New Features
 
 ### Improvements
@@ -37,15 +35,20 @@ Table of Contents
 --------------------------------------------------------------------------------
 
 
+[1.8.0] (2019-12-13)
+--------------------
+
+### Bug Fixes
+
+* Ignoring inserted and deleted elements now actually ignores them properly.
+
+
 [1.7.0] (2019-11-21)
 --------------------
 
 ### Improvements
 
 * Display suite description for test report printing so that tests now can properly be identified with their parent suite.
-
-
---------------------------------------------------------------------------------
 
 
 [1.6.0] (2019-11-06)

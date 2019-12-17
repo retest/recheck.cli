@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.SystemUtils;
 
-import de.retest.recheck.Recheck;
+import de.retest.recheck.cli.utils.Version;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.IVersionProvider;
 
@@ -21,10 +21,8 @@ public class VersionProvider implements IVersionProvider {
 	@Override
 	public String[] getVersion() {
 		final String recheckLogo = getRecheckLogo();
-		final String recheckCliVersion =
-				getVersionString( "recheck CLI", getClass().getPackage().getImplementationVersion() );
-		final String recheckVersion =
-				getVersionString( "recheck", Recheck.class.getPackage().getImplementationVersion() );
+		final String recheckCliVersion = getVersionString( "recheck CLI", Version.RECHECK_CLI_VERSION );
+		final String recheckVersion = getVersionString( "recheck", Version.RECHECK_VERSION );
 		final String javaVersion = getVersionString( "Java", Runtime.class.getPackage().getImplementationVersion() );
 		return new String[] { recheckLogo, recheckCliVersion, recheckVersion, javaVersion };
 	}

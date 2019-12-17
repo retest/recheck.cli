@@ -23,7 +23,7 @@ public class VersionProvider implements IVersionProvider {
 		final String recheckLogo = getRecheckLogo();
 		final String recheckCliVersion = getVersionString( "recheck CLI", Version.RECHECK_CLI_VERSION );
 		final String recheckVersion = getVersionString( "recheck", Version.RECHECK_VERSION );
-		final String javaVersion = getVersionString( "Java", Runtime.class.getPackage().getImplementationVersion() );
+		final String javaVersion = getVersionString( "Java", getJavaInfo() );
 		return new String[] { recheckLogo, recheckCliVersion, recheckVersion, javaVersion };
 	}
 
@@ -44,6 +44,12 @@ public class VersionProvider implements IVersionProvider {
 			log.error( "Couldn't read recheck logo.", e );
 			return "";
 		}
+	}
+
+	private String getJavaInfo() {
+		return SystemUtils.JAVA_RUNTIME_NAME //
+				+ " " + SystemUtils.JAVA_RUNTIME_VERSION //
+				+ " (" + SystemUtils.JAVA_VENDOR + ")";
 	}
 
 }

@@ -5,6 +5,7 @@
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/retest/recheck.cli/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 [![code with hearth by retest](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-retest-C1D82F.svg)](https://retest.de/)
 ![GitHub All Releases](https://img.shields.io/github/downloads/retest/recheck.cli/total.svg)
+[![JitPack releases](https://jitpack.io/v/de.retest/recheck.cli.svg)]( https://jitpack.io/#de.retest/recheck.cli)
 
 ***recheck.cli*** maintains your [recheck](https://github.com/retest/recheck) Golden Master files, Git-like on the command line.
 

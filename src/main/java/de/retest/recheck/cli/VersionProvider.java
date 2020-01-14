@@ -7,9 +7,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.SystemUtils;
 
-import de.retest.recheck.Recheck;
+import de.retest.recheck.cli.utils.Versions;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.IVersionProvider;
 
@@ -17,15 +18,14 @@ import picocli.CommandLine.IVersionProvider;
 public class VersionProvider implements IVersionProvider {
 
 	private static final String VERSION_FALLBACK = "n/a";
+	private final Versions version = ConfigFactory.create( Versions.class );
 
 	@Override
 	public String[] getVersion() {
 		final String recheckLogo = getRecheckLogo();
-		final String recheckCliVersion =
-				getVersionString( "recheck CLI", getClass().getPackage().getImplementationVersion() );
-		final String recheckVersion =
-				getVersionString( "recheck", Recheck.class.getPackage().getImplementationVersion() );
-		final String javaVersion = getVersionString( "Java", Runtime.class.getPackage().getImplementationVersion() );
+		final String recheckCliVersion = getVersionString( "recheck CLI", version.recheckCliVersion() );
+		final String recheckVersion = getVersionString( "recheck", version.recheckVersion() );
+		final String javaVersion = getVersionString( "Java", getJavaInfo() );
 		return new String[] { recheckLogo, recheckCliVersion, recheckVersion, javaVersion };
 	}
 
@@ -46,6 +46,12 @@ public class VersionProvider implements IVersionProvider {
 			log.error( "Couldn't read recheck logo.", e );
 			return "";
 		}
+	}
+
+	private String getJavaInfo() {
+		return SystemUtils.JAVA_RUNTIME_NAME //
+				+ " " + SystemUtils.JAVA_RUNTIME_VERSION //
+				+ " (" + SystemUtils.JAVA_VENDOR + ")";
 	}
 
 }

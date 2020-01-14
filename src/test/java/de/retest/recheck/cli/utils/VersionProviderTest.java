@@ -21,7 +21,7 @@ class VersionProviderTest {
 		final String recheckVersion = versions[2];
 		final String javaVersion = versions[3];
 
-		assertThat( recheckCliVersion ).isEqualTo( "recheck CLI version n/a" );
+		assertThat( recheckCliVersion ).startsWith( "recheck CLI version" );
 		assertThat( recheckVersion ).startsWith( "recheck version" );
 		assertThat( javaVersion ).startsWith( "Java version" );
 	}

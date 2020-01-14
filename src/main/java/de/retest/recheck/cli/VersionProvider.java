@@ -7,9 +7,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.lang3.SystemUtils;
 
-import de.retest.recheck.cli.utils.Version;
+import de.retest.recheck.cli.utils.Versions;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.IVersionProvider;
 
@@ -17,12 +18,13 @@ import picocli.CommandLine.IVersionProvider;
 public class VersionProvider implements IVersionProvider {
 
 	private static final String VERSION_FALLBACK = "n/a";
+	private final Versions version = ConfigFactory.create( Versions.class );
 
 	@Override
 	public String[] getVersion() {
 		final String recheckLogo = getRecheckLogo();
-		final String recheckCliVersion = getVersionString( "recheck CLI", Version.RECHECK_CLI_VERSION );
-		final String recheckVersion = getVersionString( "recheck", Version.RECHECK_VERSION );
+		final String recheckCliVersion = getVersionString( "recheck CLI", version.recheckCliVersion() );
+		final String recheckVersion = getVersionString( "recheck", version.recheckVersion() );
 		final String javaVersion = getVersionString( "Java", getJavaInfo() );
 		return new String[] { recheckLogo, recheckCliVersion, recheckVersion, javaVersion };
 	}

@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.logging.LogUtil;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementIdentificationWarning;
 import de.retest.recheck.ui.review.ReviewResult;
@@ -30,7 +29,7 @@ public class WarningUtil {
 		final List<ElementIdentificationWarning> warnings = attributeDifference.getElementIdentificationWarnings();
 
 		for ( final ElementIdentificationWarning warning : warnings ) {
-			logger.warn( LogUtil.LOG_SEPARATOR );
+			logger.warn( "********************************************************************************" );
 			final String elementIdentifier = attributeDifference.getKey();
 			final String expectedValue = attributeDifference.getExpectedToString();
 			final String actualValue = attributeDifference.getActualToString();
@@ -39,7 +38,7 @@ public class WarningUtil {
 			logger.warn( "recheck identified the element based on the persisted Golden Master." );
 			final String testClassName = warning.getQualifiedTestName();
 			logger.warn( "If you apply these changes to the Golden Master, your test '{}' will break.", testClassName );
-			logger.warn( LogUtil.LOG_SEPARATOR );
+			logger.warn( "********************************************************************************" );
 		}
 	}
 

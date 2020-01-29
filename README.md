@@ -18,7 +18,8 @@ Command-line interface for recheck.
       --version   Display version info.
 Commands:
   version     Display version info.
-  diff        Display differences of given test report.
+  diff        Compare two Golden Masters.
+  show        Display differences of given test report.
   commit      Accept specified differences of given test report.
   ignore      Ignore specified differences of given test report.
   completion  Generate and display an auto completion script.

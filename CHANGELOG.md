@@ -35,6 +35,14 @@ Table of Contents
 --------------------------------------------------------------------------------
 
 
+[1.9.0] (2020-01-29)
+--------------------
+
+### Bug Fixes
+
+* Properly differentiate between recheck and recheck.cli version when displaying `recheck --version`.
+
+
 [1.8.0] (2019-12-13)
 --------------------
 

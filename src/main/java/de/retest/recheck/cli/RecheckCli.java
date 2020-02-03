@@ -1,5 +1,6 @@
 package de.retest.recheck.cli;
 
+import de.retest.recheck.cli.subcommands.Account;
 import de.retest.recheck.cli.subcommands.Commit;
 import de.retest.recheck.cli.subcommands.Completion;
 import de.retest.recheck.cli.subcommands.Diff;
@@ -12,7 +13,7 @@ import picocli.CommandLine.Option;
 // TODO Add Migrate command when https://github.com/retest/recheck.cli/issues/85#issuecomment-526102137 is addressed.
 @Command( name = "recheck", description = "Command-line interface for recheck.",
 		versionProvider = VersionProvider.class, subcommands = { Version.class, Diff.class, Commit.class, Ignore.class,
-				Completion.class, CommandLine.HelpCommand.class } )
+				Completion.class, CommandLine.HelpCommand.class, Account.class } )
 public class RecheckCli implements Runnable {
 
 	@Option( names = "--help", usageHelp = true, description = "Display this help message." )

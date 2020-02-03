@@ -29,6 +29,8 @@ Table of Contents
 
 ### New Features
 
+* Add `account` sub commands which allow users to login/logout and display the local API key
+
 ### Improvements
 
 

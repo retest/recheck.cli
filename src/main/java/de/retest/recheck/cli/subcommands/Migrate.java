@@ -67,7 +67,7 @@ public class Migrate implements Runnable {
 		final String path = !goldenMasterPath.equals( "" ) ? goldenMasterPath : RECHECK_FOLDER;
 		final File goldenMaster = ProjectRootFinderUtil.getProjectRoot()
 				.map( gmPath -> Paths.get( gmPath.toAbsolutePath().toString(), path ) ).map( Path::toFile )
-				.orElseThrow( () -> new IOException() );
+				.orElseThrow( IOException::new );
 		try ( final Stream<Path> goldenMasterPaths = Files.walk( goldenMaster.toPath() ) ) {
 			return goldenMasterPaths.filter( gmPath -> gmPath.endsWith( RecheckProperties.DEFAULT_XML_FILE_NAME ) )
 					.map( gmPath -> gmPath.getParent().toString() ).collect( Collectors.toList() );

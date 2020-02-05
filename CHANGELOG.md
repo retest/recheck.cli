@@ -31,8 +31,11 @@ Table of Contents
 
 * Add `account` sub commands which allow users to login/logout and display the local API key
 
-### Improvements
+* `diff` command: compare any two golden masters. The option `--output` offers the possibility to save 
+the differences as test report in the specified directory, and the option `--exclude` to filter the differences.
+This command may still be used to show results of a test report. But it is advised to use the new command `show` instead.
 
+### Improvements
 
 --------------------------------------------------------------------------------
 

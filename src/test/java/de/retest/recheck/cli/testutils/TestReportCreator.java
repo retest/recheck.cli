@@ -1,8 +1,9 @@
 package de.retest.recheck.cli.testutils;
 
+import static de.retest.recheck.cli.testutils.RootElementsCreator.createRootElements;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,15 +20,8 @@ import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.DefaultValueFinder;
-import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.Attributes;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.PathAttribute;
 import de.retest.recheck.ui.descriptors.RootElement;
-import de.retest.recheck.ui.descriptors.StringAttribute;
 import de.retest.recheck.ui.descriptors.SutState;
-import de.retest.recheck.ui.descriptors.TextAttribute;
 import de.retest.recheck.ui.diff.ElementIdentificationWarning;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
@@ -114,12 +108,6 @@ public class TestReportCreator {
 		return suite;
 	}
 
-	private static List<RootElement> createRootElements( final boolean diff ) {
-		final RootElement root = new RootElement( "someRetestId", new IdentifyingAttributes( getAttributes( diff ) ),
-				new Attributes(), null, "someScreen", 0, "someTitle" );
-		return Collections.singletonList( root );
-	}
-
 	private static List<RootElementDifference> createRootElementDifferences( final List<RootElement> rootElements ) {
 		final RootElementDifference difference = getRootElementDifferenceFinder().findDifference( rootElements.get( 0 ),
 				createRootElements( true ).get( 0 ) );
@@ -139,16 +127,9 @@ public class TestReportCreator {
 		return Collections.singletonList( insertedDifference );
 	}
 
-	private static RootElementDifferenceFinder getRootElementDifferenceFinder() {
+	static RootElementDifferenceFinder getRootElementDifferenceFinder() {
 		final DefaultValueFinder defaultFinder = ( identifyingAttributes, attributeKey, attributeValue ) -> false;
 		return new RootElementDifferenceFinder( defaultFinder );
-	}
-
-	private static List<Attribute> getAttributes( final boolean diff ) {
-		final Attribute a0 = new PathAttribute( Path.fromString( "foo[1]/bar[1]/baz[1]" ) );
-		final Attribute a1 = new StringAttribute( "type", "baz" );
-		final Attribute a2 = new TextAttribute( "text", diff ? "changed text" : "original text" );
-		return Arrays.asList( a0, a1, a2 );
 	}
 
 }

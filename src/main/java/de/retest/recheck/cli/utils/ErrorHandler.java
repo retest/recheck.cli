@@ -1,6 +1,7 @@
 package de.retest.recheck.cli.utils;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.NoSuchFileException;
 
 import com.esotericsoftware.kryo.KryoException;
@@ -26,14 +27,18 @@ public class ErrorHandler {
 			log.debug( "Stack trace:", e );
 			return;
 		}
-		if ( e instanceof IOException ) {
-			log.error( "An error occurred while loading the test report.", e );
-			return;
-		}
 		if ( e instanceof KryoException ) {
 			log.error( "The report was created with another, incompatible recheck version.\n"
 					+ "Please use the same recheck version to load a report with which it was generated." );
 			log.debug( "Stack trace:", e );
+			return;
+		}
+		if ( e instanceof UncheckedIOException ) {
+			log.error( "\n{}", e.getMessage() );
+			return;
+		}
+		if ( e instanceof IOException ) {
+			log.error( "An error occurred while loading or saving the test report.", e );
 			return;
 		}
 		throw new RuntimeException( e );

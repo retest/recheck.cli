@@ -52,7 +52,7 @@ public class FilterUtil {
 	}
 
 	public static void logWarningForInvalidFilters( final List<String> invalidFilters ) {
-		final String filter = invalidFilters.stream().collect( Collectors.joining( ", " ) );
+		final String filter = String.join( ", ", invalidFilters );
 		log.warn( "The invalid filter files are: {}", filter );
 	}
 
@@ -65,4 +65,14 @@ public class FilterUtil {
 		}
 		return Filter.FILTER_NOTHING;
 	}
+
+	public static boolean hasValidExcludeOption( final List<String> exclude ) {
+		final List<String> invalidFilters = getInvalidFilters( exclude );
+		if ( !invalidFilters.isEmpty() ) {
+			logWarningForInvalidFilters( invalidFilters );
+			return false;
+		}
+		return true;
+	}
+
 }

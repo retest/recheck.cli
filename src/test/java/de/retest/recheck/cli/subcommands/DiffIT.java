@@ -119,6 +119,7 @@ public class DiffIT {
 
 		final String expected = "Comparison of Golden Masters resulted in:\n" //
 				+ "\tMetadata Differences:\n" //
+				+ "\t  Please note that Metadata Differences do not affect the result and are not included in the difference count.\n" //
 				+ "\t	some.driver: expected=\"driverA\", actual=\"driverB\"\n" //
 				+ "\tbaz [changed text] at 'foo[1]/bar[1]/baz[1]':\n" //
 				+ "\t	was deleted\n" //

@@ -35,7 +35,11 @@ import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "commit", description = "Accept specified differences of given test report." )
+@Command( name = "commit", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", // 
+		description = "Accept specified differences of given test report." )
 public class Commit implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Commit.class );

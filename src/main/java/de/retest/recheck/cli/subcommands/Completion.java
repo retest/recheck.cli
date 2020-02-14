@@ -14,7 +14,11 @@ import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Spec;
 
-@Command( name = "completion", description = "Generate and display an auto completion script." )
+@Command( name = "completion", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", //
+		description = "Generate and display an auto completion script." )
 public class Completion implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Completion.class );

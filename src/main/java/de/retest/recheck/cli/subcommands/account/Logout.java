@@ -10,7 +10,11 @@ import de.retest.recheck.Rehub;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.IExitCodeGenerator;
 
-@Command( name = "logout", description = "Allows to log out of your account." )
+@Command( name = "logout", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", //
+		description = "Allows to log out of your account." )
 public class Logout implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Logout.class );
@@ -28,7 +32,8 @@ public class Logout implements Runnable, IExitCodeGenerator {
 		}
 	}
 
-	@Override public int getExitCode() {
+	@Override
+	public int getExitCode() {
 		return exitCode;
 	}
 }

@@ -7,8 +7,16 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command( name = "account", description = "Allows to log into and out of your account and show your API key.",
-		subcommands = { Login.class, Logout.class, Show.class } )
+@Command( name = "account", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", // 
+		description = "Allows to log into and out of your account and show your API key.", //
+		subcommands = { //
+				Login.class, //
+				Logout.class, //
+				Show.class //
+		} )
 public class Account implements Runnable {
 
 	@Option( names = "--help", usageHelp = true, hidden = true )

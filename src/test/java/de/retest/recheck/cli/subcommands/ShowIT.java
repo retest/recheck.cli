@@ -28,17 +28,20 @@ public class ShowIT {
 
 	@Test
 	public void show_without_argument_should_return_the_usage_message() {
-		final String expected =
-				"Usage: show [--exclude=<exclude>]... <testReport>\n" + "Display differences of given test report.\n"
-						+ "      <testReport>          Path to a test report file (.report extension). If\n"
-						+ "                              the test report is not in the project directory,\n"
-						+ "                              please specify the absolute path, otherwise a\n"
-						+ "                              relative path is sufficient.\n"
-						+ "      --exclude=<exclude>   Filter to exclude changes from the report. For a\n"
-						+ "                              custom filter, please specify the absolute path.\n"
-						+ "                              For predefined filters, a relative path is\n"
-						+ "                              sufficient. Specify this option multiple times to\n"
-						+ "                              use more than one filter.\n";
+		final String expected = "Usage: show [--exclude=<exclude>]... <testReport>\n" //
+				+ "\nDescription:\n" //
+				+ "Display differences of given test report.\n" //
+				+ "\nParameters:\n" //
+				+ "      <testReport>          Path to a test report file (.report extension). If\n"
+				+ "                              the test report is not in the project directory,\n"
+				+ "                              please specify the absolute path, otherwise a\n"
+				+ "                              relative path is sufficient.\n" //
+				+ "\nOptions:\n" //
+				+ "      --exclude=<exclude>   Filter to exclude changes from the report. For a\n"
+				+ "                              custom filter, please specify the absolute path.\n"
+				+ "                              For predefined filters, a relative path is\n"
+				+ "                              sufficient. Specify this option multiple times to\n"
+				+ "                              use more than one filter.\n";
 		assertThat( new CommandLine( new Show() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}
 

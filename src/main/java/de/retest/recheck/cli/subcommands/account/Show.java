@@ -10,8 +10,13 @@ import de.retest.recheck.Rehub;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.IExitCodeGenerator;
 
-@Command( name = "show", description = "Show your token e.g. for CI usage." )
+@Command( name = "show", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", //
+		description = "Show your token e.g. for CI usage." )
 public class Show implements Runnable, IExitCodeGenerator {
+
 	private static final Logger logger = LoggerFactory.getLogger( Show.class );
 
 	private int exitCode = OK;

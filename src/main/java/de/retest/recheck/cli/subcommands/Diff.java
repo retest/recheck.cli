@@ -36,9 +36,12 @@ import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "diff", description = "Compare two Golden Masters." )
+@Command( name = "diff", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", // 
+		description = "Compare two Golden Masters." )
 public class Diff implements Runnable, IExitCodeGenerator {
-
 	private static final Logger logger = LoggerFactory.getLogger( Diff.class );
 
 	private static final PersistenceFactory persistenceFactory = new PersistenceFactory( getXmlTransformer() );

@@ -63,10 +63,8 @@ public class CommitIT {
 	public void commit_should_not_accept_test_reports_without_differences() throws Exception {
 		final File testReport = new File( TestReportCreator.createTestReportFileWithoutDiffs( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( "The test report has no differences." );
 	}
@@ -79,10 +77,8 @@ public class CommitIT {
 
 		final File testReport = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( "Updated Golden Master" );
 	}
@@ -91,10 +87,8 @@ public class CommitIT {
 	public void commit_should_handle_sut_state_files_that_cannot_be_found() throws Exception {
 		final File testReport = new File( TestReportCreator.createTestReportFileWithDiffs( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		final String expectedMessage = "The following Golden Master(s) cannot be found:\n" //
 				+ "\t- goldenMaster\n" //
@@ -109,10 +103,8 @@ public class CommitIT {
 	public void commit_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
 		final File notATestReport = temp.newFile();
 		final String[] args = { "--all", notATestReport.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains(
 				"The given file is not a test report. Please only pass files using the '.report' extension." );
@@ -122,10 +114,8 @@ public class CommitIT {
 	public void commit_should_give_proper_error_message_when_given_test_report_does_not_exist() throws Exception {
 		final File doesNotExist = new File( "/does/not/exist" + RecheckProperties.TEST_REPORT_FILE_EXTENSION );
 		final String[] args = { "--all", doesNotExist.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( "The given file report '" + doesNotExist.getAbsolutePath()
 				+ "' does not exist. Please check the given file path." );
@@ -137,10 +127,8 @@ public class CommitIT {
 
 		final File testReport = new File( TestReportCreator.createTestReportFileWithWarnings( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		final String warning =
 				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'."
@@ -158,10 +146,8 @@ public class CommitIT {
 
 		final File testReport = new File( TestReportCreator.createTestReportFileWithWarnings( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		final String warning =
 				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'."
@@ -179,10 +165,8 @@ public class CommitIT {
 
 		final File testReport = new File( TestReportCreator.createTestReportFileWithWarnings( temp ) );
 		final String[] args = { "--all", testReport.getAbsolutePath() };
-		final Commit cut = new Commit();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Commit() ).execute( args );
 
 		final String response0 = "Invalid input, please only use (y)es or (n)o:";
 		final String response1 = "No changes are applied!";

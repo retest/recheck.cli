@@ -55,10 +55,8 @@ public class DiffIT {
 
 		final File doesNotExist = temp.newFile( "doesnotexist" );
 		final String[] args = { "--output", outputDir.getAbsolutePath(), doesNotExist.getAbsolutePath(), "does/exist" };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( "Could not load Golden Master from file '"
 				+ FileUtil.canonicalFileQuietly( new File( doesNotExist, RecheckProperties.DEFAULT_XML_FILE_NAME ) )
@@ -86,10 +84,7 @@ public class DiffIT {
 		final String[] args = { "--output", outputDir.getAbsolutePath(), notAGoldenMaster.getAbsolutePath(),
 				aGoldenMaster.getAbsolutePath() };
 
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
-
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).containsSubsequence(
 				"Could not load Golden Master from file '" + expectedPathErroneousFile.getAbsolutePath() + "'." );
@@ -112,10 +107,8 @@ public class DiffIT {
 		GoldenMasterCreator.createGoldenMasterFile( gm2, false );
 
 		final String[] args = { "--output", outputDir.getAbsolutePath(), gm1.getAbsolutePath(), gm2.getAbsolutePath() };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		final String expected = "Comparison of Golden Masters resulted in:\n" //
 				+ "\tMetadata Differences:\n" //
@@ -142,10 +135,8 @@ public class DiffIT {
 		GoldenMasterCreator.createGoldenMasterFile( gm2, false );
 
 		final String[] args = { gm1.getAbsolutePath(), gm2.getAbsolutePath() };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( systemOutRule.getLog() )
 				.containsSubsequence( "Overall, recheck found 2 difference(s) when checking 2 element(s).\n" );
@@ -169,10 +160,8 @@ public class DiffIT {
 		final File outputFile = new File( outputDir, RecheckProperties.AGGREGATED_TEST_REPORT_FILE_NAME );
 
 		final String[] args = { "--output", outputDir.getAbsolutePath(), gm1.getAbsolutePath(), gm2.getAbsolutePath() };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( outputFile ).exists();
 	}
@@ -195,10 +184,8 @@ public class DiffIT {
 		final File outputFile = new File( outputDir, RecheckProperties.AGGREGATED_TEST_REPORT_FILE_NAME );
 
 		final String[] args = { gm1.getAbsolutePath(), gm2.getAbsolutePath(), "--output", outputDir.toString() };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( outputFile ).exists();
 	}
@@ -222,10 +209,8 @@ public class DiffIT {
 
 		final String[] args = { "--exclude", "sty-attributes.filter", "--exclude", "invisib.filter", "--output",
 				outputDir.getAbsolutePath(), gm1.getAbsolutePath(), gm2.getAbsolutePath() };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( systemOutRule.getLog() )
 				.endsWith( "The invalid filter files are: sty-attributes.filter, invisib.filter\n" );
@@ -237,10 +222,8 @@ public class DiffIT {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
 		final String[] args =
 				{ TestReportCreator.createTestReportFileWithDiffs( temp, "diff_should_print_differences" ) };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		final String expected = "Suite 'diff_should_print_differences' has 3 difference(s) in 1 test(s):\n" //
 				+ "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
@@ -264,10 +247,8 @@ public class DiffIT {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
 		final String[] args = { "--exclude", "invisible-attributes.filter", "--exclude", "positioning.filter",
 				TestReportCreator.createTestReportFileWithDiffs( temp ) };
-		final Diff cut = new Diff();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Diff() ).execute( args );
 
 		final String expected = "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
 				+ "\tcheck resulted in:\n" //

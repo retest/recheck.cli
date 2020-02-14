@@ -47,10 +47,8 @@ public class IgnoreIT {
 				"Currently only the two commands 'ignore --all' and 'ignore --list' are implemented." + lineSeparator()
 						+ "A command to ignore specific differences will be implemented shortly." + lineSeparator();
 		final String[] args = { "foo/bar" };
-		final Ignore cut = new Ignore();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Ignore() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).isEqualToIgnoringNewLines( expected );
 	}
@@ -59,10 +57,8 @@ public class IgnoreIT {
 	public void ignore_with_incomplete_arguments_should_return_help_message() {
 		final String expected = "Please specify exactly one test report to ignore all differences." + lineSeparator();
 		final String[] args = { "--all" };
-		final Ignore cut = new Ignore();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Ignore() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).isEqualToIgnoringNewLines( expected );
 	}
@@ -71,10 +67,8 @@ public class IgnoreIT {
 	public void ignore_should_not_ignore_the_report_because_there_are_no_differences() throws Exception {
 		final String expected = "The test report has no differences.";
 		final String[] args = { "--all", TestReportCreator.createTestReportFileWithoutDiffs( temp ) };
-		final Ignore cut = new Ignore();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Ignore() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
@@ -89,10 +83,8 @@ public class IgnoreIT {
 
 		final String expected = "The recheck ignore file has been updated.";
 		final String[] args = { "--all", TestReportCreator.createTestReportFileWithDiffs( temp ) };
-		final Ignore cut = new Ignore();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Ignore() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
@@ -117,10 +109,8 @@ public class IgnoreIT {
 	public void ignore_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
 		final File notATestReport = temp.newFile();
 		final String[] args = { "--all", notATestReport.getAbsolutePath() };
-		final Ignore cut = new Ignore();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Ignore() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains(
 				"The given file is not a test report. Please only pass files using the '.report' extension." );
@@ -130,10 +120,8 @@ public class IgnoreIT {
 	public void ignore_should_give_proper_error_message_when_given_test_report_does_not_exist() throws Exception {
 		final File doesNotExist = new File( "/does/not/exist" + RecheckProperties.TEST_REPORT_FILE_EXTENSION );
 		final String[] args = { "--all", doesNotExist.getAbsolutePath() };
-		final Ignore cut = new Ignore();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Ignore() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( "The given file report '" + doesNotExist.getAbsolutePath()
 				+ "' does not exist. Please check the given file path." );

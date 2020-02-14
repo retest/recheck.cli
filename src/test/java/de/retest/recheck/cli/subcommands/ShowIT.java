@@ -47,10 +47,9 @@ public class ShowIT {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
 		final String[] args =
 				{ TestReportCreator.createTestReportFileWithDiffs( temp, "diff_should_print_differences" ) };
-		final Show cut = new Show();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Show() ).execute( args );
+
 		final String expected = "Suite 'diff_should_print_differences' has 3 difference(s) in 1 test(s):\n" //
 				+ "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
 				+ "\tcheck resulted in:\n" //
@@ -70,10 +69,8 @@ public class ShowIT {
 	public void show_should_give_proper_error_message_when_given_test_report_is_not_a_test_report() throws Exception {
 		final File notATestReport = temp.newFile();
 		final String[] args = { notATestReport.getAbsolutePath() };
-		final Show cut = new Show();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Show() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains(
 				"The given file is not a test report. Please only pass files using the '.report' extension." );
@@ -83,10 +80,8 @@ public class ShowIT {
 	public void show_should_give_proper_error_message_when_given_test_report_does_not_exist() throws Exception {
 		final File doesNotExist = new File( "/does/not/exist" + RecheckProperties.TEST_REPORT_FILE_EXTENSION );
 		final String[] args = { doesNotExist.getAbsolutePath() };
-		final Show cut = new Show();
-		new CommandLine( cut ).parseArgs( args );
 
-		cut.run();
+		new CommandLine( new Show() ).execute( args );
 
 		assertThat( systemOutRule.getLog() ).contains( "The given file report '" + doesNotExist.getAbsolutePath()
 				+ "' does not exist. Please check the given file path." );

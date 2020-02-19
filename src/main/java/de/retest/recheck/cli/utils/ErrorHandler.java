@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.KryoException;
 
 import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.cli.TestReportFormatException;
+import de.retest.recheck.persistence.IncompatibleReportVersionException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +28,7 @@ public class ErrorHandler {
 			log.debug( "Stack trace:", e );
 			return;
 		}
-		if ( e instanceof KryoException ) {
+		if ( e instanceof KryoException || e instanceof IncompatibleReportVersionException ) {
 			log.error( "The report was created with another, incompatible recheck version.\n"
 					+ "Please use the same recheck version to load a report with which it was generated." );
 			log.debug( "Stack trace:", e );

@@ -1,6 +1,8 @@
 package de.retest.recheck.cli.subcommands;
 
 import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
+import static picocli.CommandLine.ExitCode.OK;
+import static picocli.CommandLine.ExitCode.SOFTWARE;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +22,12 @@ import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command( name = "show", description = "Display differences of given test report." )
-public class Show implements Runnable {
+public class Show implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Show.class );
 
@@ -37,6 +40,8 @@ public class Show implements Runnable {
 	@Parameters( arity = "1", description = TestReportUtil.TEST_REPORT_PARAMETER_DESCRIPTION )
 	private File testReport;
 
+	private int exitCode = OK;
+
 	@Override
 	public void run() {
 		if ( !PreCondition.isSatisfied() ) {
@@ -47,8 +52,14 @@ public class Show implements Runnable {
 				printDiff();
 			}
 		} catch ( final Exception e ) {
+			exitCode = SOFTWARE;
 			ErrorHandler.handle( e );
 		}
+	}
+
+	@Override
+	public int getExitCode() {
+		return exitCode;
 	}
 
 	private void printDiff() throws TestReportFormatException, IOException {

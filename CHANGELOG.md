@@ -37,6 +37,9 @@ This command may still be used to show results of a test report. But it is advis
 
 ### Improvements
 
+* Do not print stack trace when a report is in an incompatible version.
+* Exit with a non-zero return code when the 'show' command encounters a problem.
+
 --------------------------------------------------------------------------------
 
 

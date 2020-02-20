@@ -1,5 +1,9 @@
 package de.retest.recheck.cli.subcommands;
 
+import static picocli.CommandLine.ExitCode.OK;
+import static picocli.CommandLine.ExitCode.SOFTWARE;
+import static picocli.CommandLine.ExitCode.USAGE;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -27,11 +31,12 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.review.ReviewResult;
 import de.retest.recheck.ui.review.SuiteChangeSet;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command( name = "commit", description = "Accept specified differences of given test report." )
-public class Commit implements Runnable {
+public class Commit implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Commit.class );
 
@@ -47,18 +52,23 @@ public class Commit implements Runnable {
 	@Parameters( arity = "1", description = TestReportUtil.TEST_REPORT_PARAMETER_DESCRIPTION )
 	private File testReport;
 
+	private int exitCode = OK;
+
 	@Override
 	public void run() {
 		if ( !PreCondition.isSatisfied() ) {
+			exitCode = USAGE;
 			return;
 		}
 		if ( !inputValidation( all, testReport ) ) {
+			exitCode = USAGE;
 			return;
 		}
 		try {
 			final List<String> invalidFilters = FilterUtil.getInvalidFilters( exclude );
 			if ( !invalidFilters.isEmpty() ) {
 				FilterUtil.logWarningForInvalidFilters( invalidFilters );
+				exitCode = SOFTWARE;
 			} else {
 				final TestReport report = TestReportUtil.load( testReport );
 				final TestReportFilter filter = new TestReportFilter( FilterUtil.getExcludeFilterFiles( exclude ) );
@@ -72,8 +82,14 @@ public class Commit implements Runnable {
 				checkForWarningAndApplyChanges( reviewResult );
 			}
 		} catch ( final Exception e ) {
+			exitCode = SOFTWARE;
 			ErrorHandler.handle( e );
 		}
+	}
+
+	@Override
+	public int getExitCode() {
+		return exitCode;
 	}
 
 	private void checkForWarningAndApplyChanges( final ReviewResult reviewResult ) {

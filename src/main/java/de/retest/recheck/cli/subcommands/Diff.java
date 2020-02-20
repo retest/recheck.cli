@@ -1,6 +1,8 @@
 package de.retest.recheck.cli.subcommands;
 
 import static de.retest.recheck.XmlTransformerUtil.getXmlTransformer;
+import static picocli.CommandLine.ExitCode.OK;
+import static picocli.CommandLine.ExitCode.SOFTWARE;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,11 +32,12 @@ import de.retest.recheck.report.TestReportFilter;
 import de.retest.recheck.ui.descriptors.SutState;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command( name = "diff", description = "Compare two Golden Masters." )
-public class Diff implements Runnable {
+public class Diff implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Diff.class );
 
@@ -59,6 +62,8 @@ public class Diff implements Runnable {
 	@Option( names = "--output", arity = "1",
 			description = "Save differences of Golden Masters to specified directory as test report." )
 	private Path directory;
+
+	private int exitCode = OK;
 
 	@Override
 	public void run() {
@@ -88,6 +93,7 @@ public class Diff implements Runnable {
 
 			try {
 				if ( !FilterUtil.hasValidExcludeOption( exclude ) ) {
+					exitCode = SOFTWARE;
 					return;
 				}
 				final ActionReplayResult actionReplayResult =
@@ -95,9 +101,15 @@ public class Diff implements Runnable {
 				printGoldenMasterDifferences( filterActionReplayResult( actionReplayResult ) );
 				persistIfOutputOptionPresent( actionReplayResult );
 			} catch ( final Exception e ) {
+				exitCode = SOFTWARE;
 				ErrorHandler.handle( e );
 			}
 		}
+	}
+
+	@Override
+	public int getExitCode() {
+		return exitCode;
 	}
 
 	private ActionReplayResult createActionReplayResultFrom( final Path expectedSutStatePath,

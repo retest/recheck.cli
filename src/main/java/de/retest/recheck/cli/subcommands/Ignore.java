@@ -1,5 +1,9 @@
 package de.retest.recheck.cli.subcommands;
 
+import static picocli.CommandLine.ExitCode.OK;
+import static picocli.CommandLine.ExitCode.SOFTWARE;
+import static picocli.CommandLine.ExitCode.USAGE;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,11 +28,12 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command( name = "ignore", description = "Ignore specified differences of given test report." )
-public class Ignore implements Runnable {
+public class Ignore implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Ignore.class );
 
@@ -46,9 +51,12 @@ public class Ignore implements Runnable {
 
 	private GlobalIgnoreApplier ignoreApplier;
 
+	private int exitCode = OK;
+
 	@Override
 	public void run() {
 		if ( !PreCondition.isSatisfied() ) {
+			exitCode = USAGE;
 			return;
 		}
 		if ( list ) {
@@ -83,9 +91,15 @@ public class Ignore implements Runnable {
 				}
 				saveRecheckIgnore();
 			} catch ( final Exception e ) {
+				exitCode = SOFTWARE;
 				ErrorHandler.handle( e );
 			}
 		}
+	}
+
+	@Override
+	public int getExitCode() {
+		return exitCode;
 	}
 
 	private void loadRecheckIgnore() {

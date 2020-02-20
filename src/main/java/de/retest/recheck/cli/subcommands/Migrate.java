@@ -1,5 +1,9 @@
 package de.retest.recheck.cli.subcommands;
 
+import static picocli.CommandLine.ExitCode.OK;
+import static picocli.CommandLine.ExitCode.SOFTWARE;
+import static picocli.CommandLine.ExitCode.USAGE;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,11 +27,12 @@ import de.retest.recheck.persistence.PersistenceFactory;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
 import de.retest.recheck.ui.descriptors.SutState;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command( name = "migrate", description = "Migrate Golden Master(s)." )
-public class Migrate implements Runnable {
+public class Migrate implements Runnable, IExitCodeGenerator {
 
 	private static final String RECHECK_FOLDER = "/src/test/resources/retest/recheck";
 	private static final Logger logger = LoggerFactory.getLogger( Migrate.class );
@@ -41,15 +46,24 @@ public class Migrate implements Runnable {
 	private final GoldenMasterProviderImpl goldenMasterProvider =
 			new GoldenMasterProviderImpl( createSutStatePersistence() );
 
+	private int exitCode = OK;
+
 	@Override
 	public void run() {
 		try {
 			migrateAllGoldenMasters( getAllGoldenMasters() );
 		} catch ( final IOException e ) {
 			logger.error( "The directory '{}' does not exist.", e.getMessage() );
+			exitCode = USAGE;
 		} catch ( final NoGoldenMasterFoundException e ) {
 			logger.error( "{}", e.getMessage() );
+			exitCode = SOFTWARE;
 		}
+	}
+
+	@Override
+	public int getExitCode() {
+		return exitCode;
 	}
 
 	private void migrateAllGoldenMasters( final List<String> goldenMastersPaths ) throws NoGoldenMasterFoundException {

@@ -138,12 +138,11 @@ public class Diff implements Runnable, IExitCodeGenerator {
 	private void printGoldenMasterDifferences( final ActionReplayResult actionReplayResult ) {
 		final ActionReplayResultPrinter printer =
 				new ActionReplayResultPrinter( ( attributes, s, serializable ) -> false );
-
-		logger.info( "\n{}", printer.toString( actionReplayResult ) );
+		logger.info( "\n\n{}\n\n", printer.toString( actionReplayResult ) );
 
 		final int differenceCount = actionReplayResult.getDifferences().size();
 		if ( differenceCount > 0 ) {
-			logger.info( "\nOverall, recheck found {} difference(s) when checking {} element(s).", differenceCount,
+			logger.warn( "Overall, recheck found {} difference(s) when checking {} element(s).", differenceCount,
 					actionReplayResult.getCheckedUiElementsCount() );
 		}
 	}
@@ -159,7 +158,7 @@ public class Diff implements Runnable, IExitCodeGenerator {
 			persist( actionReplayResult, directory );
 			return;
 		}
-		logger.info( "\nThe displayed differences may be saved as test report by using the --output option." );
+		logger.info( "The displayed differences may be saved as test report by using the --output option." );
 	}
 
 	private void persist( final ActionReplayResult result, final Path outputDirectory ) throws IOException {
@@ -173,7 +172,7 @@ public class Diff implements Runnable, IExitCodeGenerator {
 
 		persistenceFactory.getPersistence().save( report.toURI(), testReport );
 
-		logger.info( "\nThe test report has been saved to '{}'.", report.getAbsolutePath() );
+		logger.info( "The test report has been saved to '{}'.", report.getAbsolutePath() );
 	}
 
 }

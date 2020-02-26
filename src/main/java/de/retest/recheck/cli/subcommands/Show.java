@@ -67,8 +67,8 @@ public class Show implements Runnable, IExitCodeGenerator {
 
 	private void printDiff() throws TestReportFormatException, IOException {
 		final TestReport report = TestReportUtil.load( testReport );
-		final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-		final TestReportFilter filter = new TestReportFilter( excludeFilter );
+		final Filter filterFiles = FilterUtil.getFilterFiles( exclude );
+		final TestReportFilter filter = new TestReportFilter( filterFiles );
 		final TestReport filteredTestReport = filter.filter( report );
 		final TestReportPrinter printer = new TestReportPrinter( none() );
 

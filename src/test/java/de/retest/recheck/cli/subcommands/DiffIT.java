@@ -209,8 +209,6 @@ public class DiffIT {
 		GoldenMasterCreator.createGoldenMasterFile( gm1, true );
 		GoldenMasterCreator.createGoldenMasterFile( gm2, false );
 
-		final File outputFile = new File( outputDir, RecheckProperties.AGGREGATED_TEST_REPORT_FILE_NAME );
-
 		final String[] args = { "--exclude", "sty-attributes.filter", "--exclude", "invisib.filter", "--output",
 				outputDir.getAbsolutePath(), gm1.getAbsolutePath(), gm2.getAbsolutePath() };
 

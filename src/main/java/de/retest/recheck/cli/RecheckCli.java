@@ -15,9 +15,19 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 // TODO Add Migrate command when https://github.com/retest/recheck.cli/issues/85#issuecomment-526102137 is addressed.
-@Command( name = "recheck", description = "Command-line interface for recheck.",
-		versionProvider = VersionProvider.class, subcommands = { Version.class, Show.class, Diff.class, Commit.class,
-				Ignore.class, Completion.class, CommandLine.HelpCommand.class, Account.class } )
+@Command( name = "recheck", //
+		description = "Command-line interface for recheck.", //
+		versionProvider = VersionProvider.class, //
+		subcommands = { //
+				Account.class, //
+				CommandLine.HelpCommand.class, //
+				Commit.class, //
+				Completion.class, //
+				Diff.class, //
+				Ignore.class, //
+				Show.class, //
+				Version.class, //
+		} )
 public class RecheckCli implements Runnable {
 
 	private static final CommandLine.Help.ColorScheme colorScheme = new CommandLine.Help.ColorScheme.Builder() //
@@ -55,5 +65,4 @@ public class RecheckCli implements Runnable {
 				.setColorScheme( colorScheme ) //
 				.execute( args );
 	}
-
 }

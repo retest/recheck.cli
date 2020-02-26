@@ -32,9 +32,12 @@ import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "ignore", description = "Ignore specified differences of given test report." )
+@Command( name = "ignore", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", //
+		description = "Ignore specified differences of given test report." )
 public class Ignore implements Runnable, IExitCodeGenerator {
-
 	private static final Logger logger = LoggerFactory.getLogger( Ignore.class );
 
 	@Option( names = "--help", usageHelp = true, hidden = true )

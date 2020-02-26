@@ -30,12 +30,14 @@ public class IgnoreIT {
 
 	@Test
 	public void ignore_without_argument_should_return_the_usage_message() {
-		final String expected = "Usage: ignore [--all] [--list] [<testReport>]\n"
-				+ "Ignore specified differences of given test report.\n"
+		final String expected = "Usage: ignore [--all] [--list] [<testReport>]\n" //
+				+ "\nDescription:\n" //
+				+ "Ignore specified differences of given test report.\n" //
+				+ "\nParameters:\n" //
 				+ "      [<testReport>]   Path to a test report file (.report extension). If the\n"
 				+ "                         test report is not in the project directory, please\n"
 				+ "                         specify the absolute path, otherwise a relative path\n"
-				+ "                         is sufficient.\n"
+				+ "                         is sufficient.\n" + "\nOptions:\n"
 				+ "      --all            Ignore all differences from the given test report.\n"
 				+ "      --list           List all ignored elements.";
 		assertThat( new CommandLine( new Ignore() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );

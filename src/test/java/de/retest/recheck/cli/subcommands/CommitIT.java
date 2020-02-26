@@ -33,12 +33,16 @@ public class CommitIT {
 
 	@Test
 	public void commit_without_argument_should_return_the_usage_message() {
-		final String expectedMessage = "Usage: commit [--all] [--exclude=<exclude>]... <testReport>\n"
-				+ "Accept specified differences of given test report.\n"
+		final String expectedMessage = "Usage: commit [--all] [--exclude=<exclude>]... <testReport>\n" //
+				+ "\n" //
+				+ "Description:\n" //
+				+ "Accept specified differences of given test report.\n" //
+				+ "\nParameters:\n" //
 				+ "      <testReport>          Path to a test report file (.report extension). If\n"
 				+ "                              the test report is not in the project directory,\n"
 				+ "                              please specify the absolute path, otherwise a\n"
-				+ "                              relative path is sufficient.\n"
+				+ "                              relative path is sufficient.\n" //
+				+ "\nOptions:\n" //
 				+ "      --all                 Accept all differences from the given test report.\n"
 				+ "      --exclude=<exclude>   Filter to exclude changes from the report. For a\n"
 				+ "                              custom filter, please specify the absolute path.\n"

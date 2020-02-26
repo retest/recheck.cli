@@ -31,7 +31,11 @@ import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "migrate", description = "Migrate Golden Master(s)." )
+@Command( name = "migrate", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", // 
+		description = "Migrate Golden Master(s)." )
 public class Migrate implements Runnable, IExitCodeGenerator {
 
 	private static final String RECHECK_FOLDER = "/src/test/resources/retest/recheck";

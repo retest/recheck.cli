@@ -25,7 +25,11 @@ import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command( name = "show", description = "Display differences of given test report." )
+@Command( name = "show", //
+		descriptionHeading = "%nDescription:%n", //
+		parameterListHeading = "%nParameters:%n", //
+		optionListHeading = "%nOptions:%n", // 
+		description = "Display differences of given test report." )
 public class Show implements Runnable, IExitCodeGenerator {
 
 	private static final Logger logger = LoggerFactory.getLogger( Show.class );

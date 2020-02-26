@@ -13,17 +13,21 @@ As of now, `recheck` will give you the following help message:
 ```
 $ recheck
 Usage: recheck [--help] [--version] [COMMAND]
+
+Description:
 Command-line interface for recheck.
+
+Options:
       --help      Display this help message.
       --version   Display version info.
 Commands:
-  version     Display version info.
-  diff        Compare two Golden Masters.
-  show        Display differences of given test report.
+  help        Displays help information about the specified command
   commit      Accept specified differences of given test report.
-  ignore      Ignore specified differences of given test report.
   completion  Generate and display an auto completion script.
-  help        Displays help information about the specified command.
+  diff        Compare two Golden Masters.
+  ignore      Ignore specified differences of given test report.
+  show        Display differences of given test report.
+  version     Display version info.
 ```
 
 ## Setup

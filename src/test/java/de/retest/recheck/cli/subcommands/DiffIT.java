@@ -30,18 +30,22 @@ public class DiffIT {
 
 	@Test
 	public void diff_without_argument_should_return_the_usage_message() {
-		final String expected = "Usage: diff [--output=<directory>] [--exclude=<exclude>]...\n"
-				+ "            <goldenMasterPath>..." + "Compare two Golden Masters.\n"
-				+ "      <goldenMasterPath>...  Path to a golden master folder. This command may\n"
-				+ "                               also be used with a single parameter to print\n"
-				+ "                               out a test report (deprecated).\n"
-				+ "      --exclude=<exclude>    Filter to exclude changes from the report. For a\n"
-				+ "                               custom filter, please specify the absolute path.\n"
-				+ "                               For predefined filters, a relative path is\n"
-				+ "                               sufficient. Specify this option multiple times\n"
-				+ "                               to use more than one filter.\n"
-				+ "      --output=<directory>   Save differences of Golden Masters to specified\n"
-				+ "                               directory as test report.\n";
+		final String expected =
+				"Usage: diff [--output=<directory>] [--exclude=<exclude>]...\n" + "            <goldenMasterPath>..." //
+						+ "\nDescription:\n" //
+						+ "Compare two Golden Masters.\n" //
+						+ "\nParameters:\n" //
+						+ "      <goldenMasterPath>...  Path to a golden master folder. This command may\n"
+						+ "                               also be used with a single parameter to print\n"
+						+ "                               out a test report (deprecated).\n" //
+						+ "\nOptions:\n" //
+						+ "      --exclude=<exclude>    Filter to exclude changes from the report. For a\n"
+						+ "                               custom filter, please specify the absolute path.\n"
+						+ "                               For predefined filters, a relative path is\n"
+						+ "                               sufficient. Specify this option multiple times\n"
+						+ "                               to use more than one filter.\n"
+						+ "      --output=<directory>   Save differences of Golden Masters to specified\n"
+						+ "                               directory as test report.\n";
 
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}

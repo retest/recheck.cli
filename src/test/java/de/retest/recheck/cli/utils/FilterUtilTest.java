@@ -18,7 +18,7 @@ class FilterUtilTest {
 	@Test
 	void when_exclude_is_not_empty_the_filters_plus_GlobalIgnoreApplier_should_be_returned() throws IOException {
 		final List<String> exclude = Arrays.asList( "positioning.filter" );
-		final CompoundFilter filter = (CompoundFilter) FilterUtil.getExcludeFilterFiles( exclude );
+		final CompoundFilter filter = (CompoundFilter) FilterUtil.getFilterFiles( exclude );
 		// +1 for GlobalIgnoreApplier.
 		assertThat( filter.getFilters() ).hasSize( exclude.size() + 1 );
 	}
@@ -26,14 +26,14 @@ class FilterUtilTest {
 	@Test
 	void when_exclude_is_empty_only_GlobalIgnoreApplier_should_be_returned() throws IOException {
 		final List<String> exclude = Collections.emptyList();
-		final CompoundFilter filter = (CompoundFilter) FilterUtil.getExcludeFilterFiles( exclude );
+		final CompoundFilter filter = (CompoundFilter) FilterUtil.getFilterFiles( exclude );
 		// +1 for GlobalIgnoreApplier.
 		assertThat( filter.getFilters() ).hasSize( 1 );
 	}
 
 	@Test
 	void when_exclude_is_null_recheck_ignore_should_be_returned() throws Exception {
-		final Filter filter = FilterUtil.getExcludeFilterFiles( null );
+		final Filter filter = FilterUtil.getFilterFiles( null );
 		assertThat( filter ).isInstanceOf( GlobalIgnoreApplier.class );
 	}
 

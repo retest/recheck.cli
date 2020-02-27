@@ -148,8 +148,8 @@ public class Diff implements Runnable, IExitCodeGenerator {
 	}
 
 	private ActionReplayResult filterActionReplayResult( final ActionReplayResult actionReplayResult ) {
-		final Filter excludeFilter = FilterUtil.getExcludeFilterFiles( exclude );
-		final TestReportFilter reportFilter = new TestReportFilter( (excludeFilter) );
+		final Filter filterFiles = FilterUtil.getFilterFiles( exclude );
+		final TestReportFilter reportFilter = new TestReportFilter( (filterFiles) );
 		return reportFilter.filter( actionReplayResult );
 	}
 

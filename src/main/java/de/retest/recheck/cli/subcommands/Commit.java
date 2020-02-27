@@ -75,7 +75,7 @@ public class Commit implements Runnable, IExitCodeGenerator {
 				exitCode = SOFTWARE;
 			} else {
 				final TestReport report = TestReportUtil.load( testReport );
-				final TestReportFilter filter = new TestReportFilter( FilterUtil.getExcludeFilterFiles( exclude ) );
+				final TestReportFilter filter = new TestReportFilter( FilterUtil.getFilterFiles( exclude ) );
 				final TestReport filteredTestReport = filter.filter( report );
 				if ( !filteredTestReport.containsChanges() ) {
 					logger.warn( "The test report has no differences." );

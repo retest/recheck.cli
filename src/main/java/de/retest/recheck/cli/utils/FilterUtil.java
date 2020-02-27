@@ -26,7 +26,7 @@ public class FilterUtil {
 
 	private FilterUtil() {}
 
-	public static Filter getExcludeFilterFiles( final List<String> exclude ) {
+	public static Filter getFilterFiles( final List<String> exclude ) {
 		if ( exclude == null ) {
 			return loadRecheckIgnore();
 		}

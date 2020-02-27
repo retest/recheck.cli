@@ -40,6 +40,8 @@ This command may still be used to show results of a test report. But it is advis
 * Do not print stack trace when a report is in an incompatible version.
 * Exit with a non-zero return code when a sub-command encounters a problem.
 * Enable ANSI on Windows and apply custom color scheme to usage messages.
+* Change logger pattern to include levels and colors.
+* Add whitespace for difference print out, e.g. when using `recheck show` to look at test report results.
 
 --------------------------------------------------------------------------------
 

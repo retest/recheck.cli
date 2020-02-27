@@ -72,10 +72,10 @@ public class Show implements Runnable, IExitCodeGenerator {
 		final TestReport filteredTestReport = filter.filter( report );
 		final TestReportPrinter printer = new TestReportPrinter( none() );
 
-		logger.info( "\n{}", printer.toString( filteredTestReport ) );
+		logger.info( "\n\n{}\n\n", printer.toString( filteredTestReport ) );
 
 		if ( filteredTestReport.getDifferencesCount() > 0 ) {
-			logger.info( "\nOverall, recheck found {} difference(s) when checking {} element(s).",
+			logger.warn( "Overall, recheck found {} difference(s) when checking {} element(s).",
 					filteredTestReport.getDifferencesCount(), filteredTestReport.getCheckedUiElementsCount() );
 		}
 	}

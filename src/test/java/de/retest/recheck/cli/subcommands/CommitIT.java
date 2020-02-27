@@ -1,6 +1,5 @@
 package de.retest.recheck.cli.subcommands;
 
-import static java.lang.System.lineSeparator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -134,14 +133,14 @@ public class CommitIT {
 
 		new CommandLine( new Commit() ).execute( args );
 
-		final String warning =
-				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'."
-						+ lineSeparator() //
-						+ "recheck identified the element based on the persisted Golden Master." + lineSeparator() //
-						+ "If you apply these changes to the Golden Master, your test 'de.retest.MySeleniumTest' will break.";
+		final String warning1 =
+				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'.";
+		final String warning2 = "recheck identified the element based on the persisted Golden Master.";
+		final String warning3 =
+				"If you apply these changes to the Golden Master, your test 'de.retest.MySeleniumTest' will break.";
 		final String question = "Are you sure you want to continue? (y)es or (n)o";
 		final String response = "The following Golden Master(s) cannot be found";
-		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
+		assertThat( systemOutRule.getLog() ).contains( warning1, warning2, warning3, question, response );
 	}
 
 	@Test
@@ -153,14 +152,14 @@ public class CommitIT {
 
 		new CommandLine( new Commit() ).execute( args );
 
-		final String warning =
-				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'."
-						+ lineSeparator() //
-						+ "recheck identified the element based on the persisted Golden Master." + lineSeparator() //
-						+ "If you apply these changes to the Golden Master, your test 'de.retest.MySeleniumTest' will break.";
+		final String warning1 =
+				"The HTML attribute 'text' used for element identification changed from 'original text' to 'changed text'.";
+		final String warning2 = "recheck identified the element based on the persisted Golden Master.";
+		final String warning3 =
+				"If you apply these changes to the Golden Master, your test 'de.retest.MySeleniumTest' will break.";
 		final String question = "Are you sure you want to continue? (y)es or (n)o";
 		final String response = "No changes are applied!";
-		assertThat( systemOutRule.getLog() ).contains( warning, question, response );
+		assertThat( systemOutRule.getLog() ).contains( warning1, warning2, warning3, question, response );
 	}
 
 	@Test

@@ -39,8 +39,7 @@ public class SystemInUtilTest {
 	public void should_repeatedly_ask_yes_or_no_when_input_is_invalid() throws Exception {
 		systemInMock.provideLines( "invalid", "yes" );
 		assertThat( SystemInUtil.yesOrNo() ).isTrue();
-		assertThat( systemOutRule.getLog() )
-				.isEqualToIgnoringNewLines( "Invalid input, please only use (y)es or (n)o:\n" );
+		assertThat( systemOutRule.getLog() ).endsWith( "Invalid input, please only use (y)es or (n)o:\n" );
 	}
 
 }

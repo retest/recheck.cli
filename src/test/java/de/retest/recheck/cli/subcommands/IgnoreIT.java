@@ -1,7 +1,6 @@
 package de.retest.recheck.cli.subcommands;
 
 import static de.retest.recheck.cli.testutils.ProjectRootFaker.fakeProjectRoot;
-import static java.lang.System.lineSeparator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -45,24 +44,23 @@ public class IgnoreIT {
 
 	@Test
 	public void ignore_with_incomplete_arguments_should_return_info_message() {
-		final String expected =
-				"Currently only the two commands 'ignore --all' and 'ignore --list' are implemented." + lineSeparator()
-						+ "A command to ignore specific differences will be implemented shortly." + lineSeparator();
+		final String warning1 = "Currently only the two commands 'ignore --all' and 'ignore --list' are implemented.";
+		final String warning2 = "A command to ignore specific differences will be implemented shortly.";
 		final String[] args = { "foo/bar" };
 
 		new CommandLine( new Ignore() ).execute( args );
 
-		assertThat( systemOutRule.getLog() ).isEqualToIgnoringNewLines( expected );
+		assertThat( systemOutRule.getLog() ).contains( warning1, warning2 );
 	}
 
 	@Test
 	public void ignore_with_incomplete_arguments_should_return_help_message() {
-		final String expected = "Please specify exactly one test report to ignore all differences." + lineSeparator();
+		final String expected = "Please specify exactly one test report to ignore all differences.\n";
 		final String[] args = { "--all" };
 
 		new CommandLine( new Ignore() ).execute( args );
 
-		assertThat( systemOutRule.getLog() ).isEqualToIgnoringNewLines( expected );
+		assertThat( systemOutRule.getLog() ).endsWith( expected );
 	}
 
 	@Test

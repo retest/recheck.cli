@@ -55,12 +55,12 @@ public class IgnoreIT {
 
 	@Test
 	public void ignore_with_incomplete_arguments_should_return_help_message() {
-		final String expected = "Please specify exactly one test report to ignore all differences.\n";
+		final String expected = "Please specify exactly one test report to ignore all differences.";
 		final String[] args = { "--all" };
 
 		new CommandLine( new Ignore() ).execute( args );
 
-		assertThat( systemOutRule.getLog() ).endsWith( expected );
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 
 	@Test

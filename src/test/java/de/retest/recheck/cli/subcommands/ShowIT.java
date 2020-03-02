@@ -56,15 +56,15 @@ public class ShowIT {
 		final String expected = "Suite 'diff_should_print_differences' has 3 difference(s) in 1 test(s):\n" //
 				+ "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
 				+ "\t\t\ttext:\n" //
 				+ "\t\t\t  expected=\"original text\",\n" //
 				+ "\t\t\t    actual=\"changed text\"\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
 				+ "\t\t\twas deleted\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz [changed text] at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
 				+ "\t\t\twas inserted";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );

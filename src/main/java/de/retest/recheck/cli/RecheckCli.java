@@ -1,5 +1,7 @@
 package de.retest.recheck.cli;
 
+import static de.retest.recheck.cli.utils.HelpColorScheme.colorScheme;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -10,6 +12,7 @@ import de.retest.recheck.cli.subcommands.Diff;
 import de.retest.recheck.cli.subcommands.Ignore;
 import de.retest.recheck.cli.subcommands.Show;
 import de.retest.recheck.cli.subcommands.Version;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -29,11 +32,6 @@ import picocli.CommandLine.Option;
 				Version.class, //
 		} )
 public class RecheckCli implements Runnable {
-
-	private static final CommandLine.Help.ColorScheme colorScheme = new CommandLine.Help.ColorScheme.Builder() //
-			.commands( CommandLine.Help.Ansi.Style.fg_green ) //
-			.parameters( CommandLine.Help.Ansi.Style.fg_yellow ) //
-			.build();
 
 	@Option( names = "--help", usageHelp = true, description = "Display this help message." )
 	private boolean displayHelp;

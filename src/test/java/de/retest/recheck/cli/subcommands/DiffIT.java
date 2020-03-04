@@ -114,13 +114,16 @@ public class DiffIT {
 
 		new CommandLine( new Diff() ).execute( args );
 
-		final String expected = "Comparison of Golden Masters resulted in:\n" //
-				+ "\tMetadata Differences:\n" //
-				+ "\t	some.driver: expected=\"driverA\", actual=\"driverB\"\n" //
-				+ "\tbaz [changed text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t	was deleted\n" //
-				+ "\tbaz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t	was inserted\n";
+		final String expected = "Comparison of Golden Masters resulted in:\n" // 
+				+ "\tMetadata Differences:\n" // 
+				+ "\t  Please note that these differences do not affect the result and are not included in the difference count.\n"
+				+ "\t\tsome.driver:\n" // 
+				+ "\t\t  expected=\"driverA\",\n" // 
+				+ "\t\t    actual=\"driverB\"\n" // 
+				+ "\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" // 
+				+ "\t\twas deleted\n" // 
+				+ "\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" // 
+				+ "\t\twas inserted";
 
 		assertThat( systemOutRule.getLog() ).containsSubsequence( expected );
 	}
@@ -143,7 +146,7 @@ public class DiffIT {
 		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( systemOutRule.getLog() )
-				.containsSubsequence( "Overall, recheck found 2 difference(s) when checking 2 element(s).\n" );
+				.contains( "Overall, recheck found 2 difference(s) when checking 2 element(s)." );
 	}
 
 	@Test
@@ -215,7 +218,7 @@ public class DiffIT {
 		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( systemOutRule.getLog() )
-				.endsWith( "The invalid filter files are: sty-attributes.filter, invisib.filter\n" );
+				.contains( "The invalid filter files are: sty-attributes.filter, invisib.filter" );
 	}
 
 	// remove this test in next version when old diff functionality is provided only under new command (see RET-1956)
@@ -230,14 +233,16 @@ public class DiffIT {
 		final String expected = "Suite 'diff_should_print_differences' has 3 difference(s) in 1 test(s):\n" //
 				+ "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t		text: expected=\"original text\", actual=\"changed text\"\n" //
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\t\ttext:\n" //
+				+ "\t\t\t  expected=\"original text\",\n" //
+				+ "\t\t\t    actual=\"changed text\"\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t		was deleted\n" //
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\t\twas deleted\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t	baz [changed text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t		was inserted";
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\t\twas inserted";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
@@ -254,14 +259,16 @@ public class DiffIT {
 
 		final String expected = "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t		text: expected=\"original text\", actual=\"changed text\"\n" //
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\t\ttext:\n" //
+				+ "\t\t\t  expected=\"original text\",\n" //
+				+ "\t\t\t    actual=\"changed text\"\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t	baz [original text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t		was deleted\n" //
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\t\twas deleted\n" //
 				+ "\tcheck resulted in:\n" //
-				+ "\t	baz [changed text] at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t		was inserted";
+				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\t\twas inserted";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}

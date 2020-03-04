@@ -29,9 +29,23 @@ Table of Contents
 
 ### New Features
 
-* Add `account` sub commands which allow users to login/logout and display the local API key
+### Improvements
 
-* `diff` command: compare any two golden masters. The option `--output` offers the possibility to save 
+
+--------------------------------------------------------------------------------
+
+
+[1.10.0] (2020-03-04)
+---------------------
+
+### Breaking Changes
+
+### Bug Fixes
+
+### New Features
+
+* Add `account` sub commands which allow users to login/logout and display the local API key
+* Change `diff` command: compare any two golden masters. The option `--output` offers the possibility to save 
 the differences as test report in the specified directory, and the option `--exclude` to filter the differences.
 This command may still be used to show results of a test report. But it is advised to use the new command `show` instead.
 
@@ -42,8 +56,6 @@ This command may still be used to show results of a test report. But it is advis
 * Enable ANSI on Windows and apply custom color scheme to usage messages.
 * Change logger pattern to include levels and colors.
 * Add whitespace for difference print out, e.g. when using `recheck show` to look at test report results.
-
---------------------------------------------------------------------------------
 
 
 [1.9.0] (2020-01-29)

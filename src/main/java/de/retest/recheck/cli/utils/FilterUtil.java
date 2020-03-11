@@ -63,7 +63,7 @@ public class FilterUtil {
 		} catch ( final IOException e ) {
 			log.error( "Failed to load recheck.ignore.", e );
 		}
-		return Filter.FILTER_NOTHING;
+		return Filter.NEVER_MATCH;
 	}
 
 	public static boolean hasValidExcludeOption( final List<String> exclude ) {

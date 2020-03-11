@@ -1,9 +1,11 @@
 package de.retest.recheck.cli.subcommands;
 
+import static de.retest.recheck.cli.utils.HelpColorScheme.colorScheme;
+import static picocli.CommandLine.usage;
+
 import de.retest.recheck.cli.subcommands.account.Login;
 import de.retest.recheck.cli.subcommands.account.Logout;
 import de.retest.recheck.cli.subcommands.account.Show;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -24,7 +26,7 @@ public class Account implements Runnable {
 
 	@Override
 	public void run() {
-		CommandLine.usage( this, System.out );
+		usage( this, System.out, colorScheme );
 	}
 
 	boolean isDisplayHelp() {

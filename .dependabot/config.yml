@@ -1,0 +1,15 @@
+version: 1
+update_configs:
+  - package_manager: "java:maven"
+    directory: "/"
+    update_schedule: "daily"
+    default_reviewers:
+      - "beatngu13"
+      - "martin-v"
+      - "modulo11"
+      - "diba1013"
+      - "githubert"
+    ignored_updates:
+      - match:
+          # We update these manually within the release process
+          dependency_name: "de.retest:recheck*"

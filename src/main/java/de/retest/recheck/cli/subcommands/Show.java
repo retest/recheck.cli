@@ -73,6 +73,9 @@ public class Show implements Runnable, IExitCodeGenerator {
 		final TestReport report = TestReportUtil.load( testReport );
 		final Filter filterFiles = FilterUtil.getFilterFiles( exclude );
 		final TestReportFilter filter = new TestReportFilter( filterFiles );
+
+		FilterUtil.printUsedFilterPaths( filterFiles );
+
 		final TestReport filteredTestReport = filter.filter( report );
 		final TestReportPrinter printer = new TestReportPrinter( none() );
 

@@ -1,16 +1,22 @@
 package de.retest.recheck.cli.utils;
 
+import static de.retest.recheck.ignore.PersistentFilter.unwrap;
+
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.ignore.SearchFilterFiles;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.review.workers.LoadFilterWorker;
@@ -24,6 +30,8 @@ public class FilterUtil {
 			+ "For predefined filters, a relative path is sufficient. " //
 			+ "Specify this option multiple times to use more than one filter.";
 
+	private static final Map<String, Filter> FILTER_MAPPING = SearchFilterFiles.toFileNameFilterMapping();
+
 	private FilterUtil() {}
 
 	public static Filter getFilterFiles( final List<String> exclude ) {
@@ -31,7 +39,7 @@ public class FilterUtil {
 			return loadRecheckIgnore();
 		}
 		final Set<String> excludeDistinct = new HashSet<>( exclude );
-		final Stream<Filter> excluded = SearchFilterFiles.toFileNameFilterMapping().entrySet().stream() //
+		final Stream<Filter> excluded = FILTER_MAPPING.entrySet().stream() //
 				.filter( entry -> excludeDistinct.contains( entry.getKey() ) ) //
 				.map( Entry::getValue );
 		return Stream.concat( excluded, Stream.of( loadRecheckIgnore() ) ) //
@@ -44,7 +52,7 @@ public class FilterUtil {
 			return invalidFilterFiles;
 		}
 		for ( final String invalidFilterName : invalidFilters ) {
-			if ( !SearchFilterFiles.toFileNameFilterMapping().containsKey( invalidFilterName ) ) {
+			if ( !FILTER_MAPPING.containsKey( invalidFilterName ) ) {
 				invalidFilterFiles.add( invalidFilterName );
 			}
 		}
@@ -75,4 +83,35 @@ public class FilterUtil {
 		return true;
 	}
 
+	public static Optional<List<Path>> getFilterPaths( final Filter filterFiles ) {
+		final List<Path> filterPaths = new ArrayList<>();
+
+		// path of ignore files is provided by loadRecheckIgnore(), cannot be cast to CompoundFilter
+		if ( !(filterFiles instanceof CompoundFilter) ) {
+			return Optional.empty();
+		}
+		final List<Filter> filters = unwrap( (((CompoundFilter) filterFiles).getFilters()) );
+		final List<CompoundFilter> compoundFilters = filters.stream() //
+				.filter( f -> f instanceof CompoundFilter ) //
+				.map( f -> (CompoundFilter) f ).collect( Collectors.toList() );
+
+		for ( final CompoundFilter c : compoundFilters ) {
+			if ( !c.getFilters().isEmpty() ) {
+				final PersistentFilter persistentFilter = (PersistentFilter) c.getFilters().get( 0 );
+				filterPaths.add( persistentFilter.getPath() );
+			}
+		}
+		return Optional.of( filterPaths );
+	}
+
+	public static void printUsedFilterPaths( final Filter filterFiles ) {
+		final StringBuilder filterPathNames = new StringBuilder();
+		getFilterPaths( filterFiles ).ifPresent( f -> {
+			for ( final Path p : f ) {
+				filterPathNames.append( "\n\t" );
+				filterPathNames.append( p.toAbsolutePath().toString() );
+			}
+		} );
+		log.info( "The following filter files have been applied:{}", filterPathNames );
+	}
 }

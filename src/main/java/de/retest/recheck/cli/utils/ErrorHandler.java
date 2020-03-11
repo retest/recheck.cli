@@ -35,7 +35,7 @@ public class ErrorHandler {
 			return;
 		}
 		if ( e instanceof UncheckedIOException ) {
-			log.error( "\n{}", e.getMessage() );
+			log.error( "{}", e.getMessage() );
 			return;
 		}
 		if ( e instanceof IOException ) {

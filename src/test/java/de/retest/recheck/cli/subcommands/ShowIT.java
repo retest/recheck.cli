@@ -3,6 +3,7 @@ package de.retest.recheck.cli.subcommands;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -90,5 +91,20 @@ public class ShowIT {
 
 		assertThat( systemOutRule.getLog() ).contains( "The given file report '" + doesNotExist.getAbsolutePath()
 				+ "' does not exist. Please check the given file path." );
+	}
+
+	@Test
+	public void show_should_print_used_filters_with_correct_exclude_options() throws IOException {
+		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
+		final String[] args = { "--exclude", "invisible-attributes.filter", "--exclude", "positioning.filter",
+				TestReportCreator.createTestReportFileWithDiffs( temp ) };
+
+		new CommandLine( new Show() ).execute( args );
+
+		final String expected = "The following filter files have been applied:\n" //
+				+ "\t/filter/web/positioning.filter\n" //
+				+ "\t/filter/web/invisible-attributes.filter";
+
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 }

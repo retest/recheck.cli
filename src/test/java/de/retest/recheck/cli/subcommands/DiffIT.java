@@ -221,6 +221,32 @@ public class DiffIT {
 				.contains( "The invalid filter files are: sty-attributes.filter, invisib.filter" );
 	}
 
+	@Test
+	public void diff_should_print_used_filters_with_correct_exclude_options() throws IOException {
+		temp.newFolder( "path" );
+		temp.newFolder( "path", "goldenmaster" );
+		temp.newFolder( "someotherpath" );
+		temp.newFolder( "someotherpath", "goldenmaster" );
+
+		final File outputDir = temp.newFolder( "somedirectory" );
+
+		final File gm1 = temp.newFolder( "path", "goldenmaster", "a" );
+		final File gm2 = temp.newFolder( "someotherpath", "goldenmaster", "b" );
+
+		GoldenMasterCreator.createGoldenMasterFile( gm1, true );
+		GoldenMasterCreator.createGoldenMasterFile( gm2, false );
+
+		final String[] args = { "--exclude", "style-attributes.filter", "--output", outputDir.getAbsolutePath(),
+				gm1.getAbsolutePath(), gm2.getAbsolutePath() };
+
+		new CommandLine( new Diff() ).execute( args );
+
+		final String expected = "The following filter files have been applied:\n" //
+				+ "\t/filter/web/style-attributes.filter";
+
+		assertThat( systemOutRule.getLog() ).contains( expected );
+	}
+
 	// remove this test in next version when old diff functionality is provided only under new command (see RET-1956)
 	@Test
 	public void diff_should_print_diff_of_test_report_if_used_with_single_parameter() throws IOException {

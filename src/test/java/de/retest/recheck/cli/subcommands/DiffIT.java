@@ -13,8 +13,6 @@ import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.cli.testutils.GoldenMasterCreator;
-import de.retest.recheck.cli.testutils.ProjectRootFaker;
-import de.retest.recheck.cli.testutils.TestReportCreator;
 import de.retest.recheck.util.FileUtil;
 import picocli.CommandLine;
 
@@ -30,22 +28,21 @@ public class DiffIT {
 
 	@Test
 	public void diff_without_argument_should_return_the_usage_message() {
-		final String expected =
-				"Usage: diff [--output=<directory>] [--exclude=<exclude>]...\n" + "            <goldenMasterPath>..." //
-						+ "\nDescription:\n" //
-						+ "Compare two Golden Masters.\n" //
-						+ "\nParameters:\n" //
-						+ "      <goldenMasterPath>...  Path to a golden master folder. This command may\n"
-						+ "                               also be used with a single parameter to print\n"
-						+ "                               out a test report (deprecated).\n" //
-						+ "\nOptions:\n" //
-						+ "      --exclude=<exclude>    Filter to exclude changes from the report. For a\n"
-						+ "                               custom filter, please specify the absolute path.\n"
-						+ "                               For predefined filters, a relative path is\n"
-						+ "                               sufficient. Specify this option multiple times\n"
-						+ "                               to use more than one filter.\n"
-						+ "      --output=<directory>   Save differences of Golden Masters to specified\n"
-						+ "                               directory as test report.\n";
+		final String expected = "Usage: diff [--output=<directory>] [--exclude=<exclude>]... (<goldenMasterPath>\n" //
+				+ "            <goldenMasterPath>)..." //
+				+ "\nDescription:\n" //
+				+ "Compare two Golden Masters.\n" //
+				+ "\nParameters:\n" //
+				+ "      (<goldenMasterPath> <goldenMasterPath>)...\n"
+				+ "                             Path to a golden master folder." //
+				+ "\nOptions:\n" //
+				+ "      --exclude=<exclude>    Filter to exclude changes from the report. For a\n"
+				+ "                               custom filter, please specify the absolute path.\n"
+				+ "                               For predefined filters, a relative path is\n"
+				+ "                               sufficient. Specify this option multiple times\n"
+				+ "                               to use more than one filter.\n"
+				+ "      --output=<directory>   Save differences of Golden Masters to specified\n"
+				+ "                               directory as test report.\n";
 
 		assertThat( new CommandLine( new Diff() ).getUsageMessage() ).isEqualToIgnoringNewLines( expected );
 	}
@@ -243,58 +240,6 @@ public class DiffIT {
 
 		final String expected = "The following filter files have been applied:\n" //
 				+ "\t/filter/web/style-attributes.filter";
-
-		assertThat( systemOutRule.getLog() ).contains( expected );
-	}
-
-	// remove this test in next version when old diff functionality is provided only under new command (see RET-1956)
-	@Test
-	public void diff_should_print_diff_of_test_report_if_used_with_single_parameter() throws IOException {
-		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
-		final String[] args =
-				{ TestReportCreator.createTestReportFileWithDiffs( temp, "diff_should_print_differences" ) };
-
-		new CommandLine( new Diff() ).execute( args );
-
-		final String expected = "Suite 'diff_should_print_differences' has 3 difference(s) in 1 test(s):\n" //
-				+ "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
-				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t\t\ttext:\n" //
-				+ "\t\t\t  expected=\"original text\",\n" //
-				+ "\t\t\t    actual=\"changed text\"\n" //
-				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t\t\twas deleted\n" //
-				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t\t\twas inserted";
-
-		assertThat( systemOutRule.getLog() ).contains( expected );
-	}
-
-	// remove this test in next version when old diff functionality is provided only under new command (see RET-1956)
-	@Test
-	public void diff_should_print_diff_of_test_report_if_used_with_single_parameter_and_exclude_option()
-			throws IOException {
-		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
-		final String[] args = { "--exclude", "invisible-attributes.filter", "--exclude", "positioning.filter",
-				TestReportCreator.createTestReportFileWithDiffs( temp ) };
-
-		new CommandLine( new Diff() ).execute( args );
-
-		final String expected = "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
-				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t\t\ttext:\n" //
-				+ "\t\t\t  expected=\"original text\",\n" //
-				+ "\t\t\t    actual=\"changed text\"\n" //
-				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t\t\twas deleted\n" //
-				+ "\tcheck resulted in:\n" //
-				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t\t\twas inserted";
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}

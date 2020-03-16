@@ -12,15 +12,12 @@ As of now, `recheck` will give you the following help message:
 
 ```
 $ recheck
-Usage: recheck [--help] [--version] [COMMAND]
-
-Description:
+recheck [--help] [--version] [COMMAND]
 Command-line interface for recheck.
-
-Options:
       --help      Display this help message.
       --version   Display version info.
 Commands:
+  account     Allows to log into and out of your account and show your API key.
   help        Displays help information about the specified command
   commit      Accept specified differences of given test report.
   completion  Generate and display an auto completion script.

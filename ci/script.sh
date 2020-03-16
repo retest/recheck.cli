@@ -6,7 +6,7 @@ set -o pipefail
 
 ###### Maven ######
 if [ ${TRAVIS_SECURE_ENV_VARS} = "true" ]; then
-    ${MVN} clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar
+    ${MVN} clean verify sonar:sonar -Pcoverage
 else
-    ${MVN} clean org.jacoco:jacoco-maven-plugin:prepare-agent verify
+    ${MVN} clean verify
 fi

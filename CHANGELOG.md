@@ -31,6 +31,8 @@ Table of Contents
 
 ### Improvements
 
+* When using the exclude option, the user will be informed which filter (e.g. from project or user folder) is applied to the report results.
+
 
 --------------------------------------------------------------------------------
 

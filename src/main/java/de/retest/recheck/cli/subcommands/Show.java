@@ -3,6 +3,7 @@ package de.retest.recheck.cli.subcommands;
 import static de.retest.recheck.printer.DefaultValueFinderProvider.none;
 import static picocli.CommandLine.ExitCode.OK;
 import static picocli.CommandLine.ExitCode.SOFTWARE;
+import static picocli.CommandLine.ExitCode.USAGE;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +54,9 @@ public class Show implements Runnable, IExitCodeGenerator {
 		try {
 			if ( FilterUtil.hasValidExcludeOption( exclude ) ) {
 				printDiff();
+			} else {
+				logger.warn( "Please specify a valid filter with the exclude option." );
+				exitCode = USAGE;
 			}
 		} catch ( final Exception e ) {
 			exitCode = SOFTWARE;
@@ -69,6 +73,9 @@ public class Show implements Runnable, IExitCodeGenerator {
 		final TestReport report = TestReportUtil.load( testReport );
 		final Filter filterFiles = FilterUtil.getFilterFiles( exclude );
 		final TestReportFilter filter = new TestReportFilter( filterFiles );
+
+		FilterUtil.printUsedFilterPaths( filterFiles );
+
 		final TestReport filteredTestReport = filter.filter( report );
 		final TestReportPrinter printer = new TestReportPrinter( none() );
 

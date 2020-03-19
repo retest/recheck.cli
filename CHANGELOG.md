@@ -25,6 +25,8 @@ Table of Contents
 
 ### Breaking Changes
 
+* `diff` command can no longer be used to display a test report. Use `show` instead.
+
 ### Bug Fixes
 
 ### New Features

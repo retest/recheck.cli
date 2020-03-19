@@ -7,7 +7,6 @@ import static picocli.CommandLine.ExitCode.SOFTWARE;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
 import de.retest.recheck.ui.descriptors.SutState;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
@@ -51,9 +49,7 @@ public class Diff implements Runnable, IExitCodeGenerator {
 	private static final String TEST_NAME = "Test - Golden Master Comparison";
 	private static final String SUITE_NAME = "Suite - Golden Master Comparison";
 
-	// TODO Temporarily it will be allowed to use the diff command for display of test reports
-	// TODO Will be removed in following version (see RET-1956); instead, use the command "show"
-	@Parameters( arity = "1..2", description = GoldenMasterUtil.GOLDEN_MASTER_PARAMETER_DESCRIPTION )
+	@Parameters( arity = "2", description = GoldenMasterUtil.GOLDEN_MASTER_PARAMETER_DESCRIPTION )
 	private Path[] goldenMasterPath;
 
 	@Option( names = "--exclude", description = FilterUtil.EXCLUDE_OPTION_DESCRIPTION )
@@ -70,43 +66,21 @@ public class Diff implements Runnable, IExitCodeGenerator {
 
 	@Override
 	public void run() {
-		// TODO: until the following version (see RET-1956), a user may still use the diff command to print test report differences.
-		// TODO: remove in next version (see RET-1956)
-		if ( goldenMasterPath.length == 1 ) {
-			logger.warn(
-					"The diff command for viewing a test report is deprecated and will be removed in the following version."
-							+ " Please use the new command 'show' to display a test report." );
+		final Path expectedSutStatePath = goldenMasterPath[0];
+		final Path actualSutStatePath = goldenMasterPath[1];
 
-			final List<String> argsAsList = new ArrayList<>();
-			argsAsList.add( goldenMasterPath[0].toString() );
-			if ( exclude != null ) {
-				for ( final String filter : exclude ) {
-					argsAsList.add( "--exclude" );
-					argsAsList.add( filter );
-				}
-			}
-
-			final String[] args = argsAsList.toArray( new String[0] );
-			new CommandLine( new Show() ).execute( args );
-
-		} else {
-
-			final Path expectedSutStatePath = goldenMasterPath[0];
-			final Path actualSutStatePath = goldenMasterPath[1];
-
-			try {
-				if ( !FilterUtil.hasValidExcludeOption( exclude ) ) {
-					exitCode = SOFTWARE;
-					return;
-				}
-				final ActionReplayResult actionReplayResult =
-						createActionReplayResultFrom( expectedSutStatePath, actualSutStatePath );
-				printGoldenMasterDifferences( filterActionReplayResult( actionReplayResult ) );
-				persistIfOutputOptionPresent( actionReplayResult );
-			} catch ( final Exception e ) {
+		try {
+			if ( !FilterUtil.hasValidExcludeOption( exclude ) ) {
 				exitCode = SOFTWARE;
-				ErrorHandler.handle( e );
+				return;
 			}
+			final ActionReplayResult actionReplayResult =
+					createActionReplayResultFrom( expectedSutStatePath, actualSutStatePath );
+			printGoldenMasterDifferences( filterActionReplayResult( actionReplayResult ) );
+			persistIfOutputOptionPresent( actionReplayResult );
+		} catch ( final Exception e ) {
+			exitCode = SOFTWARE;
+			ErrorHandler.handle( e );
 		}
 	}
 

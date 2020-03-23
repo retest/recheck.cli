@@ -53,7 +53,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.surefire.and.failsafe.version>2.22.2</maven.surefire.and.failsafe.version>
 		<junit.jupiter.version>5.6.0</junit.jupiter.version>
-		<junit.vintage.version>5.6.0</junit.vintage.version>
+		<junit.vintage.version>5.6.1</junit.vintage.version>
 		<recheck.version>1.10.2</recheck.version>
 	</properties>
 

@@ -1,15 +1,15 @@
 <configuration>
 
 	<appender name="STDOUT"
-	          class="ch.qos.logback.core.ConsoleAppender">
+		class="ch.qos.logback.core.ConsoleAppender">
 		<withJansi>true</withJansi>
 		<encoder>
-			<pattern>%-10(%highlight([%level])) %msg%n</pattern>
+			<pattern>%msg%n</pattern>
 		</encoder>
 	</appender>
 
 	<root level="info">
-		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDOUT" />
 	</root>
 
 </configuration>

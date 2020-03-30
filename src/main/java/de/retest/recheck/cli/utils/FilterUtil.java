@@ -112,6 +112,8 @@ public class FilterUtil {
 				filterPathNames.append( p.toAbsolutePath().toString() );
 			}
 		} );
-		log.info( "The following filter files have been applied:{}", filterPathNames );
+		if ( filterPathNames.length() > 0 ) {
+			log.info( "The following filter files have been applied:{}", filterPathNames );
+		}
 	}
 }

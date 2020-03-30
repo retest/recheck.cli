@@ -244,4 +244,26 @@ public class DiffIT {
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 
+	@Test
+	public void diff_should_not_print_used_filter_message_without_exclude_options() throws IOException {
+		temp.newFolder( "path" );
+		temp.newFolder( "path", "goldenmaster" );
+		temp.newFolder( "someotherpath" );
+		temp.newFolder( "someotherpath", "goldenmaster" );
+
+		final File outputDir = temp.newFolder( "somedirectory" );
+
+		final File gm1 = temp.newFolder( "path", "goldenmaster", "a" );
+		final File gm2 = temp.newFolder( "someotherpath", "goldenmaster", "b" );
+
+		GoldenMasterCreator.createGoldenMasterFile( gm1, true );
+		GoldenMasterCreator.createGoldenMasterFile( gm2, false );
+
+		final String[] args = { outputDir.getAbsolutePath(), gm1.getAbsolutePath(), gm2.getAbsolutePath() };
+
+		new CommandLine( new Diff() ).execute( args );
+
+		assertThat( systemOutRule.getLog() ).doesNotContain( "The following filter files have been applied:" );
+	}
+
 }

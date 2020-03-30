@@ -107,4 +107,14 @@ public class ShowIT {
 
 		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
+
+	@Test
+	public void show_should_not_print_used_filter_message_without_exclude_options() throws IOException {
+		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
+		final String[] args = { TestReportCreator.createTestReportFileWithDiffs( temp ) };
+
+		new CommandLine( new Show() ).execute( args );
+
+		assertThat( systemOutRule.getLog() ).doesNotContain( "The following filter files have been applied:" );
+	}
 }

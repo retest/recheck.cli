@@ -20,10 +20,8 @@ import de.retest.recheck.cli.utils.TestReportUtil;
 import de.retest.recheck.cli.utils.style.DifferenceHighlighter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.printer.TestReportPrinter;
-import de.retest.recheck.printer.highlighting.GlobalHighlighter;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.TestReportFilter;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.IExitCodeGenerator;
 import picocli.CommandLine.Option;
@@ -81,10 +79,7 @@ public class Show implements Runnable, IExitCodeGenerator {
 
 		final TestReport filteredTestReport = filter.filter( report );
 
-		// replace DefaultHighlighter to get colorized output for differences
-		GlobalHighlighter.setHighlighter( new DifferenceHighlighter() );
-
-		final TestReportPrinter printer = new TestReportPrinter( none() );
+		final TestReportPrinter printer = new TestReportPrinter( none(), new DifferenceHighlighter() );
 
 		logger.info( "\n\n{}\n\n", printer.toString( filteredTestReport ) );
 

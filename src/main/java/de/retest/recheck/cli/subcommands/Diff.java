@@ -17,6 +17,7 @@ import de.retest.recheck.SuiteAggregator;
 import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.cli.utils.GoldenMasterUtil;
+import de.retest.recheck.cli.utils.style.DifferenceHighlighter;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.GoldenMasterProvider;
@@ -111,7 +112,7 @@ public class Diff implements Runnable, IExitCodeGenerator {
 
 	private void printGoldenMasterDifferences( final ActionReplayResult actionReplayResult ) {
 		final ActionReplayResultPrinter printer =
-				new ActionReplayResultPrinter( ( attributes, s, serializable ) -> false );
+				new ActionReplayResultPrinter( ( attributes, s, serializable ) -> false, new DifferenceHighlighter() );
 		logger.info( "\n\n{}\n\n", printer.toString( actionReplayResult ) );
 
 		final int differenceCount = actionReplayResult.getDifferences().size();

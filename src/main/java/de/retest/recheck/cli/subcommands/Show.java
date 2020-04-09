@@ -17,6 +17,7 @@ import de.retest.recheck.cli.TestReportFormatException;
 import de.retest.recheck.cli.utils.ErrorHandler;
 import de.retest.recheck.cli.utils.FilterUtil;
 import de.retest.recheck.cli.utils.TestReportUtil;
+import de.retest.recheck.cli.utils.style.DifferenceHighlighter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.printer.TestReportPrinter;
 import de.retest.recheck.report.TestReport;
@@ -77,7 +78,8 @@ public class Show implements Runnable, IExitCodeGenerator {
 		FilterUtil.printUsedFilterPaths( filterFiles );
 
 		final TestReport filteredTestReport = filter.filter( report );
-		final TestReportPrinter printer = new TestReportPrinter( none() );
+
+		final TestReportPrinter printer = new TestReportPrinter( none(), new DifferenceHighlighter() );
 
 		logger.info( "\n\n{}\n\n", printer.toString( filteredTestReport ) );
 

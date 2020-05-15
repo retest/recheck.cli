@@ -4,7 +4,7 @@
 
 	<groupId>de.retest</groupId>
 	<artifactId>recheck.cli</artifactId>
-	<version>1.11.0</version>
+	<version>1.12.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>recheck.cli</name>
@@ -60,7 +60,7 @@
 		<url>https://github.com/retest/recheck.cli</url>
 		<connection>scm:git:git@github.com:retest/recheck.cli.git</connection>
 		<developerConnection>scm:git:git@github.com:retest/recheck.cli.git</developerConnection>
-		<tag>v1.11.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<distributionManagement>

@@ -25,18 +25,27 @@ Table of Contents
 
 ### Breaking Changes
 
-* `diff` command can no longer be used to display a test report. Use `show` instead.
-
 ### Bug Fixes
 
 ### New Features
 
 ### Improvements
 
-* When using the exclude option, the user will be informed which filter (e.g. from project or user folder) is applied to the report results.
-* Difference output that can be created with `show` or `diff` now includes colors to improve readability of the output.
 
 --------------------------------------------------------------------------------
+
+
+[1.11.0] (2020-05-15)
+---------------------
+
+### Breaking Changes
+
+* `diff` command can no longer be used to display a test report. Use `show` instead.
+
+### Improvements
+
+* When using the exclude option, the user will be informed which filter (e.g. from project or user folder) is applied to the report results.
+* Difference output that can be created with `show` or `diff` now includes colors to improve readability of the output.
 
 
 [1.10.2] (2020-03-16)

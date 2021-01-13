@@ -12,37 +12,30 @@
 	<url>https://retest.de/recheck/</url>
 
 	<organization>
-		<name>ReTest GmbH</name>
+		<name>retest @ UBS Hainer GmbH</name>
 		<url>https://retest.de/</url>
 	</organization>
 
 	<developers>
 		<developer>
-			<id>roessler</id>
-			<name>Dr. Jeremias Rößler</name>
-			<email>jeremias.roessler@retest.de</email>
-		</developer>
-		<developer>
-			<id>kraus</id>
-			<name>Daniel Kraus</name>
-			<email>daniel.kraus@retest.de</email>
-		</developer>
-		<developer>
-			<id>vietz</id>
-			<name>Martin Vietz</name>
-			<email>martin.vietz@retest.de</email>
-		</developer>
-		<developer>
-			<id>dillmann</id>
-			<name>Johannes Dillmann</name>
-			<email>johannes.dillmann@retest.de</email>
+			<id>team</id>
+			<name>The retest developers</name>
+			<email>info@retest.de</email>
+			<url>https://github.com/orgs/retest/people</url>
 		</developer>
 	</developers>
 
+	<contributors>
+		<contributor>
+			<name>The contributors</name>
+			<url>https://github.com/retest/${project.artifactId}/graphs/contributors</url>
+		</contributor>
+	</contributors>
+
 	<licenses>
 		<license>
-			<name>GNU Affero General Public License</name>
-			<url>http://www.gnu.org/licenses/agpl-3.0.de.html</url>
+			<name>GNU Affero General Public License (AGPL), Version 3</name>
+			<url>https://gnu.org/licenses/agpl-3.0.html</url>
 		</license>
 	</licenses>
 
@@ -106,7 +99,7 @@
 
 		<dependency>
 			<groupId>org.aeonbits.owner</groupId>
-			<artifactId>owner</artifactId>
+			<artifactId>owner-java8</artifactId>
 			<version>1.0.12</version>
 		</dependency>
 
@@ -197,7 +190,6 @@
 					<properties>
 						<configurationParameters>
 							junit.jupiter.execution.parallel.enabled=true
-							junit.jupiter.execution.parallel.config.dynamic.factor=1
 						</configurationParameters>
 					</properties>
 				</configuration>
@@ -208,6 +200,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven.surefire.and.failsafe.version}</version>
 				<configuration>
+					<!-- combine Surefire and Failsafe reports for SonarCloud -->
 					<!-- see https://stackoverflow.com/a/15567782 -->
 					<reportsDirectory>${project.build.directory}/surefire-reports/</reportsDirectory>
 				</configuration>

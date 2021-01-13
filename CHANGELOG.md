@@ -25,6 +25,8 @@ Table of Contents
 
 ### Breaking Changes
 
+* Since 01.12.2020 this project is owned and developed by [UBS Hainer GmbH](https://ubs-hainer.com/).
+
 ### Bug Fixes
 
 ### New Features

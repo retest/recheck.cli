@@ -3,12 +3,10 @@
 .project
 .settings/
 
-# Maven.
-/target/
-
-# IntelliJ
+# IntelliJ.
 .idea/
 *.iml
 
-# recheck project folder
-.retest/
+# Maven.
+/target/
+

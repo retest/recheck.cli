@@ -1,6 +1,6 @@
 # <a href="https://retest.dev"><img src="https://assets.retest.org/retest/ci/logos/recheck-screen.svg" width="300"/></a>.cli
 
-[![Build project](https://github.com/retest/recheck.cli/actions/workflows/build-project.yml/badge.svg)](https://github.com/retest/recheck.cli/actions/workflows/build-project.yml)
+[![Build Status](https://github.com/retest/recheck.cli/actions/workflows/build-project.yml/badge.svg)](https://github.com/retest/recheck.cli/actions/workflows/build-project.yml)
 ![GitHub All Releases](https://img.shields.io/github/downloads/retest/recheck.cli/total.svg)
 [![license](https://img.shields.io/badge/license-AGPL-brightgreen.svg)](https://github.com/retest/recheck.cli/blob/main/LICENSE)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/retest/recheck.cli/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)

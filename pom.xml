@@ -149,10 +149,7 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
-					<compilerArguments>
-						<Xlint:unchecked />
-						<Xlint:deprecation />
-					</compilerArguments>
+					<compilerArgument>-Xlint:all</compilerArgument>
 				</configuration>
 			</plugin>
 

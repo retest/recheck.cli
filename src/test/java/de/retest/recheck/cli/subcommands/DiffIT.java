@@ -215,6 +215,7 @@ public class DiffIT {
 	}
 
 	@Test
+	@org.junit.Ignore( "will be fixed with release of recheck 1.12.1, see recheck#887" )
 	public void diff_should_print_used_filters_with_correct_exclude_options() throws IOException {
 		temp.newFolder( "path" );
 		temp.newFolder( "path", "goldenmaster" );

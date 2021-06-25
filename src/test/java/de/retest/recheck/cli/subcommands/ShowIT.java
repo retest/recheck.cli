@@ -92,6 +92,7 @@ public class ShowIT {
 	}
 
 	@Test
+	@org.junit.Ignore( "will be fixed with release of recheck 1.12.1, see recheck#887" )
 	public void show_should_print_used_filters_with_correct_exclude_options() throws IOException {
 		ProjectRootFaker.fakeProjectRoot( temp.getRoot().toPath() );
 		final String[] args = { "--exclude", "invisible-attributes.filter", "--exclude", "positioning.filter",

@@ -25,8 +25,6 @@ Table of Contents
 
 ### Breaking Changes
 
-* Since 01.12.2020 this project is owned and developed by [UBS Hainer GmbH](https://ubs-hainer.com/).
-
 ### Bug Fixes
 
 ### New Features
@@ -35,6 +33,17 @@ Table of Contents
 
 
 --------------------------------------------------------------------------------
+
+[1.12.0] (2021-06-24)
+---------------------
+
+### Breaking Changes
+
+* Since 01.12.2020 this project is owned and developed by [UBS Hainer GmbH](https://ubs-hainer.com/).
+
+### New Features
+
+* Upgrade to recheck version 1.12.0
 
 
 [1.11.0] (2020-05-15)

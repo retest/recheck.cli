@@ -1,15 +1,11 @@
 package de.retest.recheck.cli.utils;
 
-import static de.retest.recheck.ignore.PersistentFilter.unwrap;
-
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -83,37 +79,32 @@ public class FilterUtil {
 		return true;
 	}
 
-	public static Optional<List<Path>> getFilterPaths( final Filter filterFiles ) {
-		final List<Path> filterPaths = new ArrayList<>();
+	public static Stream<Filter> flattenRecursive( final Filter filter ) {
+		return Stream.concat( Stream.of( filter ), getChilds( filter ).flatMap( FilterUtil::flattenRecursive ) );
+	}
 
-		// path of ignore files is provided by loadRecheckIgnore(), cannot be cast to CompoundFilter
-		if ( !(filterFiles instanceof CompoundFilter) ) {
-			return Optional.empty();
+	private static Stream<Filter> getChilds( final Filter filter ) {
+		if ( filter instanceof CompoundFilter ) {
+			return ((CompoundFilter) filter).getFilters().stream();
 		}
-		final List<Filter> filters = unwrap( (((CompoundFilter) filterFiles).getFilters()) );
-		final List<CompoundFilter> compoundFilters = filters.stream() //
-				.filter( f -> f instanceof CompoundFilter ) //
-				.map( f -> (CompoundFilter) f ).collect( Collectors.toList() );
-
-		for ( final CompoundFilter c : compoundFilters ) {
-			if ( !c.getFilters().isEmpty() ) {
-				final PersistentFilter persistentFilter = (PersistentFilter) c.getFilters().get( 0 );
-				filterPaths.add( persistentFilter.getPath() );
-			}
+		if ( filter instanceof PersistentFilter ) {
+			return Stream.of( ((PersistentFilter) filter).getFilter() );
 		}
-		return Optional.of( filterPaths );
+		return Stream.empty();
 	}
 
 	public static void printUsedFilterPaths( final Filter filterFiles ) {
-		final StringBuilder filterPathNames = new StringBuilder();
-		getFilterPaths( filterFiles ).ifPresent( f -> {
-			for ( final Path p : f ) {
-				filterPathNames.append( "\n\t" );
-				filterPathNames.append( p.toAbsolutePath().toString() );
-			}
-		} );
+		final String filterPathNames = flattenRecursive( filterFiles ) //
+				.filter( PersistentFilter.class::isInstance ) //
+				.map( PersistentFilter.class::cast ) //
+				.map( PersistentFilter::getPath ) //
+				.distinct() //
+				.map( java.nio.file.Path::toAbsolutePath ) //
+				.map( java.nio.file.Path::toString ) //
+				.collect( Collectors.joining( "\n\t" ) );
+
 		if ( filterPathNames.length() > 0 ) {
-			log.info( "The following filter files have been applied:{}", filterPathNames );
+			log.info( "The following filter files have been applied:\n\t{}", filterPathNames );
 		}
 	}
 }

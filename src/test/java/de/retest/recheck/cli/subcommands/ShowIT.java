@@ -58,9 +58,7 @@ public class ShowIT {
 				+ "\tTest 'test' has 3 difference(s) in 3 state(s):\n" //
 				+ "\tcheck resulted in:\n" //
 				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
-				+ "\t\t\ttext:\n" //
-				+ "\t\t\t  expected=\"original text\",\n" //
-				+ "\t\t\t    actual=\"changed text\"\n" //
+				+ "\t\t\ttext: expected=\"original text\", actual=\"changed text\"\n" //
 				+ "\tcheck resulted in:\n" //
 				+ "\t\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
 				+ "\t\t\twas deleted\n" //

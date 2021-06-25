@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.NoSuchFileException;
 
-import com.esotericsoftware.kryo.KryoException;
+import com.esotericsoftware.kryo.kryo5.KryoException;
 
 import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.cli.TestReportFormatException;

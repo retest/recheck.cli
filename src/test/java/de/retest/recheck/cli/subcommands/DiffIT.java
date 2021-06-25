@@ -111,17 +111,13 @@ public class DiffIT {
 
 		new CommandLine( new Diff() ).execute( args );
 
-		final String expected = "Comparison of Golden Masters resulted in:\n" // 
-				+ "\tMetadata Differences:\n" // 
+		final String expected = "Comparison of Golden Masters resulted in:\n" //
+				+ "\tMetadata Differences:\n" //
 				+ "\t  Please note that these differences do not affect the result and are not included in the difference count.\n"
-				+ "\t\tsome.driver:\n" // 
-				+ "\t\t  expected=\"driverA\",\n" // 
-				+ "\t\t    actual=\"driverB\"\n" // 
-				+ "\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" // 
-				+ "\t\twas deleted\n" // 
-				+ "\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" // 
-				+ "\t\twas inserted";
-
+				+ "\t\tsome.driver: expected=\"driverA\", actual=\"driverB\"\n" //
+				+ "\tbaz (someTitle) at 'foo[1]/bar[1]/baz[1]':\n" //
+				+ "\t\ttext: expected=\"changed text\", actual=\"original text\"\n" //
+		;
 		assertThat( systemOutRule.getLog() ).containsSubsequence( expected );
 	}
 
@@ -143,7 +139,7 @@ public class DiffIT {
 		new CommandLine( new Diff() ).execute( args );
 
 		assertThat( systemOutRule.getLog() )
-				.contains( "Overall, recheck found 2 difference(s) when checking 2 element(s)." );
+				.contains( "Overall, recheck found 1 difference(s) when checking 1 element(s)." );
 	}
 
 	@Test
@@ -219,6 +215,7 @@ public class DiffIT {
 	}
 
 	@Test
+	@org.junit.Ignore( "will be fixed with release of recheck 1.12.1, see recheck#887" )
 	public void diff_should_print_used_filters_with_correct_exclude_options() throws IOException {
 		temp.newFolder( "path" );
 		temp.newFolder( "path", "goldenmaster" );

@@ -55,3 +55,6 @@ jobs:
           asset_path: ./target/${{ steps.maven_package.outputs.zip_name }}
           asset_name: ${{ steps.maven_package.outputs.zip_name }}
           asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

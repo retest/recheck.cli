@@ -4,7 +4,7 @@
 
 	<groupId>de.retest</groupId>
 	<artifactId>recheck.cli</artifactId>
-	<version>1.13.0-SNAPSHOT</version>
+	<version>1.14.0-SNAPSHOT</version>
 
 	<name>recheck.cli</name>
 	<description>Command-line interface for recheck</description>
